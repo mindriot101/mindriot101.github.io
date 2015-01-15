@@ -1,10 +1,9 @@
----
 layout: post
-title: "IPython version 2.0"
+title: IPython version 2.0
 date: Wed  2 Apr 2014 16:32:38 BST
 comments: true
 categories: python code
----
+Category: Python
 
 So IPython has updated to version 2.0. The full changelog [can be found here](http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html) and to summarise the key points:
 

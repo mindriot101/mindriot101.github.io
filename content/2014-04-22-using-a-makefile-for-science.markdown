@@ -1,10 +1,9 @@
----
 layout: post
-title: "Using a Makefile for science!"
+title: Using a Makefile for science!
 date: Wed Apr 23 10:27:49 BST 2014
 comments: true
 categories: make code science
----
+Category: Coding
 
 The declarative style of a Makefile (or substitute your own language-of-choice's implementation of \*akefiles) lends itself well to scientific processes, where a reproducible method is crucial. I recently found this out when analysing some data, which consisted of the following:
 

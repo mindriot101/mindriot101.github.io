@@ -1,10 +1,7 @@
----
-layout: post
-title: "Victoria ferry"
+title: Victoria ferry
 date: 2013-06-02 12:43
 comments: true
-categories: [Astronomy, General, IAUS299]
----
+Category: Astronomy
 
 The ferry from Vancouver to Vancouver island (not *Victoria island*, as I've been told) was amazing. The scenery was breathtaking, photos of which I shall upload later. The little islands around Vancouver island were amazing to see, really fantastic. The map is centred on Victoria itself but the islands are to the north east.
 

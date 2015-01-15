@@ -1,10 +1,9 @@
----
 layout: post
-title: "Ruby: first impressions"
+title: Ruby: first impressions
 date: 2013-08-26 22:14
 comments: true
 categories: programming ruby
----
+Category: Coding
 
 So I've been trying [Ruby](http://www.ruby-lang.org/en/) recently,
 partially trying to add some substance to my CV, and partially out of

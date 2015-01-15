@@ -1,10 +1,7 @@
----
-layout: post
-title: "Conference notes"
+title: Conference notes
 date: 2013-06-10 11:23
 comments: true
-categories: [Astronomy, IAUS299]
----
+Category: Astronomy
 
 This is not a blog post as such, it's the notes that I took during the conference split up into sections. Unfortunately there is no reference to the talk content itself; this is kept in the booklet which I have sitting next to me as I type this.
 

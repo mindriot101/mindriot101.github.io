@@ -1,10 +1,9 @@
----
 layout: post
-title: "vim crashing with ruby on OSX"
+title: vim crashing with ruby on OSX
 date: 2013-09-05 15:44
 comments: true
 categories: osx
----
+Category: OSX
 
 I started having trouble with vim crashing for me. I'm on OSX with homebrew and rbenv, and it crashed when editing Ruby files. I would get a segmentation fault. 
 

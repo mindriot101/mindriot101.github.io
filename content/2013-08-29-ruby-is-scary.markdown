@@ -1,10 +1,9 @@
----
 layout: post
-title: "Ruby is scary"
+title: Ruby is scary
 date: 2013-08-29 10:41
 comments: true
 categories: programming ruby
----
+Category: Coding
 
 Ok so after my [previous post]({{ site.url }}/blog/2013/08/26/ruby-first-impressions/), I was feeling pretty excited about Ruby. I talked about its power and flexibility and the exciting things that could come from it.
 

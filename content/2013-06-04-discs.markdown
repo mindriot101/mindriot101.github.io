@@ -1,10 +1,7 @@
----
-layout: post
-title: "Discs, discs and more discs"
+title: Discs, discs and more discs
 date: 2013-06-04 22:11
 comments: true
-categories: [General, Astronomy, IAUS299]
----
+Category: Astronomy
 
 So today we learnt about discs, as the title of this post may suggest. We had protoplanetary discs (or proplyds which is a horrible portmanteau), thin discs, thick discs, transitional discs...
 

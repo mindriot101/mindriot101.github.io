@@ -1,10 +1,9 @@
----
 layout: post
-title: "Puppet and vagrant"
+title: Puppet and vagrant
 date: 2013-10-30 23:13
 comments: true
 categories:
----
+Category: Coding
 
 So I've been playing with [Puppet](http://puppetlabs.com/) and [Chef](http://www.opscode.com/chef/) for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With [Vagrant](http://www.vagrantup.com/), testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for the tests is extremely short.
 

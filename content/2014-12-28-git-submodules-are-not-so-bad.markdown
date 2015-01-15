@@ -1,10 +1,8 @@
----
 layout: post
-title: "git submodules are not so bad"
+title: git submodules are not so bad
 date: 2014-12-28 23:25:51 +0000
 comments: true
-categories: git
----
+category: Git
 
 I see a lot of complaints about git submodules, [people suggesting alternatives](http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/), [complaints about merging](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/) or other bits and pieces.
 

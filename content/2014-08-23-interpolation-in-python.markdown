@@ -1,10 +1,9 @@
----
 layout: post
-title: "Interpolation in Python"
+title: Interpolation in Python
 date: Sat 23 Aug 2014 10:55:26 BST
 comments: true
 categories: python scipy
----
+Category: Python
 
 For interpolation inython, scipy includes the interpolateackage containing (amongst other things) interp1d for simple interpolation.
 

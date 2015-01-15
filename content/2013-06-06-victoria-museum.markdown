@@ -1,10 +1,7 @@
----
-layout: post
-title: "Victoria museum"
+title: Victoria museum
 date: 2013-06-06 23:08
 comments: true
-categories: [General, Astronomy, IAUS299]
----
+Category: Astronomy
 
 Today's lectures were about... you guessed it: discs! A lot of people find them interesting apparently! Anyway the talks were ok, some good some bad. One in particular involved formation theories that seemed to explain the observed distributions well; I wanted to ask about selection effects but thought I'd find him afterwards. I didn't have time in the end but it was very interesting.
 

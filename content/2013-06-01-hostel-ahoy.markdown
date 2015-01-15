@@ -1,10 +1,7 @@
----
-layout: post
-title: "Hostel ahoy"
+title: Hostel ahoy
 date: 2013-06-01 17:49
 comments: true
-categories: [Astronomy, General, IAUS299]
----
+category: Astronomy
 
 So we arrived at the hostel, a very nice place too. I'd recommend it if I could be bothered to find out what it is. I'll try and remember to insert a reference here:
 

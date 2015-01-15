@@ -1,10 +1,7 @@
----
-layout: post
-title: "Flight back"
+title: Flight back
 date: 2013-06-08 16:00
 comments: true
-categories: [General, Astronomy, IAUS299]
----
+Category: Astronomy
 
 I'm currently on the plane back, flying over Canada at about 922km/h as the in-flight computer (android tablet in the back of the seat in front of me) says.
 

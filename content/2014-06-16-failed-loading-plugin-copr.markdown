@@ -1,10 +1,9 @@
----
 layout: post
-title: "Failed loading plugin: copr"
+title: Failed loading plugin: copr
 date: Mon 16 Jun 16:09:35 BST 2014
 comments: true
 categories: linux fedora
----
+Category: Linux
 
 If you're:
 

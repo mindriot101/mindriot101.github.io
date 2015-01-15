@@ -1,10 +1,7 @@
----
-layout: post
-title: "Bike ride of the century"
+title: Bike ride of the century
 date: 2013-06-05 23:36
 comments: true
-categories: [General, Astronomy, IAUS299]
----
+Category: Astronomy
 
 Today's schedule was short, we had the afternoon off to do whatever we wished. Actually the conference organisers offered to put on a trip of some sort after a vote to find out the most popular choice, but that fell through as organising such a mammoth activity would be too difficult.
 
