@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>circularspace - itpp</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+        <link href="/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
 
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -38,7 +38,7 @@
 </footer><!-- /.post-info --><p>IT++ (or itpp) is a library of Matlab-like functions. I was trying to install this as it contains a nice FastICA algorithm, but was having trouble compiling it on my laptop. I tried googling and found this, but it didn't work for me. </p>
 <p>My issue was that it was not linking to the ATLAS library, which I required for fast computation. IT++ installed without it, but I wanted these features, so after wading through many options, I managed to root out the problem.</p>
 <p>I have ATLAS installed through MacPorts, which is all well and good, but the software from there is 64 bit whereas all compilers on the Mac are 32 bit. This caused the configure script to fail with the wrong things. Instead of not being able to find ATLAS because it could not find the functions in the libraries, the compiler was failing to compile the file due to fortran cannot find symbol in architecture x86_64 type errors. </p>
-<p>After using the <code>F77=gfortran-mp-4.4</code> which is the 64 bit macports fortran compiler, it managed to configure just fine. Just a warning: this is not the first time I've had strange cannot find symbol  errors even though I know Ive got the libraries installed. Almost all of my troubles are from fortran, reinforcing my hatred of the language. </p>                </article>
+<p>After using the <code>F77=gfortran-mp-4.4</code> which is the 64 bit macports fortran compiler, it managed to configure just fine. Just a warning: this is not the first time I've had strange cannot find symbol  errors even though I know Ive got the libraries installed. Almost all of my troubles are from fortran, reinforcing my hatred of the language. </p><p>There are <a href="/installing-it-on-mac-osx.html#disqus_thread">comments</a>.</p>                </article>
 <p class="paginator">
     Page 1 / 1
 </p>
@@ -54,7 +54,7 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="/feeds/all.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
                             <li><a href="https://github.com/mindriot101">mindriot101</a></li>
@@ -70,5 +70,14 @@
                 <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
+<script type="text/javascript">
+    var disqus_shortname = 'circularspace-blog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 </body>
 </html>
