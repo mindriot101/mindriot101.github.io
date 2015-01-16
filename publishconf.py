@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
-SITEURL = ''
+SITEURL = 'https://mindriot101.github.io'
 RELATIVE_URLS = False
 
 FEED_ALL_ATOM = 'feeds/all.xml'
@@ -21,4 +21,4 @@ DELETE_OUTPUT_DIRECTORY = True
 # Following items are often useful when publishing
 
 DISQUS_SITENAME = "circularspace-blog"
-#GOOGLE_ANALYTICS = ""
+GOOGLE_ANALYTICS = "UA-41369282-4"
