@@ -19,6 +19,9 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+# Theming
+THEME = 'themes/notmyidea'
+
 # Blogroll
 LINKS = (('CV', 'http://mindriot101.github.io/cv/'),
          ('OSRC', 'https://osrc.dfm.io/mindriot101/'),
