@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>circularspace - ruby</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/vim-crashing-with-ruby-on-osx.html">vim crashing with ruby on OSX</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-09-05T15:44:00+02:00">
+                Published: Thu 05 September 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">osx</a> <a href="/tag/vim.html">vim</a> <a href="/tag/ruby.html">ruby</a> </p>
+</footer><!-- /.post-info --><p>I started having trouble with vim crashing for me. I'm on OSX with homebrew and rbenv, and it crashed when editing Ruby files. I would get a segmentation fault. </p>
+<p>After some googling which was not particularly fruitful, the solution I came up with was:</p>
+<ul>
+<li>switch to the system ruby <code>rbenv shell system</code></li>
+<li>uninstall vim completely with homebrew <code>brew uninstall vim</code></li>
+<li>reinstall vim from head <code>brew install --HEAD --override-system-vi vim</code></li>
+</ul>
+<p>This seems to have fixed the problem, though I do not know if it was switching to the system ruby or installing from head. This may require extra study which I do not have time to do now.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/ruby-is-scary.html" rel="bookmark"
+                           title="Permalink to Ruby is scary">Ruby is scary</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-29T10:41:00+02:00">
+                Published: Thu 29 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/ruby.html">ruby</a> </p>
+</footer><!-- /.post-info -->                <p>Ok so after my <a href="{{ site.url }}/blog/2013/08/26/ruby-first-impressions/">previous post</a>, I was feeling pretty excited about Ruby. I talked about its power and flexibility and the exciting things that could come from it.</p>
+<p>I also talked of Ruby's scariness, it's ability to terrify new programmers and potential for difficulties.</p>
+<p>I've found ...</p>
+                <a class="readmore" href="/ruby-is-scary.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/ruby-first-impressions.html" rel="bookmark"
+                           title="Permalink to Ruby: first impressions">Ruby: first impressions</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T22:14:00+02:00">
+                Published: Mon 26 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/ruby.html">ruby</a> </p>
+</footer><!-- /.post-info -->                <p>So I've been trying <a href="http://www.ruby-lang.org/en/">Ruby</a> recently,
+partially trying to add some substance to my CV, and partially out of
+curiosity. I used to be a complete python snob; I didn't understand
+why anyone <em>wouldn't</em> use python. It is a dynamic language so no more
+manual memory management ...</p>
+                <a class="readmore" href="/ruby-first-impressions.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/using-guard-with-foreman.html" rel="bookmark"
+                           title="Permalink to Using guard with foreman">Using guard with foreman</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-07-29T11:09:00+02:00">
+                Published: Mon 29 July 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/ruby.html">ruby</a> <a href="/tag/guard.html">guard</a> <a href="/tag/foreman.html">foreman</a> <a href="/tag/latex.html">latex</a> </p>
+</footer><!-- /.post-info -->                <p>I've been playing with <a href="http://www.ruby-lang.org/">Ruby</a> quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.</p>
+<p>This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found <a href="http://ddollar.github.io/foreman/">foreman</a> which can manage ...</p>
+                <a class="readmore" href="/using-guard-with-foreman.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

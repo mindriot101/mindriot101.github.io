@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>circularspace - visualisation</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/plotting-unevenly-gridded-contour-plots.html">Plotting unevenly gridded contour plots</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2011-06-14T15:16:27+02:00">
+                Published: Tue 14 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> <a href="/tag/visualisation.html">visualisation</a> </p>
+</footer><!-- /.post-info --><p>Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour plots require evenly spaced x and y points with z points to match. This is until I found a way</p>
+<p>This method is taken from example 2here, and is the way I do it now.</p>
+<p>Firstly generate an evenly spaced grid of your x and y data. The simplest way to do this is for data x and y:</p>
+<div class="highlight"><pre><span class="n">xi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The function that does the magic work is matplotlib.mlab.griddata and is based on Matlabs griddata function. It takes 5 parameters:</p>
+<p>the raw x and y values
+the set of colour data (z)
+the evenly spaced x and y values (xi and yi)</p>
+<div class="highlight"><pre><span class="n">zi</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This can now be used with plotting functions like contourf, eg.</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">zi</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</pre></div>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

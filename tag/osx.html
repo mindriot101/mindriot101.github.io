@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>circularspace - osx</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/vim-crashing-with-ruby-on-osx.html">vim crashing with ruby on OSX</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-09-05T15:44:00+02:00">
+                Published: Thu 05 September 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">osx</a> <a href="/tag/vim.html">vim</a> <a href="/tag/ruby.html">ruby</a> </p>
+</footer><!-- /.post-info --><p>I started having trouble with vim crashing for me. I'm on OSX with homebrew and rbenv, and it crashed when editing Ruby files. I would get a segmentation fault. </p>
+<p>After some googling which was not particularly fruitful, the solution I came up with was:</p>
+<ul>
+<li>switch to the system ruby <code>rbenv shell system</code></li>
+<li>uninstall vim completely with homebrew <code>brew uninstall vim</code></li>
+<li>reinstall vim from head <code>brew install --HEAD --override-system-vi vim</code></li>
+</ul>
+<p>This seems to have fixed the problem, though I do not know if it was switching to the system ruby or installing from head. This may require extra study which I do not have time to do now.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/cello-voice.html" rel="bookmark"
+                           title="Permalink to cello voice">cello voice</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-24T12:05:00+02:00">
+                Published: Sat 24 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> </p>
+</footer><!-- /.post-info -->                <p>So Mac OSX has the <code>say</code> command, which reads out some text in the computers voice synthesis functionality. This is old news.</p>
+<p>The new hotness is switching into the "cello" voice with <code>say -v cello</code>. I's lyrical and beautiful, though reading out file names is entertaining:</p>
+<div class="highlight"><pre>say -v cello ...</pre></div>
+                <a class="readmore" href="/cello-voice.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/installing-development-version-of-nginx-with-homebrew.html" rel="bookmark"
+                           title="Permalink to Installing development version of nginx with Homebrew">Installing development version of nginx with Homebrew</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-02-25T00:00:00+01:00">
+                Published: Mon 25 February 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/homebrew.html">homebrew</a> <a href="/tag/osx.html">OSX</a> <a href="/tag/nginx.html">nginx</a> </p>
+</footer><!-- /.post-info -->                <p>I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native <a href="http://nginx.com/news/nginx-websockets.html">websockets support</a> but I could not find a way to install version 1.3.</p>
+<!--more-->
+
+<p>I had a look with <code>brew info nginx</code> and found a clue: a devel ...</p></!--more-->
+                <a class="readmore" href="/installing-development-version-of-nginx-with-homebrew.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/node-development-on-osx.html" rel="bookmark"
+                           title="Permalink to (node) development on OSX">(node) development on OSX</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-02-24T00:00:00+01:00">
+                Published: Sun 24 February 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/nodejs.html">nodejs</a> <a href="/tag/osx.html">OSX</a> <a href="/tag/productivity.html">productivity</a> </p>
+</footer><!-- /.post-info -->                <p>I love my Macbook Pro, for development and general computing use. Before I
+purchased it I was a die hard linux user (apart from gaming which is still
+dominated by windows unfortunately.) My work involves linux<sup id="fnref:my-job"><a class="footnote-ref" href="#fn:my-job" rel="footnote">1</a></sup> and I am a
+committed <a href="http://vim.org">vim</a> user. </p>
+<p>My work colleagues tend to laugh ...</p>
+                <a class="readmore" href="/node-development-on-osx.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/mac-keyboard-keys-with-synergy.html" rel="bookmark"
+                           title="Permalink to Mac keyboard keys with Synergy">Mac keyboard keys with Synergy</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-08-06T17:21:28+02:00">
+                Published: Mon 06 August 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> <a href="/tag/linux.html">linux</a> </p>
+</footer><!-- /.post-info -->                <p>Synergy is a great program to control multiple computers from a single keyboard or mouse even without them being plugged in. The only requirement is that theyre on the same local network.</p>
+<p>Im sharing my configuration which has my windows desktop as the server, and my macbook as the client ...</p>
+                <a class="readmore" href="/mac-keyboard-keys-with-synergy.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/os-x-107-lion-my-thoughts.html" rel="bookmark"
+                           title="Permalink to OS X 10.7 Lion: my thoughts">OS X 10.7 Lion: my thoughts</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-07-28T11:57:00+02:00">
+                Published: Thu 28 July 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> </p>
+</footer><!-- /.post-info -->                <p>My first OSX upgrade went well I think. My MacBook Pro is a Mid 2009 model, as the nice new About This Mac (not sure why this is capitalised but never mind) tells me.</p>
+<p><img alt="New about this mac window" src="http://media.tumblr.com/tumblr_lp1iaipQ3S1qh2v9o.png" /></p>
+<p>Ive never upgraded a Mac before since my pride and joy came with Snow Leopard installed ...</p>
+                <a class="readmore" href="/os-x-107-lion-my-thoughts.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/afloat-for-mac-os-x.html" rel="bookmark"
+                           title="Permalink to Afloat for Mac OS X">Afloat for Mac OS X</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-29T12:00:06+02:00">
+                Published: Wed 29 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">osx</a> </p>
+</footer><!-- /.post-info -->                <p>After years of using Linux as my main system both at work and home, I got used to being able to drag windows by holding a keyboard combination and dragging with the left mouse button. The one disadvantage of the otherwise fantastic OS X is that despite being unix based ...</p>
+                <a class="readmore" href="/afloat-for-mac-os-x.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/installing-it-on-mac-osx.html" rel="bookmark"
+                           title="Permalink to Installing IT++ on Mac OSX">Installing IT++ on Mac OSX</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-13T14:42:00+02:00">
+                Published: Mon 13 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> <a href="/tag/itpp.html">itpp</a> </p>
+</footer><!-- /.post-info -->                <p>IT++ (or itpp) is a library of Matlab-like functions. I was trying to install this as it contains a nice FastICA algorithm, but was having trouble compiling it on my laptop. I tried googling and found this, but it didn't work for me. </p>
+<p>My issue was that it was ...</p>
+                <a class="readmore" href="/installing-it-on-mac-osx.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/flash-blocker-for-safari.html" rel="bookmark"
+                           title="Permalink to Flash blocker for safari">Flash blocker for safari</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2010-12-27T23:39:00+01:00">
+                Published: Mon 27 December 2010
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> </p>
+</footer><!-- /.post-info -->                <p><em>Update:</em> Wed 27 Feb 2013, since I'm updating this blog, chrome and firefox and safari all support this feature. </p>
+<p>Google Chrome has* one, Firefox has one but Safari does not... until
+now!</p>
+<p>For me, having a manual "load flash only when I tell you to" button in a
+web ...</p>
+                <a class="readmore" href="/flash-blocker-for-safari.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/restore-xcode-startup-panel.html" rel="bookmark"
+                           title="Permalink to Restore Xcode startup panel">Restore Xcode startup panel</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2010-12-22T16:52:00+01:00">
+                Published: Wed 22 December 2010
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> </p>
+</footer><!-- /.post-info -->                <p>Ever selected the "do not show at startup" on the Xcode startup panel
+and wish you could get it back? Simple. Go
+to <code>~/Library/Preferences/com.apple.Xcode.plist</code> and set the <code>XCShowSplashScreen</code> to True.</p>
+<p>credit: <a href="http://forums.macrumors.com/showthread.php?t=686540">here</a></p>
+                <a class="readmore" href="/restore-xcode-startup-panel.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

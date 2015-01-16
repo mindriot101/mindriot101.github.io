@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Cython: getting a vector from a numpy array</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li class="active"><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/cython-getting-a-vector-from-a-numpy-array.html" rel="bookmark"
+           title="Permalink to Cython: getting a vector from a numpy array">Cython: getting a vector from a numpy array</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-11-11T12:05:21+01:00">
+                Published: Fri 11 November 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->      <p>This is a problem that has been challenging me for a while: my c++ code uses vectors everywhere so how can I wrap these classes and functions into python easily? Ive tried many many times with e.g.  swig or boost::python to no avail. 
+That is until today…</p>
+<!--more-->
+
+<p>Thanks to the very kind people at Stack Overflow and this question in particular, I was able to create a wrapper function for Cython which does exactly what it says on the tin.The full code for the wrapper function is given here:</p>
+<p>{% highlight python %}
+from libcpp.vector cimport vector
+cimport numpy as np</p>
+<h1>Utility function to convert from numpy array to vector</h1>
+<p>cdef vector[double] arrayToVector(np.ndarray[np.double_t,ndim=1] array):
+    cdef long size = array.size
+    cdef vector[double] vec
+    cdef long i
+    for i in range(size):
+        vec.push_back(array[i])</p>
+<div class="highlight"><pre>return vec
+</pre></div>
+
+
+<p>{% endhighlight %}</p>
+<p>I shall try and explain this now. Firstly the Cython vector library (libcpp.vector) contains a pre-wrapped vector class which is great but its incompatible with the numpy array class (hence why this is a problem!). Importing numpy (with cimport) at this stage is also required. 
+The declaration is a little verbose for my liking (especially compared to python) but the argument is declared as a ndarray (the base class to array) with some templated parameters, using the square bracket notation in cython as opposed to the triangular bracket notation in c++. It shall hold double datatypes and it has only one dimension. The function also returns a double vector. It is safe to declare it with cdef as this will enable more optimisations and it wont need to be called directly from python anyway. 
+I have yet to find a memcpy-type function in cython so I am then declaring the variables used (another Cython optimisation) and appending the array one value at a time into the created vector object. Finally I return the created vector ready to be used as an argument to an external c++ function.
+The setup.py file is identical to wrapping any other c++ code and is documented well on the Cython website itself so I wont go into it here. 
+Once I get more comfortable with the syntax I might try and write a templated version of the function, but for now I am content using the double version and writing another piece of code if I need eg. an integer function.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

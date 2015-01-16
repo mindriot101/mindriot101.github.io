@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>circularspace - itpp</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/installing-it-on-mac-osx.html">Installing IT++ on Mac OSX</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2011-06-13T14:42:00+02:00">
+                Published: Mon 13 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/osx.html">OSX</a> <a href="/tag/itpp.html">itpp</a> </p>
+</footer><!-- /.post-info --><p>IT++ (or itpp) is a library of Matlab-like functions. I was trying to install this as it contains a nice FastICA algorithm, but was having trouble compiling it on my laptop. I tried googling and found this, but it didn't work for me. </p>
+<p>My issue was that it was not linking to the ATLAS library, which I required for fast computation. IT++ installed without it, but I wanted these features, so after wading through many options, I managed to root out the problem.</p>
+<p>I have ATLAS installed through MacPorts, which is all well and good, but the software from there is 64 bit whereas all compilers on the Mac are 32 bit. This caused the configure script to fail with the wrong things. Instead of not being able to find ATLAS because it could not find the functions in the libraries, the compiler was failing to compile the file due to fortran cannot find symbol in architecture x86_64 type errors. </p>
+<p>After using the <code>F77=gfortran-mp-4.4</code> which is the 64 bit macports fortran compiler, it managed to configure just fine. Just a warning: this is not the first time I've had strange cannot find symbol  errors even though I know Ive got the libraries installed. Almost all of my troubles are from fortran, reinforcing my hatred of the language. </p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

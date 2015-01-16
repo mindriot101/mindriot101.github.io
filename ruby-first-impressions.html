@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Ruby: first impressions</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li class="active"><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/ruby-first-impressions.html" rel="bookmark"
+           title="Permalink to Ruby: first impressions">Ruby: first impressions</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-26T22:14:00+02:00">
+                Published: Mon 26 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/ruby.html">ruby</a> </p>
+</footer><!-- /.post-info -->      <p>So I've been trying <a href="http://www.ruby-lang.org/en/">Ruby</a> recently,
+partially trying to add some substance to my CV, and partially out of
+curiosity. I used to be a complete python snob; I didn't understand
+why anyone <em>wouldn't</em> use python. It is a dynamic language so no more
+manual memory management (though there are plenty of advantages <em>cough</em>
+<em>cough</em>); duck typing deserves its own special place in hell but it
+is bloody convenient; the amazing standard library which is great for
+system administration; and many other things.</p>
+<p>I use python in my day job<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> and was perfectly happy with it. As I
+came from a C++ background I agreed with the "explicit is better than
+implicit" philosophy, I understood the power of decorators and context
+managers - I still had yet to master metaclasses but that's another
+story.</p>
+<p>I was amazed with some of the metaprogramming that was possible with
+python, like the list comprehension, or the memory saving generators,
+it makes working with scientific data a breeze with <code>numpy</code> snd
+<code>matplotlib</code>, and the significant whitespace really works well: you are
+all indenting your code properly aren't you?</p>
+<p>I heard that Ruby has some amazing metaprogramming ability, but I didn't
+realise until I tried that you can add functionality to an existing
+class by just redefining it! Even core classes like numbers.</p>
+<p>Rails does this exclusively creating such lines as</p>
+<div class="highlight"><pre><span class="mi">3</span><span class="o">.</span><span class="n">days</span><span class="o">.</span><span class="n">ago</span>
+</pre></div>
+
+
+<p>by adding functionality to the Fixnum class, for example:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Fixnum</span>
+  <span class="k">def</span> <span class="nf">foo</span>
+    <span class="s2">&quot;Hello world&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="mi">3</span><span class="o">.</span><span class="n">foo</span>
+<span class="c1"># =&gt; &quot;Hello world&quot;</span>
+</pre></div>
+
+
+<h2>Metaprogramming</h2>
+<p>So the metaprogramming outlined above is great, and extremely powerful.
+I was worried initially about this and how it may cause confusion.
+Function overloading in C++ is already bad enough as you have to dive
+into the documentation for the simplest methods. In ruby the possibility for
+this is even worse! But it seems the common libraries are trustworthy in this
+respect and do not abuse this functionality. <strong>Beginners warning: do not abuse
+this feature!</strong></p>
+<p>Another amazing feature is <code>method_missing</code> where if a method is not recognised
+(Ruby uses the message sending style where you could send any method to any
+object, it just may not do anything - and will probably throw an exception) this
+method - if defined - is called.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">TestClass</span>
+  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Message &#39;</span><span class="si">#{</span><span class="n">args</span><span class="o">.</span><span class="n">shift</span><span class="si">}</span><span class="s2">&#39; called with arguments: </span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">TestClass</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">bad_method</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;stuff&#39;</span><span class="p">)</span>
+<span class="c1"># =&gt; Message &#39;bad_method&#39; called with arguments: [100, &quot;stuff&quot;]</span>
+</pre></div>
+
+
+<h2>Context</h2>
+<p>In Python context managers were added in 2.6 to perform code before and after
+the block, such as automatically closing files (note: the <code>contextlib</code> library
+is brilliant for this, creating one manually is a lot of boilerplate)</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">to_stuff</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;Before&#39;</span>
+    <span class="k">yield</span> <span class="mi">10</span>
+    <span class="k">print</span> <span class="s">&#39;After&#39;</span>
+
+<span class="k">with</span> <span class="n">to_stuff</span><span class="p">()</span> <span class="k">as</span> <span class="n">value</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">10</span>
+
+<span class="c"># Prints:</span>
+<span class="c"># Before </span>
+<span class="c"># True</span>
+<span class="c"># After</span>
+</pre></div>
+
+
+<p>Ruby takes this to the next level with blocks. The syntax looks similar but it's
+baked into the language:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">to_stuff</span>
+  <span class="nb">puts</span> <span class="s1">&#39;Before&#39;</span>
+  <span class="k">yield</span> <span class="mi">10</span>
+  <span class="nb">puts</span> <span class="s1">&#39;After&#39;</span>
+<span class="k">end</span>
+
+<span class="n">to_stuff</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">10</span>
+<span class="k">end</span>
+
+<span class="c1"># Prints:</span>
+<span class="c1"># Before </span>
+<span class="c1"># True</span>
+<span class="c1"># After</span>
+</pre></div>
+
+
+<p>You see these blocks <em>everywhere</em>! This context has great power, a new object
+when generated can be passed into a block for more syntactically nice setup</p>
+<div class="highlight"><pre><span class="no">TestObject</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">tap</span> <span class="o">|</span><span class="n">o</span><span class="o">|</span>
+  <span class="n">o</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<h2>Syntax</h2>
+<p>Against Python's "explicit is better than implicit" philosophy, Ruby seems to
+have the opposite. I don't know if this is completely true but that's how it
+seems. For example class methods can be treated as if they were local variables,
+and parentheses are (mostly) optional, the last statement of any block is
+returned, and other things. For example</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">TestClass</span>
+  <span class="k">def</span> <span class="nf">foo</span>
+    <span class="mi">10</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">print_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">value</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">print_foo</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="nb">puts</span> <span class="n">foo</span>        <span class="c1"># Is foo a variable or a method?!</span>
+
+    <span class="n">print_value</span> <span class="mi">150</span> <span class="c1"># No parentheses!</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div>
+
+
+<h2>Generating DSLs</h2>
+<p>Due to the free syntax of Ruby, especially the lack of parentheses, a custom DSL
+(domain specific language, essentially a mini programming language for a very
+specific task) is easy to create in Ruby. Consequently to a beginner it's
+easy to read Ruby code written like this and believe it is a different language.</p>
+<p>For example a sort-of Makefile alternative <code>rake</code> can look like</p>
+<div class="highlight"><pre><span class="n">desc</span> <span class="s2">&quot;This is a simple task. You can run it with `rake foo`&quot;</span>
+<span class="n">task</span> <span class="ss">:foo</span> <span class="k">do</span>
+  <span class="no">Dir</span><span class="o">[</span><span class="s2">&quot;*&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">f</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>whereas the testing framework <code>rspec</code> can look like</p>
+<div class="highlight"><pre><span class="n">describe</span> <span class="no">FooModel</span> <span class="k">do</span>
+  <span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s1">&#39;Before&#39;</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;should have some specified behaviour&quot;</span> <span class="k">do</span>
+    <span class="n">expect</span><span class="p">(</span><span class="no">FooModel</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">not_be</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>or even</p>
+<div class="highlight"><pre><span class="n">print_stuff</span> <span class="s2">&quot;foo&quot;</span>
+<span class="n">change_directory</span> <span class="s2">&quot;/tmp&quot;</span>
+<span class="n">add_file</span> <span class="s2">&quot;test&quot;</span>
+</pre></div>
+
+
+<p>These would all be valid ruby and generally apart from the odd keyword (do/end
+etc.) they can have a completely different style. This makes each implementation
+fresh and different and exciting, providing a lot of power to the language.</p>
+<h2>Rails</h2>
+<p>Now we get on to the poster child of Ruby: Rails. Who can mention Ruby without
+talking about rails eh?</p>
+<p>Well it's a great thing to have for a language. Can you name a defining Python
+library? Django? Numpy? Twisted? In some sense Python is a little <em>too</em> good at
+everything which makes it not excel as much as Rails. A lot of the things
+outlined above are prevalent in Rails, and make the framework a dream to work
+with. Ok so a dream for me, perhaps I'm just naive and haven't worked day to day
+in it, but I'd definitley like to try!</p>
+<p>In all Ruby is worth learning, system administrators are using it for tasks, or
+one can use it as a Makefile replacement and Rails' emphasis on convention makes
+it a lot to learn initially but once you have a basic knowledge it's not too
+difficult to pick up. I've outlined some of the resources I used to learn below
+for more information. I hope to learn more of what Ruby has to offer in the
+future, and possibly to pass on my knowledge to the next generation.</p>
+<h2>Resources</h2>
+<h3>Beginner</h3>
+<p><a href="http://railsforzombies.org/">Rails for Zombies</a></p>
+<h3>Technical</h3>
+<p><a href="http://railscasts.com/">Railscasts</a></p>
+<h3>Advanced</h3>
+<p><a href="http://robots.thoughtbot.com/">Thoughtbot</a></p>
+<p>(I'll try and keep these updated)</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>"job"&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>IPython version 2.0</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li class="active"><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/ipython-version-20.html" rel="bookmark"
+           title="Permalink to IPython version 2.0">IPython version 2.0</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-02T16:32:38+01:00">
+                Published: Wed 02 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->      <p>So IPython has updated to version 2.0. The full changelog <a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html">can be found here</a> and to summarise the key points:</p>
+<ul>
+<li>interactive widgets for the notebook</li>
+<li>directory navigation in the notebook dashboard</li>
+<li>persistent URLs for notebooks</li>
+<li>a new modal user interface in the notebook</li>
+<li>a security model for notebooks</li>
+</ul>
+<p>I want to discuss a few of these and my thoughts on how they make IPython notebook finally an incredibly powerful tool for research, more so than before, and how I may be finally switching from simple scripts to using the notebook full time (with a major caveat!)</p>
+<h2>Directory navigation and persistent URLs</h2>
+<p>This feature enables navigation to seemingly an arbitrary location relative to the initial directory that <code>ipython notebook</code> was called in. I suppose this prevents access to sensitive locations or locations that the user wants to keep out of the search path. For example all of my work is under a root directory of <code>~/work</code> so if I start a notebook here then my other directories further up are not visible.</p>
+<p>The following screenshot gives the example on the IPython homepage, and shows the navigable locations.</p>
+<p><img src='http://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'>
+</img></p>
+<p>With this a single server can manage all of the notebooks on a single machine. I was hoping for this functionality rather than either </p>
+<ul>
+<li>having a single directory with all notebooks in, or</li>
+<li>running a separate server instance for each project.</li>
+</ul>
+<p>Neither of these options were ideal and it really was preventing me from switching full time from individual scripts to IPython notebook, but with this change my ideal working method is now available.</p>
+<h2>Modal interface</h2>
+<p>As a vim user I did not enjoy having to use emacs-ey keyboard shortcuts (<code>c-m s</code> to split a pane, for example). The modal editing allows most of the prefixed functionality to be put into "command mode" like moving to a different input box, and keeping editing commands concise.</p>
+<h2>The final caveats</h2>
+<!-- vim keybindings -->
+
+<p>Of course I've yet to find a vim emulator that I'm happy with. <a href="http://neovim.org/">Neovim</a> promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.</p>
+<p>This is of course not a failing in IPython notebook specifically, but of anything that isn't vim really...</p>
+<!-- nicer format so git diffs are better -->
+
+<p>One final thought, not about the new changes but about IPython notebook files in general. Yes the save format is renamed json and so is human readable and can be diffed, but has anyone really usefully diffed a notebook? It's basically impossible. Perhaps I've just not tried hard enough, and now with IPython 2.0 I may become more accustomed to diffing IPython notebook files and realise the folly of my ways.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

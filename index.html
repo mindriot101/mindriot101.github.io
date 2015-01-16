@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>circularspace</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="/category/gaming.html">gaming</a></li>
+                    <li><a href="/category/life.html">life</a></li>
+                    <li><a href="/category/science.html">science</a></li>
+                    <li><a href="/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/git-submodules-are-not-so-bad.html">git submodules are not so bad</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-12-28T23:25:51+00:00">
+                Published: Sun 28 December 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/git.html">git</a> </p>
+</footer><!-- /.post-info --><p>I see a lot of complaints about git submodules, <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">people suggesting alternatives</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">complaints about merging</a> or other bits and pieces.</p>
+<p>Git submodules <em>have their place</em>. Yes they are not ideal for all situations but they are ideal for the typical use case I'm about to outline.</p>
+<h2>Example use case</h2>
+<p>In my work I have a <em>master</em> project which contains multiple submodules. Each submodule is also cloned into a separate <em>development</em> repository sitting near by. I use the <em>master</em> repository to synchronise pushes to the deployment server (in this case an isolated computer sitting on a mountain in Chile!)</p>
+<p>Admittedly I have to train myself to follow certain procedures:</p>
+<ol>
+<li>
+<p><em>Never</em> perform code alterations or general development in the submodule inside the <em>master</em> repository.</p>
+</li>
+<li>
+<p>Only use the <em>master</em> repository for synchronisation.</p>
+</li>
+</ol>
+<h2>Git submodule advantages</h2>
+<p>For my use case I find it very good for the <em>master</em> repository to track a single <em>commit</em>, as this bakes in the state of the submodules for each commit of the <em>master</em> repository. I only need to record the git sha of the <em>master</em> to be able to recreate the entire source code checkout of the individual packages.</p>
+<p>Development on the individual packages is also easier as they're modularised into separate small, testable directories, and only combined in the <em>master</em> during a "deployment".</p>
+<p>I can add tests to the <em>master</em> project that assess the integration between submodules. In the case of an error I can then check out a specific revision in my submodules at will to re-run tests and find breaking changes, perhaps with <code>git bisect</code>.</p>
+<h2>Git submodule disadvantages</h2>
+<p>The paradigm shift of using submodules is a pain. They require extra, very strange commands to synchronise.</p>
+<p>I have a few git aliases to help me with this:</p>
+<div class="highlight"><pre>su = submodule update --init --recursive
+</pre></div>
+
+
+<p>This command initialises and synchronises the submodules in whatever state they started in, either not existing - so a clone takes place - or a previous commit. It also synchronises nested submodules, which I'll admit I would probably never do.</p>
+<div class="highlight"><pre>upsub = submodule foreach &#39;git checkout master &amp;&amp; git pull&#39;
+</pre></div>
+
+
+<p>A very useful command, <code>git submodule foreach</code> runs a command over every submodule specified in the current project. In this case it's used to update the master branch to <code>origin</code>.</p>
+<p>A minor annoyance is a submodule with code changes will appear to a git status in the <em>master</em> as an untracked file, showing the whole submodule as <em>modified</em>. I personally like this feature as it reminds me that the submodule in the <em>master</em> is not in a proper state:</p>
+<div class="highlight"><pre>-Subproject commit c74dd1e56794962d7ff7661a7f8ae84cafa96b4f
++Subproject commit c74dd1e56794962d7ff7661a7f8ae84cafa96b4f-dirty
+</pre></div>
+
+
+<p>and therefore shouts at me for forgetting rule 1. above. It can be disabled via: <code>git status --ignore-submodules=dirty</code> but I do not recommend this. Consider it a <em>feature</em>.</p>
+<h2>Git subtree</h2>
+<p>A common suggested alternative is <a href="http://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging">git subtree</a> which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell <code>git subtree</code> creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.</p>
+<h2>Hints and tips</h2>
+<p>Some hints and tips I always have to google myself:</p>
+<h3>Remove a submodule</h3>
+<p><a href="http://stackoverflow.com/a/16162000/56711">source</a></p>
+<div class="highlight"><pre>git submodule deinit asubmodule
+git rm asubmodule
+</pre></div>
+
+
+<h2>Summary</h2>
+<ul>
+<li>Separate projects and use a <em>master</em> project to coordinate commits,</li>
+<li><em>Never</em> develop in the <em>master</em>s copy of the repository,</li>
+<li>Use shortcuts to make managing submodules easier.</li>
+</ul>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/git-rebase-skip-is-fine.html" rel="bookmark"
+                           title="Permalink to git rebase --skip is fine">git rebase --skip is fine</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-27T22:53:48+01:00">
+                Published: Wed 27 August 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">Tech</a>. </p>
+<p>tags: <a href="/tag/git.html">git</a> </p>
+</footer><!-- /.post-info -->                <p>So <code>git rebase</code> is a powerful tool, able to change history itself. With this power however requires great care to avoid needing to <code>git push --force</code>.</p>
+<p>Git rebase comes with very user friendly ways to cancel out of a rebase if something goes wrong or if you become confused:</p>
+<div class="highlight"><pre>git ...</pre></div>
+                <a class="readmore" href="/git-rebase-skip-is-fine.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/interpolation-in-python.html" rel="bookmark"
+                           title="Permalink to Interpolation in Python">Interpolation in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-23T10:55:26+01:00">
+                Published: Sat 23 August 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> <a href="/tag/scipy.html">scipy</a> </p>
+</footer><!-- /.post-info -->                <p>For interpolation in python, scipy includes the interpolateackage containing (amongst other things) interp1d for simple interpolation.</p>
+<p>The function does not however perform extrapolation; if the interpolator is asked for a value outside the original range it will raise an exception. To get around this, the interpolator contains a <code>.x</code> parameter ...</p>
+                <a class="readmore" href="/interpolation-in-python.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/tiling-png-images-in-linux.html" rel="bookmark"
+                           title="Permalink to Tiling png images in linux">Tiling png images in linux</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-26T16:25:31+01:00">
+                Published: Thu 26 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">Tech</a>. </p>
+<p>tags: <a href="/tag/linux.html">linux</a> </p>
+</footer><!-- /.post-info -->                <p>For printing multiple images, it's usually handy to tile images so that more than one page fits on a piece of paper at once. This can be achieved with ImageMagick and the <code>montage</code> command.</p>
+<h3>Building a tiled image</h3>
+<p>For a 2x2 image an example command is:</p>
+<div class="highlight"><pre>montage -tile 2x2 ...</pre></div>
+                <a class="readmore" href="/tiling-png-images-in-linux.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/failed-loading-plugin-copr.html" rel="bookmark"
+                           title="Permalink to Failed loading plugin: copr">Failed loading plugin: copr</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-16T16:09:35+01:00">
+                Published: Mon 16 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">Tech</a>. </p>
+<p>tags: <a href="/tag/linux-fedora.html">linux fedora</a> </p>
+</footer><!-- /.post-info -->                <p>If you're:</p>
+<ul>
+<li>running Fedora</li>
+<li>using dnf as a package manager</li>
+<li>get the following error: <code>Failed loading plugin: copr</code></li>
+</ul>
+<p>then listen up, your solution is at hand: install <code>python-requests</code> using yum:</p>
+<div class="highlight"><pre>sudo yum install -y python-requests
+</pre></div>
+
+
+<p>I have not tested if this will work installing with pip yet.
+The linked ...</p>
+                <a class="readmore" href="/failed-loading-plugin-copr.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/using-a-makefile-for-science.html" rel="bookmark"
+                           title="Permalink to Using a Makefile for science!">Using a Makefile for science!</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-23T10:27:49+01:00">
+                Published: Wed 23 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">Tech</a>. </p>
+<p>tags: <a href="/tag/make.html">make</a> <a href="/tag/code.html">code</a> <a href="/tag/science.html">science</a> </p>
+</footer><!-- /.post-info -->                <p>The declarative style of a Makefile (or substitute your own language-of-choice's implementation of *akefiles) lends itself well to scientific processes, where a reproducible method is crucial. I recently found this out when analysing some data, which consisted of the following:</p>
+<ol>
+<li>compile the source code of the programs I was ...</li></ol>
+                <a class="readmore" href="/using-a-makefile-for-science.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/ipython-version-20.html" rel="bookmark"
+                           title="Permalink to IPython version 2.0">IPython version 2.0</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-02T16:32:38+01:00">
+                Published: Wed 02 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>So IPython has updated to version 2.0. The full changelog <a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html">can be found here</a> and to summarise the key points:</p>
+<ul>
+<li>interactive widgets for the notebook</li>
+<li>directory navigation in the notebook dashboard</li>
+<li>persistent URLs for notebooks</li>
+<li>a new modal user interface in the notebook</li>
+<li>a security model for notebooks</li>
+</ul>
+<p>I ...</p>
+                <a class="readmore" href="/ipython-version-20.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/testing-pymc3.html" rel="bookmark"
+                           title="Permalink to Testing PyMC3">Testing PyMC3</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-08T13:14:42+00:00">
+                Published: Sat 08 March 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be ...</p>
+                <a class="readmore" href="/testing-pymc3.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/dickwraith-stories.html" rel="bookmark"
+                           title="Permalink to Dickwraith stories">Dickwraith stories</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-09T23:23:34+00:00">
+                Published: Mon 09 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/gaming.html">gaming</a>. </p>
+<p>tags: <a href="/tag/dark-souls.html">dark souls</a> </p>
+</footer><!-- /.post-info -->                <p>So I've done some very dickish things as a darkwraith in Dark Souls, mostly involving firestorm. I'm certain my stories are not the <em>worst</em> but they're probably some of the worst things <em>I've</em> done! I'm leaving this here as a confessional of sorts, but also ...</p>
+                <a class="readmore" href="/dickwraith-stories.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/puppet-and-vagrant.html" rel="bookmark"
+                           title="Permalink to Puppet and vagrant">Puppet and vagrant</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-10-30T23:13:00+01:00">
+                Published: Wed 30 October 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="/category/tech.html">tech</a>. </p>
+<p>tags: <a href="/tag/puppet.html">puppet</a> <a href="/tag/vagrant.html">vagrant</a> <a href="/tag/devops.html">devops</a> </p>
+</footer><!-- /.post-info -->                <p>So I've been playing with <a href="http://puppetlabs.com/">Puppet</a> and <a href="http://www.opscode.com/chef/">Chef</a> for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With <a href="http://www.vagrantup.com/">Vagrant</a>, testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for ...</p>
+                <a class="readmore" href="/puppet-and-vagrant.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 7
+        <a href="/index2.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
