@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_science.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2014-04-23T10:27:49+01:00</updated><entry><title>Using a Makefile for science!</title><link href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/" rel="alternate"></link><updated>2014-04-23T10:27:49+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-04-23:blog/2014/04/23/using-a-makefile-for-science/</id><summary type="html">&lt;p&gt;The declarative style of a Makefile (or substitute your own language-of-choice's implementation of *akefiles) lends itself well to scientific processes, where a reproducible method is crucial. I recently found this out when analysing some data, which consisted of the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;compile the source code of the programs I was using&lt;/li&gt;
+&lt;li&gt;use these programs on the same data&lt;/li&gt;
+&lt;li&gt;plot some summary plots&lt;/li&gt;
+&lt;li&gt;show the plots&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;With the declarative style of Makefiles I could rely on the latest results no matter what changed in the analysis path, for example the plot scripts used in step 3. were listed as a dependency of the step run to make the plots so when the script changed, the plots would be recreated. &lt;/p&gt;
+&lt;p&gt;Another advantage is that step 2. took a long time, so the "update only when the dependency is out of date" style of makefiles really came in handy. I could change the (relatively quick) plotting scripts to my hearts content safe in the knowledge that the data I was using was up to date.&lt;/p&gt;
+&lt;p&gt;For scientific analysis, reproducibility is of prime concern, and should I come back to this project at a later date, the combination of a makefile plus the fact that the project was stored in a git repository makes the code easy to use (the readme just contains the line: &lt;code&gt;make&lt;/code&gt;) and consistent.&lt;/p&gt;
+&lt;p&gt;A small tip that I did not know before starting out on this endeavour (and is specific to GNU make) is to use &lt;code&gt;$(MAKE)&lt;/code&gt; whenever running make in a subdirectory. This enables parallel job flags (e.g. &lt;code&gt;-j 4&lt;/code&gt;) to be passed down to subsequent make invocations.&lt;/p&gt;
+&lt;p&gt;For reference, I was getting the message:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;warning&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;jobserver&lt;/span&gt; &lt;span class="n"&gt;unavailable&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;using&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;j1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;Add&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;parent&lt;/span&gt; &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;rule&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;when calling subtasks with a simple &lt;code&gt;make&lt;/code&gt;. Now with &lt;code&gt;$(MAKE)&lt;/code&gt; the jobs run in parallel where possible.&lt;/p&gt;</summary><category term="make"></category><category term="code"></category><category term="science"></category></entry><entry><title>Function fitting with lmfit</title><link href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="alternate"></link><updated>2013-07-04T18:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-04:blog/2013/07/04/function-fitting-with-lmfit/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.scipy.org/"&gt;Scipy&lt;/a&gt; contains functions for fitting equations with &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt;, in its &lt;code&gt;scipy.optimize&lt;/code&gt; module. The two main ones I've used in the past are &lt;code&gt;leastsq&lt;/code&gt; and &lt;code&gt;curve_fit&lt;/code&gt;, which in itself is a convenience wrapper around &lt;code&gt;leastsq&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;curve_fit&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;For this operation you require three (four) things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a function to fit of form &lt;code&gt;f(x, *params)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; data&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt; data&lt;/li&gt;
+&lt;li&gt;Optionally error data&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can also supply an initial guess with the &lt;code&gt;p0&lt;/code&gt; argument.&lt;/p&gt;
+&lt;p&gt;For example a simple linear equation&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="sd"&gt;    Fit a linear function y = a * x + b&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+
+&lt;span class="c"&gt;# Load the data to fit into x, y and e arrays&lt;/span&gt;
+
+&lt;span class="n"&gt;p0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;popt&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pcov&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;curve_fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sigma&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p0&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;p0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In this example &lt;code&gt;popt&lt;/code&gt; contains the "optimal" results, and &lt;code&gt;pcov&lt;/code&gt; the covariance array after fitting.&lt;/p&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;This method of working is very powerful but you cannot place limits on the extent of the input fitting parameters, and you are locked into using the &lt;code&gt;leastsq&lt;/code&gt; underlying function with this nice interface. For example the function&lt;/p&gt;
+&lt;p&gt;$$
+f(x) = x^a
+$$&lt;/p&gt;
+&lt;p&gt;will explode and the fitting routine will complain when asked to fit around &lt;code&gt;a = 0&lt;/code&gt; when &lt;code&gt;x = 0&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;lmfit&lt;/code&gt; provides this functionality in a convenient object-oriented interface. The function to fit is phrased a little differently but the functionality is the same.&lt;/p&gt;
+&lt;p&gt;The easiest way is to write out the desired function as with &lt;code&gt;curve_fit&lt;/code&gt; and include a "residuals" wrapper to calculate the normalised (if errors are given) distance away from the model&lt;/p&gt;
+&lt;p&gt;$$
+R = \frac{y - m}{\sigma}
+$$&lt;/p&gt;
+&lt;p&gt;where $R$ are the residuals, $y$ are the observed y values, $m$ the values as calculated by the function that's being fitted, and $\sigma$ the uncertainties. These residuals tested so that the square of the value above is minimised. The functional form of the residuals function is a little different, and parameters must be accessed with a dictionary lookup and the attribute &lt;code&gt;value&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;lmfit&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;resids&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+&lt;span class="sd"&gt;    Given the function f outlined above, return the normalised residuals&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;
+
+    &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+
+&lt;span class="c"&gt;# generate the input parameters&lt;/span&gt;
+&lt;span class="n"&gt;params&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lmfit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Parameters&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lmfit&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;minimize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;resids&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The above code alters the &lt;code&gt;params&lt;/code&gt; object in place so the best fit parameters are given with&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Best fit a: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Best fit b: {}&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The uncertainties can be accessed with the &lt;code&gt;stderr&lt;/code&gt; parameter. A nice report can be printed with &lt;code&gt;lmfit.report_fit(params)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Crucially the initial values for the parameter guesses as well as bounds and (something I've not explored much) functional relationships between them. This is a simple way of applying some basic Bayesian priors to the parameter assumptions.&lt;/p&gt;</summary><category term="science"></category><category term="python"></category></entry></feed>

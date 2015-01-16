@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_productivity.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2013-02-24T00:00:00+01:00</updated><entry><title>(node) development on OSX</title><link href="https://mindriot101.github.io/blog/2013/02/24/node-development-on-osx/" rel="alternate"></link><updated>2013-02-24T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-24:blog/2013/02/24/node-development-on-osx/</id><summary type="html">&lt;p&gt;I love my Macbook Pro, for development and general computing use. Before I
+purchased it I was a die hard linux user (apart from gaming which is still
+dominated by windows unfortunately.) My work involves linux&lt;sup id="fnref:my-job"&gt;&lt;a class="footnote-ref" href="#fn:my-job" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; and I am a
+committed &lt;a href="http://vim.org"&gt;vim&lt;/a&gt; user. &lt;/p&gt;
+&lt;p&gt;My work colleagues tend to laugh when I say that I want to use my mouse as
+little as possible, and that I am quite experienced in command line use. It
+pains me every time I see my office mates reach over to the mouse to click the
+&lt;em&gt;save&lt;/em&gt; button.&lt;/p&gt;
+&lt;p&gt;This workflow does not translate too well to the Mac; as far as I understand it
+Apple&lt;sup id="fnref:nextstep"&gt;&lt;a class="footnote-ref" href="#fn:nextstep" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt; were one of the first companies to introduce guis for their
+operating systems.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;On the other hand I love the user interface, operating system and window/font
+rendering systems. It's quality hardware and a fantastic (IMO) keyboard,
+coupled with excellent software and makes me feel really good using it. It's
+become my main operating system at work now since I code almost exclusively on
+my macbook. Occasionally I have to SSH into the work computers to access data
+but usually this is from my laptop.&lt;/p&gt;
+&lt;p&gt;I also like automation.&lt;/p&gt;
+&lt;p&gt;During (node) development I much prefer editing code in my editor and either
+seeing it instantly in my browser, or just reloading it myself. For this and
+other development, I use a few tools:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://mxcl.github.com/homebrew/"&gt;Homebrew&lt;/a&gt; for package installation&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.boastr.net/?page_id=2342"&gt;Better snap tool&lt;/a&gt; for tiling windows
+  side by side&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://code.google.com/p/macvim/"&gt;Macvim&lt;/a&gt; for editing, &lt;code&gt;brew install macvim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.iterm2.com"&gt;iTerm2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/joh/when-changed"&gt;when-changed.py&lt;/a&gt; for
+  compiling/running/whatever when files have changed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I'll discuss these tools in turn.&lt;/p&gt;
+&lt;h2&gt;Homebrew&lt;/h2&gt;
+&lt;p&gt;Linux has it's share of problems, which should be classed as more &lt;em&gt;challenges&lt;/em&gt;
+than problems as it's fun I assure you. On the other hand it's package
+management system is top notch. The Mac OSX equivalent is Homebrew and is
+superbly managed with packages on &lt;a href="http://github.com"&gt;github&lt;/a&gt;. This takes the
+difficulty out of installing a lot of packages, but is still missing some nice
+features.&lt;/p&gt;
+&lt;p&gt;The nice thing about Linux's package management is that the packages are
+&lt;em&gt;binary&lt;/em&gt; packages, so no compilation is required. They are compiled by someone
+with extensive knowledge of the package and operating system - usually the
+package maintainer. Packages on Mac OSX still have to be compiled from source
+so can take a long time.&lt;/p&gt;
+&lt;h2&gt;Better snap tool&lt;/h2&gt;
+&lt;p&gt;Having multiple windows open simultaneously is a huge timesaver as you can see
+the contents simultaneously. Having multiple monitors is a fantastic but
+expensive option, but if on a single window you could resize the windows
+yourself but this can be time consuming if it needs to be done many times.&lt;/p&gt;
+&lt;p&gt;This tool allows some keyboard shortcuts to resize the windows to take up half
+the screen each. There exists a keyboard shortcut for restoring the windows
+back to their original position as well.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot" src="{{" title="site.url }}/assets/images/screencap.png" /&gt;&lt;/p&gt;
+&lt;p&gt;The reason I chose this tool over other similar tools is that it allows for a
+nice border around windows which I could not find with other tools. It's a
+small point but I like to keep the look of OSX as much as possible and I feel
+like non-fullscreen windows fits this bill.&lt;/p&gt;
+&lt;h2&gt;Macvim&lt;/h2&gt;
+&lt;p&gt;I mentioned that vim is my editor of choice, and macvim is the epitome of this
+editor for OSX.&lt;/p&gt;
+&lt;h2&gt;iTerm2&lt;/h2&gt;
+&lt;p&gt;This is a great replacement for the Terminal.app that ships with OSX but
+otherwise is a simple terminal emulator. It has nice support for profiles (e.g.
+setting up an ssh link from a few keystrokes). &lt;/p&gt;
+&lt;h2&gt;when-changed.py&lt;/h2&gt;
+&lt;p&gt;This script watches for filesystem changes, and runs a simple command when
+something is different.&lt;/p&gt;
+&lt;p&gt;The command used for writing this blog post is as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;when-changed.py &lt;span class="k"&gt;$(&lt;/span&gt;find content -name &lt;span class="s1"&gt;&amp;#39;*.md&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; -c &lt;span class="s1"&gt;&amp;#39;fab build&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Any time I save the post, by build system (&lt;a href="http://fabfile.org"&gt;fabric&lt;/a&gt;)
+recompiles the post so I can just reload the browser to see the changes.&lt;/p&gt;
+&lt;h3&gt;Application to node&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://nodejs.org"&gt;node&lt;/a&gt; actually comes with a tool similar to
+&lt;code&gt;when-changed.py&lt;/code&gt;, it's called &lt;code&gt;supervisor&lt;/code&gt;, and can be installed globally with
+npm: &lt;code&gt;npm install --global supervisor&lt;/code&gt;. It can reload the server file with any
+changes. I can edit it in one pane with macvim, and view the changes in the
+browser by just reloading the page.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Bliss&lt;/em&gt;&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:my-job"&gt;
+&lt;p&gt;I am currently working towards a PhD in astronomy, and very little
+astronomy is done on Windows.&amp;#160;&lt;a class="footnote-backref" href="#fnref:my-job" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:nextstep"&gt;
+&lt;p&gt;NeXTSTEP I believe&amp;#160;&lt;a class="footnote-backref" href="#fnref:nextstep" rev="footnote" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="nodejs"></category><category term="OSX"></category><category term="productivity"></category></entry></feed>

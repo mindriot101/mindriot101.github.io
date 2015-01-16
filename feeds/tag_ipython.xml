@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_ipython.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2011-01-12T10:19:00+01:00</updated><entry><title>Adding module imports to iPython startup</title><link href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/" rel="alternate"></link><updated>2011-01-12T10:19:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2011-01-12:blog/2011/01/12/adding-module-imports-to-ipython-startup/</id><summary type="html">&lt;p&gt;I'm constantly opening an iPython interpreter and having to import my
+common modules (for me &lt;a href="http://www.stsci.edu/resources/software_hardware/pyfits"&gt;pyfits&lt;/a&gt; mostly).&lt;/p&gt;
+&lt;p&gt;The easiest way to import modules on iPython startup is to look in your&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ipy_user_conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;file which is a nice easy way to add python code into your ipython
+startup (as opposed to the ipythonrc file which is about colours etc.).&lt;/p&gt;
+&lt;p&gt;In the main function, just add a line such as&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;import pyfits&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will allow custom code to be run at startup. In this case, iPython
+loads the pyfits module.&lt;/p&gt;
+&lt;p&gt;You could add such things as&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ip&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;from pylab import *; x = arange(100); y = sin(x)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for example if you were working with sine waves a lot.&lt;/p&gt;</summary><category term="python"></category><category term="ipython"></category></entry></feed>

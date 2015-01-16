@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_ruby.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2013-09-05T15:44:00+02:00</updated><entry><title>vim crashing with ruby on OSX</title><link href="https://mindriot101.github.io/blog/2013/09/05/vim-crashing-with-ruby-on-osx/" rel="alternate"></link><updated>2013-09-05T15:44:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-09-05:blog/2013/09/05/vim-crashing-with-ruby-on-osx/</id><summary type="html">&lt;p&gt;I started having trouble with vim crashing for me. I'm on OSX with homebrew and rbenv, and it crashed when editing Ruby files. I would get a segmentation fault. &lt;/p&gt;
+&lt;p&gt;After some googling which was not particularly fruitful, the solution I came up with was:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;switch to the system ruby &lt;code&gt;rbenv shell system&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;uninstall vim completely with homebrew &lt;code&gt;brew uninstall vim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;reinstall vim from head &lt;code&gt;brew install --HEAD --override-system-vi vim&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This seems to have fixed the problem, though I do not know if it was switching to the system ruby or installing from head. This may require extra study which I do not have time to do now.&lt;/p&gt;</summary><category term="osx"></category><category term="vim"></category><category term="ruby"></category></entry><entry><title>Ruby is scary</title><link href="https://mindriot101.github.io/blog/2013/08/29/ruby-is-scary/" rel="alternate"></link><updated>2013-08-29T10:41:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-29:blog/2013/08/29/ruby-is-scary/</id><summary type="html">&lt;p&gt;Ok so after my &lt;a href="{{ site.url }}/blog/2013/08/26/ruby-first-impressions/"&gt;previous post&lt;/a&gt;, I was feeling pretty excited about Ruby. I talked about its power and flexibility and the exciting things that could come from it.&lt;/p&gt;
+&lt;p&gt;I also talked of Ruby's scariness, it's ability to terrify new programmers and potential for difficulties.&lt;/p&gt;
+&lt;p&gt;I've found one particular example which I'm sure shouldn't be allowed. I can see the intention and how in experienced hands it is amazing, but I can't unsee it's potential for misuse.&lt;/p&gt;
+&lt;p&gt;In Ruby you can add functionality by redeclaring the class you want to extend and add methods, or overwrite/extend methods. &lt;/p&gt;
+&lt;p&gt;This is not the same as inheriting: you must create a new name in a standard inheritance chain. Not with Ruby; you can put the desired functionality straight into the class.&lt;/p&gt;
+&lt;p&gt;This I talked about before. What I didn't talk about before (probably because I never thought of it) is that any subclasses of your "new" class will inherit this new behaviour.&lt;/p&gt;
+&lt;p&gt;The logical conclusion of this is thus: everything in Ruby inherits from &lt;code&gt;Object&lt;/code&gt;. What about adding methods to &lt;code&gt;Object&lt;/code&gt;?&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Object&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Printing foo&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;
+&lt;span class="c1"&gt;# =&amp;gt; Printing foo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This example is harmless - mostly harmless ;) - but what about in a gem you make public:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Object&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;
+    &lt;span class="c1"&gt;# Launch the nukes&lt;/span&gt;
+    &lt;span class="c1"&gt;# ... or system &amp;quot;rm -rf *&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="c1"&gt;# user: &amp;quot;The documentation tells me that to do something awesome, call 3.foo&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;
+
+&lt;span class="c1"&gt;# BANG!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;How can anybody sleep at night?!&lt;/p&gt;</summary><category term="ruby"></category></entry><entry><title>Ruby: first impressions</title><link href="https://mindriot101.github.io/blog/2013/08/26/ruby-first-impressions/" rel="alternate"></link><updated>2013-08-26T22:14:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-26:blog/2013/08/26/ruby-first-impressions/</id><summary type="html">&lt;p&gt;So I've been trying &lt;a href="http://www.ruby-lang.org/en/"&gt;Ruby&lt;/a&gt; recently,
+partially trying to add some substance to my CV, and partially out of
+curiosity. I used to be a complete python snob; I didn't understand
+why anyone &lt;em&gt;wouldn't&lt;/em&gt; use python. It is a dynamic language so no more
+manual memory management (though there are plenty of advantages &lt;em&gt;cough&lt;/em&gt;
+&lt;em&gt;cough&lt;/em&gt;); duck typing deserves its own special place in hell but it
+is bloody convenient; the amazing standard library which is great for
+system administration; and many other things.&lt;/p&gt;
+&lt;p&gt;I use python in my day job&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; and was perfectly happy with it. As I
+came from a C++ background I agreed with the "explicit is better than
+implicit" philosophy, I understood the power of decorators and context
+managers - I still had yet to master metaclasses but that's another
+story.&lt;/p&gt;
+&lt;p&gt;I was amazed with some of the metaprogramming that was possible with
+python, like the list comprehension, or the memory saving generators,
+it makes working with scientific data a breeze with &lt;code&gt;numpy&lt;/code&gt; snd
+&lt;code&gt;matplotlib&lt;/code&gt;, and the significant whitespace really works well: you are
+all indenting your code properly aren't you?&lt;/p&gt;
+&lt;p&gt;I heard that Ruby has some amazing metaprogramming ability, but I didn't
+realise until I tried that you can add functionality to an existing
+class by just redefining it! Even core classes like numbers.&lt;/p&gt;
+&lt;p&gt;Rails does this exclusively creating such lines as&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ago&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;by adding functionality to the Fixnum class, for example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Fixnum&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;Hello world&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;
+&lt;span class="c1"&gt;# =&amp;gt; &amp;quot;Hello world&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Metaprogramming&lt;/h2&gt;
+&lt;p&gt;So the metaprogramming outlined above is great, and extremely powerful.
+I was worried initially about this and how it may cause confusion.
+Function overloading in C++ is already bad enough as you have to dive
+into the documentation for the simplest methods. In ruby the possibility for
+this is even worse! But it seems the common libraries are trustworthy in this
+respect and do not abuse this functionality. &lt;strong&gt;Beginners warning: do not abuse
+this feature!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Another amazing feature is &lt;code&gt;method_missing&lt;/code&gt; where if a method is not recognised
+(Ruby uses the message sending style where you could send any method to any
+object, it just may not do anything - and will probably throw an exception) this
+method - if defined - is called.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestClass&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;method_missing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Message &amp;#39;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39; called with arguments: &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="no"&gt;TestClass&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bad_method&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;stuff&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# =&amp;gt; Message &amp;#39;bad_method&amp;#39; called with arguments: [100, &amp;quot;stuff&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Context&lt;/h2&gt;
+&lt;p&gt;In Python context managers were added in 2.6 to perform code before and after
+the block, such as automatically closing files (note: the &lt;code&gt;contextlib&lt;/code&gt; library
+is brilliant for this, creating one manually is a lot of boilerplate)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;contextlib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;contextmanager&lt;/span&gt;
+
+&lt;span class="nd"&gt;@contextmanager&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;to_stuff&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Before&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;After&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;to_stuff&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+
+&lt;span class="c"&gt;# Prints:&lt;/span&gt;
+&lt;span class="c"&gt;# Before &lt;/span&gt;
+&lt;span class="c"&gt;# True&lt;/span&gt;
+&lt;span class="c"&gt;# After&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ruby takes this to the next level with blocks. The syntax looks similar but it's
+baked into the language:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;to_stuff&lt;/span&gt;
+  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Before&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;After&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;to_stuff&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Prints:&lt;/span&gt;
+&lt;span class="c1"&gt;# Before &lt;/span&gt;
+&lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;span class="c1"&gt;# After&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You see these blocks &lt;em&gt;everywhere&lt;/em&gt;! This context has great power, a new object
+when generated can be passed into a block for more syntactically nice setup&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="no"&gt;TestObject&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tap&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Syntax&lt;/h2&gt;
+&lt;p&gt;Against Python's "explicit is better than implicit" philosophy, Ruby seems to
+have the opposite. I don't know if this is completely true but that's how it
+seems. For example class methods can be treated as if they were local variables,
+and parentheses are (mostly) optional, the last statement of any block is
+returned, and other things. For example&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TestClass&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;
+    &lt;span class="mi"&gt;10&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_foo&lt;/span&gt;
+    &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;foo&lt;/span&gt;        &lt;span class="c1"&gt;# Is foo a variable or a method?!&lt;/span&gt;
+
+    &lt;span class="n"&gt;print_value&lt;/span&gt; &lt;span class="mi"&gt;150&lt;/span&gt; &lt;span class="c1"&gt;# No parentheses!&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Generating DSLs&lt;/h2&gt;
+&lt;p&gt;Due to the free syntax of Ruby, especially the lack of parentheses, a custom DSL
+(domain specific language, essentially a mini programming language for a very
+specific task) is easy to create in Ruby. Consequently to a beginner it's
+easy to read Ruby code written like this and believe it is a different language.&lt;/p&gt;
+&lt;p&gt;For example a sort-of Makefile alternative &lt;code&gt;rake&lt;/code&gt; can look like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;desc&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;This is a simple task. You can run it with `rake foo`&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="ss"&gt;:foo&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="no"&gt;Dir&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;*&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;whereas the testing framework &lt;code&gt;rspec&lt;/code&gt; can look like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="no"&gt;FooModel&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;before&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:each&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nb"&gt;puts&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Before&amp;#39;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;should have some specified behaviour&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;FooModel&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;not_be&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or even&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;print_stuff&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;change_directory&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/tmp&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;add_file&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;test&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These would all be valid ruby and generally apart from the odd keyword (do/end
+etc.) they can have a completely different style. This makes each implementation
+fresh and different and exciting, providing a lot of power to the language.&lt;/p&gt;
+&lt;h2&gt;Rails&lt;/h2&gt;
+&lt;p&gt;Now we get on to the poster child of Ruby: Rails. Who can mention Ruby without
+talking about rails eh?&lt;/p&gt;
+&lt;p&gt;Well it's a great thing to have for a language. Can you name a defining Python
+library? Django? Numpy? Twisted? In some sense Python is a little &lt;em&gt;too&lt;/em&gt; good at
+everything which makes it not excel as much as Rails. A lot of the things
+outlined above are prevalent in Rails, and make the framework a dream to work
+with. Ok so a dream for me, perhaps I'm just naive and haven't worked day to day
+in it, but I'd definitley like to try!&lt;/p&gt;
+&lt;p&gt;In all Ruby is worth learning, system administrators are using it for tasks, or
+one can use it as a Makefile replacement and Rails' emphasis on convention makes
+it a lot to learn initially but once you have a basic knowledge it's not too
+difficult to pick up. I've outlined some of the resources I used to learn below
+for more information. I hope to learn more of what Ruby has to offer in the
+future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
+&lt;h2&gt;Resources&lt;/h2&gt;
+&lt;h3&gt;Beginner&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://railsforzombies.org/"&gt;Rails for Zombies&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Technical&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://railscasts.com/"&gt;Railscasts&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Advanced&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://robots.thoughtbot.com/"&gt;Thoughtbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;(I'll try and keep these updated)&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;"job"&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="ruby"></category></entry><entry><title>Using guard with foreman</title><link href="https://mindriot101.github.io/blog/2013/07/29/using-guard-with-foreman/" rel="alternate"></link><updated>2013-07-29T11:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-29:blog/2013/07/29/using-guard-with-foreman/</id><summary type="html">&lt;p&gt;I've been playing with &lt;a href="http://www.ruby-lang.org/"&gt;Ruby&lt;/a&gt; quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.&lt;/p&gt;
+&lt;p&gt;This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found &lt;a href="http://ddollar.github.io/foreman/"&gt;foreman&lt;/a&gt; which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by &lt;a href="http://heroku.com"&gt;heroku&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was using this technique with a simple &lt;code&gt;Procfile&lt;/code&gt; for managing my thesis. I have two tasks running: &lt;a href="http://users.phys.psu.edu/~collins/software/latexmk-jcc/"&gt;latexmk&lt;/a&gt; which manages the latex compiling, and &lt;a href="http://guardgem.org/"&gt;guard&lt;/a&gt; which manages the python plotting.&lt;/p&gt;
+&lt;p&gt;I added these to the &lt;code&gt;Procfile&lt;/code&gt; as such&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ss"&gt;latex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;latexmk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pvc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="no"&gt;Thesis&lt;/span&gt;
+&lt;span class="ss"&gt;plotting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="n"&gt;guard&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This would cause both processes to hang, which I couldn't explain. I then thought that guard is interactive: it has an interface for managing specific tasks or getting info about the processes running. I searched through the guard help to find the &lt;code&gt;--no-interactions&lt;/code&gt; flag and this solved my problem. My new complete Procfile is now&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ss"&gt;latex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;latexmk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pvc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="no"&gt;Thesis&lt;/span&gt;
+&lt;span class="ss"&gt;plotting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="n"&gt;guard&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;interactions&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="ruby"></category><category term="guard"></category><category term="foreman"></category><category term="latex"></category></entry></feed>

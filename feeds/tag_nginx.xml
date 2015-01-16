@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_nginx.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2013-02-25T00:00:00+01:00</updated><entry><title>Installing development version of nginx with Homebrew</title><link href="https://mindriot101.github.io/blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/" rel="alternate"></link><updated>2013-02-25T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-25:blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/</id><summary type="html">&lt;p&gt;I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native &lt;a href="http://nginx.com/news/nginx-websockets.html"&gt;websockets support&lt;/a&gt; but I could not find a way to install version 1.3.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;I had a look with &lt;code&gt;brew info nginx&lt;/code&gt; and found a clue: a devel flag:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;formula&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Nginx&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Formula&lt;/span&gt;
+    &lt;span class="c1"&gt;# Other code&lt;/span&gt;
+
+    &lt;span class="n"&gt;devel&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://nginx.org/download/nginx-1.3.13.tar.gz&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;sha1&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b09b1c35b2b741292d41db1caa3b8a4123805a4c&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Other code&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I should really have found this earlier or tried to look harder, but it turns out homebrew has a &lt;code&gt;--devel&lt;/code&gt; flag for the install command. This defines the &lt;code&gt;devel&lt;/code&gt; variable and is caught by the if block above.&lt;/p&gt;
+&lt;p&gt;So simple really, but I googled to no avail, so hopefully this post will come up for anyone else who has this problem.&lt;/p&gt;</summary><category term="homebrew"></category><category term="OSX"></category><category term="nginx"></category></entry></feed>

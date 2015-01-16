@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_c.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2010-07-27T10:15:00+02:00</updated><entry><title>Changing the rpath on a linux binary</title><link href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/" rel="alternate"></link><updated>2010-07-27T10:15:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-27:blog/2010/07/27/changing-the-rpath-on-a-linux-binary/</id><summary type="html">&lt;p&gt;&lt;a href="http://nixos.org/patchelf.html"&gt;PatchELF&lt;/a&gt; is a program that allows the patching of the rpath of a
+linux binary to be whatever you want, even the printing of it.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;strong&gt;Short explanation:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Shared libraries are used in an operating system to allow the easy
+updating of code and patch fixing to a large group of programs. With
+static libraries, a patchfix to a library common to many programs would
+force the recompilation of those programs. A fix to a shared library
+could go on behind the scenes without these other programs even
+realising (in the best case!).&lt;/p&gt;
+&lt;p&gt;To accomodate for this functionality, shared libraries must be located
+during runtime. There are three ways to do this (in order):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;System default paths&lt;/li&gt;
+&lt;li&gt;The binaries &lt;em&gt;rpath&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;em&gt;LD_LIBRARY_PATH&lt;/em&gt; enviroment variable&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Libraries found in stage 3 will override libraries found in stage 2 and
+the same for 2-&gt;1. Because of this overriding, the &lt;em&gt;LD_LIBRARY_PATH&lt;/em&gt;
+method is very dangerous, as the user can accidentally change this and
+cause many programs to break.&lt;/p&gt;
+&lt;p&gt;As far as the sysadmin is concerned, the best way to install new
+software is to update the local database which contains the system
+default paths, but for the developer who wishes to compile their own
+programs, option 2 is the best.&lt;/p&gt;
+&lt;p&gt;See my &lt;a href="{{ site.url }}/assets/Programming/linking-on-linux.md"&gt;previous post&lt;/a&gt; to see how to do this at compile time, but say
+while developing a piece of software, you want to see what these paths
+are or change them. This is where &lt;em&gt;PatchELF&lt;/em&gt; comes in handy. It allows
+the printing of the &lt;em&gt;rpath&lt;/em&gt; variable or setting it to a completely new
+location (eg. for testing against a custom version of the system
+libraries).  It even allows the changing of the system default path
+interpreter.&lt;/p&gt;
+&lt;p&gt;For more information see &lt;a href="http://www.eyrie.org/~eagle/notes/rpath.html"&gt;this very informative post&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="c"></category></entry><entry><title>Linking on linux</title><link href="https://mindriot101.github.io/blog/2010/07/08/linking-on-linux/" rel="alternate"></link><updated>2010-07-08T15:24:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-08:blog/2010/07/08/linking-on-linux/</id><summary type="html">&lt;p&gt;I've just found out what some strange linking options mean with gcc!&lt;/p&gt;
+&lt;p&gt;Quite often i've seen at the linking stage&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;gcc object.o -o executable.out -lsomelibrary -Wl,-rpath,somepath
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I've discovered that the -Wl,-rpath,somepath expands basically to&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;-Wl -rpath&lt;span class="o"&gt;=&lt;/span&gt;somepath
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and this means the location of the shared library in &lt;em&gt;somepath&lt;/em&gt; is hard
+coded into the executable to be used at runtime. &lt;em&gt;rpath&lt;/em&gt; means runtime
+path, all of which means the dangerous &lt;em&gt;LD_LIBRARY_PATH&lt;/em&gt; environment
+variable is not needed.&lt;/p&gt;</summary><category term="linux"></category><category term="c"></category></entry><entry><title>Allowing the use of clang in qmake</title><link href="https://mindriot101.github.io/blog/2010/07/01/allowing-the-use-of-clang-in-qmake/" rel="alternate"></link><updated>2010-07-01T14:54:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-01:blog/2010/07/01/allowing-the-use-of-clang-in-qmake/</id><summary type="html">&lt;p&gt;Clang is an attempt at creating a gcc replacement front end for *nix
+based systems with static code analysis and more helpful error messages
+etc.&lt;/p&gt;
+&lt;p&gt;To allow the use of the clang compiler, the easiest way is to create a 
+new &lt;em&gt;mkspec&lt;/em&gt;, and create a Makefile with&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qmake -spec linux-clang
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;See the link at the end of this post for the original credit, and a
+sample &lt;em&gt;mkspec&lt;/em&gt; file.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.freehackers.org/thomas/2010/01/10/playing-with-clang-and-qt/"&gt;Credit here&lt;/a&gt;&lt;/p&gt;</summary><category term="c"></category></entry></feed>
