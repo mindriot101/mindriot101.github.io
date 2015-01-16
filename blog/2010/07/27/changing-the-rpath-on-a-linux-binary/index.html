@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Changing the rpath on a linux binary</title>
+        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://mindriot101.github.io/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="https://mindriot101.github.io/category/gaming.html">gaming</a></li>
+                    <li><a href="https://mindriot101.github.io/category/life.html">life</a></li>
+                    <li><a href="https://mindriot101.github.io/category/science.html">science</a></li>
+                    <li class="active"><a href="https://mindriot101.github.io/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/" rel="bookmark"
+           title="Permalink to Changing the rpath on a linux binary">Changing the rpath on a linux binary</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2010-07-27T10:15:00+02:00">
+                Published: Tue 27 July 2010
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
+<p>tags: <a href="https://mindriot101.github.io/tag/linux.html">linux</a> <a href="https://mindriot101.github.io/tag/c.html">c</a> </p>
+</footer><!-- /.post-info -->      <p><a href="http://nixos.org/patchelf.html">PatchELF</a> is a program that allows the patching of the rpath of a
+linux binary to be whatever you want, even the printing of it.</p>
+<!--more-->
+
+<p><strong>Short explanation:</strong></p>
+<p>Shared libraries are used in an operating system to allow the easy
+updating of code and patch fixing to a large group of programs. With
+static libraries, a patchfix to a library common to many programs would
+force the recompilation of those programs. A fix to a shared library
+could go on behind the scenes without these other programs even
+realising (in the best case!).</p>
+<p>To accomodate for this functionality, shared libraries must be located
+during runtime. There are three ways to do this (in order):</p>
+<ol>
+<li>System default paths</li>
+<li>The binaries <em>rpath</em></li>
+<li>The <em>LD_LIBRARY_PATH</em> enviroment variable</li>
+</ol>
+<p>Libraries found in stage 3 will override libraries found in stage 2 and
+the same for 2->1. Because of this overriding, the <em>LD_LIBRARY_PATH</em>
+method is very dangerous, as the user can accidentally change this and
+cause many programs to break.</p>
+<p>As far as the sysadmin is concerned, the best way to install new
+software is to update the local database which contains the system
+default paths, but for the developer who wishes to compile their own
+programs, option 2 is the best.</p>
+<p>See my <a href="{{ site.url }}/assets/Programming/linking-on-linux.md">previous post</a> to see how to do this at compile time, but say
+while developing a piece of software, you want to see what these paths
+are or change them. This is where <em>PatchELF</em> comes in handy. It allows
+the printing of the <em>rpath</em> variable or setting it to a completely new
+location (eg. for testing against a custom version of the system
+libraries).  It even allows the changing of the system default path
+interpreter.</p>
+<p>For more information see <a href="http://www.eyrie.org/~eagle/notes/rpath.html">this very informative post</a>.</p>
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'circularspace-blog';
+        var disqus_identifier = 'blog/2010/07/27/changing-the-rpath-on-a-linux-binary/';
+        var disqus_url = 'https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//circularspace-blog.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41369282-4']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'circularspace-blog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

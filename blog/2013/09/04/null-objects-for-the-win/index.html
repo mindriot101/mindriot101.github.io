@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Null objects for the win</title>
+        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://mindriot101.github.io/">circularspace </a></h1>
+                <nav><ul>
+                    <li><a href="https://mindriot101.github.io/category/gaming.html">gaming</a></li>
+                    <li><a href="https://mindriot101.github.io/category/life.html">life</a></li>
+                    <li><a href="https://mindriot101.github.io/category/science.html">science</a></li>
+                    <li class="active"><a href="https://mindriot101.github.io/category/tech.html">tech</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/" rel="bookmark"
+           title="Permalink to Null objects for the win">Null objects for the win</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-09-04T23:18:00+02:00">
+                Published: Wed 04 September 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
+<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/code-design.html">code design</a> </p>
+</footer><!-- /.post-info -->      <p>So I've been watching a lot of OO refactoring screencasts and reading posts and I'm able to say I've implemented some of the advice I've heard. Life's all about learning eh?</p>
+<p>So the main example I want to talk about here is <em>Null objects</em>. </p>
+<h2>Null objects</h2>
+<p>In dynamic languages, and Ruby in particular<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> the concept of the <em>lack of something</em> needs to be encapsulated. For example: you're wrapping the database and no entry exists; what to you return? In Ruby it's often <code>nil</code> but this is not great for app design. This <code>nil</code> will proliferate through your app causing errors in its wake (<code>NoMethodError</code>) and causing de-localised stacktraces. Another example is the concept of a guest user. How do you represent this? Subclass the normal User class? <em><code>nil</code></em>?!
+One way to combat this is to introduce Null Objects, where they look like a standard user but don't respond to the methods in the same way.</p>
+<p>My implementation was in Python whilst working on a plotting script. I wanted the option to disable the lower subplot with a given command line argument, so I started adding <code>if</code> conditions everywhere, which unfortunately was spread all over the code. My recent learning suddenly kicked in and I thought I could create a null axis object (on which all of the plotting commands were being called) which wouldn't respond to any plotting calls.</p>
+<p>In Ruby it's nice and simple to stub out methods, or use metaprogramming. For example by defining a class and a "null" <code>method_missing</code> method a null object can be created</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">NullAxis</span>
+  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">NullAxis</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">any_method_that_doesnt_exist</span>
+<span class="c1"># =&gt; nil</span>
+</pre></div>
+
+
+<p>The implementation for Python is almost as simple</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">NullAxis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Like Ruby&#39;s `method_missing`, this just returns a </span>
+<span class="sd">        blank function that does nothing</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">return</span> <span class="n">fn</span>
+</pre></div>
+
+
+<p>With this I can leave the axis creation and previous plotting commands intact, but under the condition that the <code>matplotlib</code> axis object does not exist the code will just silently do nothing.</p>
+<p>This example is small, but I felt good implementing it.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>due to the prevalence of <code>nil</code>s&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'circularspace-blog';
+        var disqus_identifier = 'blog/2013/09/04/null-objects-for-the-win/';
+        var disqus_url = 'https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//circularspace-blog.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
+                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
+                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41369282-4']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'circularspace-blog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
