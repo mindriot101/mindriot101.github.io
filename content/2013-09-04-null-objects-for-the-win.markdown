@@ -2,8 +2,8 @@ layout: post
 title: Null objects for the win
 date: 2013-09-04 23:18
 comments: true
-categories: programming python
-Category: Coding
+Tags: python, code design
+Category: tech
 
 So I've been watching a lot of OO refactoring screencasts and reading posts and I'm able to say I've implemented some of the advice I've heard. Life's all about learning eh?
 

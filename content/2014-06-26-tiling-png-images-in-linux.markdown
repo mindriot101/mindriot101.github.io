@@ -2,8 +2,8 @@ layout: post
 title: Tiling png images in linux
 date: Thu Jun 26 16:25:31 BST 2014
 comments: true
-categories: linux
-Category: Linux
+Tags: linux
+Category: Tech
 
 For printing multiple images, it's usually handy to tile images so that more than one page fits on a piece of paper at once. This can be achieved with ImageMagick and the `montage` command.
 

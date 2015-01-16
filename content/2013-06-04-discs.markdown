@@ -1,7 +1,8 @@
 title: Discs, discs and more discs
 date: 2013-06-04 22:11
 comments: true
-Category: Astronomy
+Category: science
+tags: astronomy, travel
 
 So today we learnt about discs, as the title of this post may suggest. We had protoplanetary discs (or proplyds which is a horrible portmanteau), thin discs, thick discs, transitional discs...
 

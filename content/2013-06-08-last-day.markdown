@@ -1,7 +1,8 @@
 title: Last day
 date: 2013-06-08 08:45
 comments: true
-Category: Astronomy
+Category: science
+tags: astronomy, travel
 
 The last day has come and gone. I didn't get time yesterday to write about it so I'm doing it now while I sit in front of the A-team in a Canadian hostel.  As a side note this film looks terrible.
 

@@ -2,7 +2,8 @@ layout: post
 title: First day
 date: 2013-06-03 23:37
 comments: true
-Category: Astronomy
+Category: science
+tags: astronomy, travel
 
 So the first day has just finished. We had some interesting talks (and some not so interesting, but that's to be expected).
 

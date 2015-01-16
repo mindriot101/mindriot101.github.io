@@ -2,8 +2,8 @@ layout: post
 title: Using guard with foreman
 date: 2013-07-29 11:09
 comments: true
-categories: programming
-Category: Coding
+tags: ruby, guard, foreman, latex
+Category: tech
 
 I've been playing with [Ruby](http://www.ruby-lang.org/) quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.
 

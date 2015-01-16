@@ -2,8 +2,8 @@ layout: post
 title: git rebase --skip is fine
 date: Wed 27 Aug 22:53:48 BST 2014
 comments: true
-categories: git
-Category: Git
+Tags: git
+Category: Tech
 
 So `git rebase` is a powerful tool, able to change history itself. With this power however requires great care to avoid needing to `git push --force`.
 

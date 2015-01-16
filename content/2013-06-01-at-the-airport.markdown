@@ -1,7 +1,8 @@
 title: At the airport
 date: 2013-06-01 11:34
 comments: true
-Category: Astronomy
+Category: science
+tags: astronomy, travel
 
 So we're at the airport. Mostly uneventful journey so far, luckily. Airports terrify me; flying doesn't scare me at all, but the chance of being rejected for something as simple as forgetting your passport is so unnerving.
 

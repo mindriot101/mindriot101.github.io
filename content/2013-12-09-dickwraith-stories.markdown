@@ -2,8 +2,8 @@ layout: post
 title: Dickwraith stories
 date: Mon  9 Dec 2013 23:23:34 GMT
 comments: true
-categories: gaming
-Category: Gaming
+Tags: dark souls
+Category: gaming
 
 So I've done some very dickish things as a darkwraith in Dark Souls, mostly involving firestorm. I'm certain my stories are not the *worst* but they're probably some of the worst things *I've* done! I'm leaving this here as a confessional of sorts, but also a great place to leave my invasion stories.
 

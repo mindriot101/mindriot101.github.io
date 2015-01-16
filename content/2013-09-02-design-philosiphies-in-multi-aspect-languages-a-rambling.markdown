@@ -1,8 +1,9 @@
 layout: post
-title: "Design philosiphies in multi-paradigm languages: a rambling"
+title: Design philosiphies in multi-paradigm languages: a rambling
 date: 2013-09-02 11:47
 comments: true
-categories: 
+Tags: code-design
+Category: tech
 Status: draft
 
 I want to talk about multi-paradigm languages.

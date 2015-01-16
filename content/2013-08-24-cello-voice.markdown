@@ -2,8 +2,8 @@ layout: post
 title: cello voice
 date: 2013-08-24 12:05
 comments: true
-categories: general
-Category: Misc
+Tags: OSX
+Category: tech
 
 So Mac OSX has the `say` command, which reads out some text in the computers voice synthesis functionality. This is old news.
 

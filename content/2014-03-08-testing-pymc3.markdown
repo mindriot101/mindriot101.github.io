@@ -2,8 +2,8 @@ layout: post
 title: Testing PyMC3
 date: Sat  8 Mar 2014 13:14:42 GMT
 comments: true
-categories: python code
-Category: Python
+Tags: python
+Category: tech
 
 I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be consistent though.
 
