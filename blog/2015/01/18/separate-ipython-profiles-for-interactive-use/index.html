@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>circularspace - ipython</title>
+        <title>Separate IPython profiles for interactive use</title>
         <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
         <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
 
@@ -19,13 +19,18 @@
                     <li><a href="https://mindriot101.github.io/category/gaming.html">gaming</a></li>
                     <li><a href="https://mindriot101.github.io/category/life.html">life</a></li>
                     <li><a href="https://mindriot101.github.io/category/science.html">science</a></li>
-                    <li><a href="https://mindriot101.github.io/category/tech.html">tech</a></li>
+                    <li class="active"><a href="https://mindriot101.github.io/category/tech.html">tech</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/" rel="bookmark"
+           title="Permalink to Separate IPython profiles for interactive use">Separate IPython profiles for interactive use</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">Separate IPython profiles for interactive use</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2015-01-18T20:33:57+00:00">
                 Published: Sun 18 January 2015
@@ -36,7 +41,7 @@
         </address>
 <p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
 <p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a> <a href="https://mindriot101.github.io/tag/ipython.html">ipython</a> </p>
-</footer><!-- /.post-info --><p>I used to have two simple shell aliases for <code>IPython</code>:</p>
+</footer><!-- /.post-info -->      <p>I used to have two simple shell aliases for <code>IPython</code>:</p>
 <div class="highlight"><pre><span class="nb">alias </span><span class="nv">ipy</span><span class="o">=</span>ipython
 <span class="nb">alias </span><span class="nv">pylab</span><span class="o">=</span><span class="s1">&#39;ipython --pylab&#39;</span>
 </pre></div>
@@ -88,47 +93,26 @@
 <ul>
 <li>"Normal" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py</a></li>
 <li>"Pylab" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py</a></li>
-</ul><p>There are <a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</ul>
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'circularspace-blog';
+        var disqus_identifier = 'blog/2015/01/18/separate-ipython-profiles-for-interactive-use/';
+        var disqus_url = 'https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//circularspace-blog.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/" rel="bookmark"
-                           title="Permalink to Adding module imports to iPython startup">Adding module imports to iPython startup</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2011-01-12T10:19:00+01:00">
-                Published: Wed 12 January 2011
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/ipython.html">ipython</a> </p>
-</footer><!-- /.post-info -->                <p>I'm constantly opening an iPython interpreter and having to import my
-common modules (for me <a href="http://www.stsci.edu/resources/software_hardware/pyfits">pyfits</a> mostly).</p>
-<p>The easiest way to import modules on iPython startup is to look in your</p>
-<div class="highlight"><pre><span class="o">~/.</span><span class="n">ipython</span><span class="o">/</span><span class="n">ipy_user_conf</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-
-
-<p>file which is a nice easy way to add python code into your ipython
-startup ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-                </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

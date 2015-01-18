@@ -25,7 +25,83 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/">git submodules are not so bad</a></h1>
+                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">Separate IPython profiles for interactive use</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2015-01-18T20:33:57+00:00">
+                Published: Sun 18 January 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
+<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a> <a href="https://mindriot101.github.io/tag/ipython.html">ipython</a> </p>
+</footer><!-- /.post-info --><p>I used to have two simple shell aliases for <code>IPython</code>:</p>
+<div class="highlight"><pre><span class="nb">alias </span><span class="nv">ipy</span><span class="o">=</span>ipython
+<span class="nb">alias </span><span class="nv">pylab</span><span class="o">=</span><span class="s1">&#39;ipython --pylab&#39;</span>
+</pre></div>
+
+
+<p>These were separated for a couple of reasons:</p>
+<p>The <code>pylab</code> mode of <code>IPython</code> was deprecated, for good reason. It "infects" the global namespace with all <code>matplotlib</code> and <code>numpy</code> functions. It breaks two entries in the famous "Zen of Python":</p>
+<ul>
+<li>Explicit is better than implicit.</li>
+<li>Namespaces are one honking great idea -- let's do more of those!</li>
+</ul>
+<p>From a practicality perspective it also is much slower to start up. This is annoying when I quickly want to plot something.</p>
+<p>I then remembered the <code>IPython</code> profile functionality. A separate profile, and hence separate configuration and startup procedure for each profile. I customized my configuration for each profile in basically the same way: I turned off the startup banner - I've seen it enough times now! - and configured the log format. In the "pylab" form I set <code>c.InteractiveShellApp.pylab = 'auto'</code> to enable the interactive plotting, with a backend chosen for me, and set <code>c.TerminalInteractiveShell.autocall = 2</code>. This last one may be a bit controversial, so I'll explain a bit further.</p>
+<h3><code>autocall</code></h3>
+<p>This setting (sometimes) removes the need for parentheses when running python code. For example:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">stuff</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">stuff</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>   <span class="c"># Normal python</span>
+<span class="n">stuff</span> <span class="mi">5</span>    <span class="c"># Valid with autocall = 1 or 2, see below</span>
+
+<span class="k">def</span> <span class="nf">more_stuff</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Hi there&#39;</span><span class="p">)</span>
+
+<span class="n">more_stuff</span><span class="p">()</span>   <span class="c"># Normal python</span>
+<span class="n">more_stuff</span>     <span class="c"># Exception in all but autocall = 2</span>
+</pre></div>
+
+
+<p>This setting has three options: <code>0</code> to disable the feature, <code>1</code> to enable it in a "smart" sense, and 2 where it's enabled always. The main difference between <code>1</code> and <code>2</code> is when a "bare" function is called, e.g. <code>more_stuff</code> in the example above, without parentheses. With <code>autocall = 2</code> the function is <em>called</em> rather than merely returned.</p>
+<h2>Starting up with <code>seaborn</code></h2>
+<p>I am a fan of the <a href="http://stanford.edu/~mwaskom/software/seaborn/">seaborn</a> visualisation package, for the styles and extra features. In the <code>pylab</code> profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py">in this file</a>. I'll explain it here.</p>
+<p>The code:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Loading seaborn...&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Cannot load seaborn&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I start by importing <code>print_function</code> from <code>__future__</code> to ensure python 2/3 compatibility. Next in a <code>try/except</code> block I try importing <code>seaborn</code>, under the <code>sns</code> prefix which I'm accustomed to. Should an import error occur (such as I have not got the package installed in the current <code>conda</code> environment) I tell the user. The print functions are called such with <code>... end='')</code> to ensure the status message is all on one line, purely for aesthetics.</p>
+<h2>Current configuration</h2>
+<p>My current configuration can be read for</p>
+<ul>
+<li>"Normal" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py</a></li>
+<li>"Pylab" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py</a></li>
+</ul><p>There are <a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/" rel="bookmark"
+                           title="Permalink to git submodules are not so bad">git submodules are not so bad</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-12-28T23:25:51+00:00">
                 Published: Sun 28 December 2014
@@ -36,65 +112,12 @@
         </address>
 <p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
 <p>tags: <a href="https://mindriot101.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info --><p>I see a lot of complaints about git submodules, <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">people suggesting alternatives</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">complaints about merging</a> or other bits and pieces.</p>
+</footer><!-- /.post-info -->                <p>I see a lot of complaints about git submodules, <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">people suggesting alternatives</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">complaints about merging</a> or other bits and pieces.</p>
 <p>Git submodules <em>have their place</em>. Yes they are not ideal for all situations but they are ideal for the typical use case I'm about to outline.</p>
-<h2>Example use case</h2>
-<p>In my work I have a <em>master</em> project which contains multiple submodules. Each submodule is also cloned into a separate <em>development</em> repository sitting near by. I use the <em>master</em> repository to synchronise pushes to the deployment server (in this case an isolated computer sitting on a mountain in Chile!)</p>
-<p>Admittedly I have to train myself to follow certain procedures:</p>
-<ol>
-<li>
-<p><em>Never</em> perform code alterations or general development in the submodule inside the <em>master</em> repository.</p>
-</li>
-<li>
-<p>Only use the <em>master</em> repository for synchronisation.</p>
-</li>
-</ol>
-<h2>Git submodule advantages</h2>
-<p>For my use case I find it very good for the <em>master</em> repository to track a single <em>commit</em>, as this bakes in the state of the submodules for each commit of the <em>master</em> repository. I only need to record the git sha of the <em>master</em> to be able to recreate the entire source code checkout of the individual packages.</p>
-<p>Development on the individual packages is also easier as they're modularised into separate small, testable directories, and only combined in the <em>master</em> during a "deployment".</p>
-<p>I can add tests to the <em>master</em> project that assess the integration between submodules. In the case of an error I can then check out a specific revision in my submodules at will to re-run tests and find breaking changes, perhaps with <code>git bisect</code>.</p>
-<h2>Git submodule disadvantages</h2>
-<p>The paradigm shift of using submodules is a pain. They require extra, very strange commands to synchronise.</p>
-<p>I have a few git aliases to help me with this:</p>
-<div class="highlight"><pre>su = submodule update --init --recursive
-</pre></div>
-
-
-<p>This command initialises and synchronises the submodules in whatever state they started in, either not existing - so a clone takes place - or a previous commit. It also synchronises nested submodules, which I'll admit I would probably never do.</p>
-<div class="highlight"><pre>upsub = submodule foreach &#39;git checkout master &amp;&amp; git pull&#39;
-</pre></div>
-
-
-<p>A very useful command, <code>git submodule foreach</code> runs a command over every submodule specified in the current project. In this case it's used to update the master branch to <code>origin</code>.</p>
-<p>A minor annoyance is a submodule with code changes will appear to a git status in the <em>master</em> as an untracked file, showing the whole submodule as <em>modified</em>. I personally like this feature as it reminds me that the submodule in the <em>master</em> is not in a proper state:</p>
-<div class="highlight"><pre>-Subproject commit c74dd1e56794962d7ff7661a7f8ae84cafa96b4f
-+Subproject commit c74dd1e56794962d7ff7661a7f8ae84cafa96b4f-dirty
-</pre></div>
-
-
-<p>and therefore shouts at me for forgetting rule 1. above. It can be disabled via: <code>git status --ignore-submodules=dirty</code> but I do not recommend this. Consider it a <em>feature</em>.</p>
-<h2>Git subtree</h2>
-<p>A common suggested alternative is <a href="http://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging">git subtree</a> which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell <code>git subtree</code> creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.</p>
-<h2>Hints and tips</h2>
-<p>Some hints and tips I always have to google myself:</p>
-<h3>Remove a submodule</h3>
-<p><a href="http://stackoverflow.com/a/16162000/56711">source</a></p>
-<div class="highlight"><pre>git submodule deinit asubmodule
-git rm asubmodule
-</pre></div>
-
-
-<h2>Summary</h2>
-<ul>
-<li>Separate projects and use a <em>master</em> project to coordinate commits,</li>
-<li><em>Never</em> develop in the <em>master</em>s copy of the repository,</li>
-<li>Use shortcuts to make managing submodules easier.</li>
-</ul><p>There are <a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<h2>Example use case ...</h2>
+                <a class="readmore" href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/">read more</a>
+<p>There are <a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -298,36 +321,6 @@ The linked ...</p>
 </footer><!-- /.post-info -->                <p>So I've been playing with <a href="http://puppetlabs.com/">Puppet</a> and <a href="http://www.opscode.com/chef/">Chef</a> for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With <a href="http://www.vagrantup.com/">Vagrant</a>, testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for ...</p>
                 <a class="readmore" href="https://mindriot101.github.io/blog/2013/10/30/puppet-and-vagrant/">read more</a>
 <p>There are <a href="https://mindriot101.github.io/blog/2013/10/30/puppet-and-vagrant/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2013/09/05/git-quick/" rel="bookmark"
-                           title="Permalink to git quick">git quick</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-09-05T23:04:00+02:00">
-                Published: Thu 05 September 2013
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info -->                <p>Git quick is a simple shell command I've written for quicker one line messages. It allows committing like</p>
-<div class="highlight"><pre>g q A simple commit message
-</pre></div>
-
-
-<p>Note the lack of quotes.  Some things I've used to make it quicker:</p>
-<ul>
-<li>alias git to g in my zshrc</li>
-<li>alias q to quick ...</li></ul>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2013/09/05/git-quick/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2013/09/05/git-quick/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">

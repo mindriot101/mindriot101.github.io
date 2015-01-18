@@ -25,7 +25,83 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/">Plotting unevenly gridded contour plots</a></h1>
+                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">Separate IPython profiles for interactive use</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2015-01-18T20:33:57+00:00">
+                Published: Sun 18 January 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+        </address>
+<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
+<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a> <a href="https://mindriot101.github.io/tag/ipython.html">ipython</a> </p>
+</footer><!-- /.post-info --><p>I used to have two simple shell aliases for <code>IPython</code>:</p>
+<div class="highlight"><pre><span class="nb">alias </span><span class="nv">ipy</span><span class="o">=</span>ipython
+<span class="nb">alias </span><span class="nv">pylab</span><span class="o">=</span><span class="s1">&#39;ipython --pylab&#39;</span>
+</pre></div>
+
+
+<p>These were separated for a couple of reasons:</p>
+<p>The <code>pylab</code> mode of <code>IPython</code> was deprecated, for good reason. It "infects" the global namespace with all <code>matplotlib</code> and <code>numpy</code> functions. It breaks two entries in the famous "Zen of Python":</p>
+<ul>
+<li>Explicit is better than implicit.</li>
+<li>Namespaces are one honking great idea -- let's do more of those!</li>
+</ul>
+<p>From a practicality perspective it also is much slower to start up. This is annoying when I quickly want to plot something.</p>
+<p>I then remembered the <code>IPython</code> profile functionality. A separate profile, and hence separate configuration and startup procedure for each profile. I customized my configuration for each profile in basically the same way: I turned off the startup banner - I've seen it enough times now! - and configured the log format. In the "pylab" form I set <code>c.InteractiveShellApp.pylab = 'auto'</code> to enable the interactive plotting, with a backend chosen for me, and set <code>c.TerminalInteractiveShell.autocall = 2</code>. This last one may be a bit controversial, so I'll explain a bit further.</p>
+<h3><code>autocall</code></h3>
+<p>This setting (sometimes) removes the need for parentheses when running python code. For example:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">stuff</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">stuff</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>   <span class="c"># Normal python</span>
+<span class="n">stuff</span> <span class="mi">5</span>    <span class="c"># Valid with autocall = 1 or 2, see below</span>
+
+<span class="k">def</span> <span class="nf">more_stuff</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Hi there&#39;</span><span class="p">)</span>
+
+<span class="n">more_stuff</span><span class="p">()</span>   <span class="c"># Normal python</span>
+<span class="n">more_stuff</span>     <span class="c"># Exception in all but autocall = 2</span>
+</pre></div>
+
+
+<p>This setting has three options: <code>0</code> to disable the feature, <code>1</code> to enable it in a "smart" sense, and 2 where it's enabled always. The main difference between <code>1</code> and <code>2</code> is when a "bare" function is called, e.g. <code>more_stuff</code> in the example above, without parentheses. With <code>autocall = 2</code> the function is <em>called</em> rather than merely returned.</p>
+<h2>Starting up with <code>seaborn</code></h2>
+<p>I am a fan of the <a href="http://stanford.edu/~mwaskom/software/seaborn/">seaborn</a> visualisation package, for the styles and extra features. In the <code>pylab</code> profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py">in this file</a>. I'll explain it here.</p>
+<p>The code:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Loading seaborn...&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Cannot load seaborn&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I start by importing <code>print_function</code> from <code>__future__</code> to ensure python 2/3 compatibility. Next in a <code>try/except</code> block I try importing <code>seaborn</code>, under the <code>sns</code> prefix which I'm accustomed to. Should an import error occur (such as I have not got the package installed in the current <code>conda</code> environment) I tell the user. The print functions are called such with <code>... end='')</code> to ensure the status message is all on one line, purely for aesthetics.</p>
+<h2>Current configuration</h2>
+<p>My current configuration can be read for</p>
+<ul>
+<li>"Normal" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py</a></li>
+<li>"Pylab" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py</a></li>
+</ul><p>There are <a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/" rel="bookmark"
+                           title="Permalink to Plotting unevenly gridded contour plots">Plotting unevenly gridded contour plots</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2011-06-14T15:16:27+02:00">
                 Published: Tue 14 June 2011
@@ -36,30 +112,15 @@
         </address>
 <p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
 <p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a> </p>
-</footer><!-- /.post-info --><p>Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour plots require evenly spaced x and y points with z points to match. This is until I found a way</p>
-<p>This method is taken from example 2here, and is the way I do it now.</p>
-<p>Firstly generate an evenly spaced grid of your x and y data. The simplest way to do this is for data x and y:</p>
-<div class="highlight"><pre><span class="n">xi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">yi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
-
-<p>The function that does the magic work is matplotlib.mlab.griddata and is based on Matlabs griddata function. It takes 5 parameters:</p>
-<p>the raw x and y values
-the set of colour data (z)
-the evenly spaced x and y values (xi and yi)</p>
-<div class="highlight"><pre><span class="n">zi</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">)</span>
-</pre></div>
-
-
-<p>This can now be used with plotting functions like contourf, eg.</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">zi</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
-</pre></div><p>There are <a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/#disqus_thread">comments</a>.</p>                </article>
+</footer><!-- /.post-info -->                <p>Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour ...</p>
+                <a class="readmore" href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/">read more</a>
+<p>There are <a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 1
 </p>
-            </aside><!-- /#featured -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
