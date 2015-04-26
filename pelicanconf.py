@@ -31,12 +31,12 @@ THEME = 'themes/notmyidea'
 
 # Blogroll
 LINKS = (('CV', 'http://mindriot101.github.io/cv/'),
-         ('OSRC', 'https://osrc.dfm.io/mindriot101/'),
+        ('Work', 'http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/')
          )
 
 # Social widget
-SOCIAL = (('@srwalker101', 'https://twitter.com/srwalker101'),
-          ('mindriot101', 'https://github.com/mindriot101'),)
+SOCIAL = (('twitter', 'https://twitter.com/srwalker101'),
+          ('github', 'https://github.com/mindriot101'),)
 
 DEFAULT_PAGINATION = 10
 
