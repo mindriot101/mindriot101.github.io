@@ -1,214 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+>
 <head>
-        <meta charset="utf-8" />
-        <title>circularspace - Simon Walker</title>
-        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
-        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Atom Feed" />
+    <title>Articles by Simon Walker - circularspace</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+
+
+
+        <meta name="author" content="Simon Walker" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="circularspace" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="circularspace"/>
+        <meta property="og:url" content="https://mindriot101.github.io"/>
+        <meta property="og:description" content="circularspace"/>
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
+    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
+              title="circularspace ATOM Feed"/>
+
 </head>
+<body>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="https://mindriot101.github.io/">circularspace </a></h1>
-                <nav><ul>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://mindriot101.github.io/" class="navbar-brand">
+circularspace            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
                     <li><a href="/archives.html">all</a></li>
-                    <li><a href="https://mindriot101.github.io/category/gaming.html">gaming</a></li>
-                    <li><a href="https://mindriot101.github.io/category/life.html">life</a></li>
-                    <li><a href="https://mindriot101.github.io/category/science.html">science</a></li>
-                    <li><a href="https://mindriot101.github.io/category/tech.html">tech</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+                        <li >
+                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
+                        </li>
+                        <li >
+                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
+                        </li>
+                        <li >
+                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
+                        </li>
+                        <li >
+                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9">
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">Separate IPython profiles for interactive use</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2015-01-18T20:33:57+00:00">
-                Published: Sun 18 January 2015
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a> <a href="https://mindriot101.github.io/tag/ipython.html">ipython</a> </p>
-</footer><!-- /.post-info --><p>I used to have two simple shell aliases for <code>IPython</code>:</p>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">Separate IPython profiles for interactive use</a></h2>
+                <div class="summary"><p>I used to have two simple shell aliases for <code>IPython</code>:</p>
 <div class="highlight"><pre><span class="nb">alias </span><span class="nv">ipy</span><span class="o">=</span>ipython
 <span class="nb">alias </span><span class="nv">pylab</span><span class="o">=</span><span class="s1">&#39;ipython --pylab&#39;</span>
 </pre></div>
 
 
 <p>These were separated for a couple of reasons:</p>
-<p>The <code>pylab</code> mode of <code>IPython</code> was deprecated, for good reason. It "infects" the global namespace with all <code>matplotlib</code> and <code>numpy</code> functions. It breaks two entries in the famous "Zen of Python":</p>
-<ul>
-<li>Explicit is better than implicit.</li>
-<li>Namespaces are one honking great idea -- let's do more of those!</li>
-</ul>
-<p>From a practicality perspective it also is much slower to start up. This is annoying when I quickly want to plot something.</p>
-<p>I then remembered the <code>IPython</code> profile functionality. A separate profile, and hence separate configuration and startup procedure for each profile. I customized my configuration for each profile in basically the same way: I turned off the startup banner - I've seen it enough times now! - and configured the log format. In the "pylab" form I set <code>c.InteractiveShellApp.pylab = 'auto'</code> to enable the interactive plotting, with a backend chosen for me, and set <code>c.TerminalInteractiveShell.autocall = 2</code>. This last one may be a bit controversial, so I'll explain a bit further.</p>
-<h3><code>autocall</code></h3>
-<p>This setting (sometimes) removes the need for parentheses when running python code. For example:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">stuff</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">value</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
-
-<span class="n">stuff</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>   <span class="c"># Normal python</span>
-<span class="n">stuff</span> <span class="mi">5</span>    <span class="c"># Valid with autocall = 1 or 2, see below</span>
-
-<span class="k">def</span> <span class="nf">more_stuff</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Hi there&#39;</span><span class="p">)</span>
-
-<span class="n">more_stuff</span><span class="p">()</span>   <span class="c"># Normal python</span>
-<span class="n">more_stuff</span>     <span class="c"># Exception in all but autocall = 2</span>
-</pre></div>
-
-
-<p>This setting has three options: <code>0</code> to disable the feature, <code>1</code> to enable it in a "smart" sense, and 2 where it's enabled always. The main difference between <code>1</code> and <code>2</code> is when a "bare" function is called, e.g. <code>more_stuff</code> in the example above, without parentheses. With <code>autocall = 2</code> the function is <em>called</em> rather than merely returned.</p>
-<h2>Starting up with <code>seaborn</code></h2>
-<p>I am a fan of the <a href="http://stanford.edu/~mwaskom/software/seaborn/">seaborn</a> visualisation package, for the styles and extra features. In the <code>pylab</code> profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py">in this file</a>. I'll explain it here.</p>
-<p>The code:</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Loading seaborn...&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Cannot load seaborn&#39;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
-</pre></div>
-
-
-<p>I start by importing <code>print_function</code> from <code>__future__</code> to ensure python 2/3 compatibility. Next in a <code>try/except</code> block I try importing <code>seaborn</code>, under the <code>sns</code> prefix which I'm accustomed to. Should an import error occur (such as I have not got the package installed in the current <code>conda</code> environment) I tell the user. The print functions are called such with <code>... end='')</code> to ensure the status message is all on one line, purely for aesthetics.</p>
-<h2>Current configuration</h2>
-<p>My current configuration can be read for</p>
-<ul>
-<li>"Normal" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py</a></li>
-<li>"Pylab" mode: <a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py">https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py</a></li>
-</ul><p>There are <a href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/" rel="bookmark"
-                           title="Permalink to git submodules are not so bad">git submodules are not so bad</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-12-28T23:25:51+00:00">
-                Published: Sun 28 December 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info -->                <p>I see a lot of complaints about git submodules, <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">people suggesting alternatives</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">complaints about merging</a> or other bits and pieces.</p>
+<p>The <code>pylab</code> mode of <code>IPython</code> was deprecated, for good reason. It "infects" the global namespace with all <code>matplotlib</code> and <code>numpy</code> functions. It breaks two entries ...</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2015/01/18/separate-ipython-profiles-for-interactive-use/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/">git submodules are not so bad</a></h2>
+                <div class="summary"><p>I see a lot of complaints about git submodules, <a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/">people suggesting alternatives</a>, <a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/">complaints about merging</a> or other bits and pieces.</p>
 <p>Git submodules <em>have their place</em>. Yes they are not ideal for all situations but they are ideal for the typical use case I'm about to outline.</p>
 <h2>Example use case ...</h2>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/08/27/git-rebase-skip-is-fine/" rel="bookmark"
-                           title="Permalink to git rebase --skip is fine">git rebase --skip is fine</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-08-27T22:53:48+01:00">
-                Published: Wed 27 August 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">Tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/git.html">git</a> </p>
-</footer><!-- /.post-info -->                <p>So <code>git rebase</code> is a powerful tool, able to change history itself. With this power however requires great care to avoid needing to <code>git push --force</code>.</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/08/27/git-rebase-skip-is-fine/">git rebase --skip is fine</a></h2>
+                <div class="summary"><p>So <code>git rebase</code> is a powerful tool, able to change history itself. With this power however requires great care to avoid needing to <code>git push --force</code>.</p>
 <p>Git rebase comes with very user friendly ways to cancel out of a rebase if something goes wrong or if you become confused:</p>
 <div class="highlight"><pre>git ...</pre></div>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/08/27/git-rebase-skip-is-fine/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/08/27/git-rebase-skip-is-fine/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/08/23/interpolation-in-python/" rel="bookmark"
-                           title="Permalink to Interpolation in Python">Interpolation in Python</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-08-23T10:55:26+01:00">
-                Published: Sat 23 August 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> <a href="https://mindriot101.github.io/tag/scipy.html">scipy</a> </p>
-</footer><!-- /.post-info -->                <p>For interpolation in python, scipy includes the interpolateackage containing (amongst other things) interp1d for simple interpolation.</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/08/27/git-rebase-skip-is-fine/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/08/23/interpolation-in-python/">Interpolation in Python</a></h2>
+                <div class="summary"><p>For interpolation in python, scipy includes the interpolateackage containing (amongst other things) interp1d for simple interpolation.</p>
 <p>The function does not however perform extrapolation; if the interpolator is asked for a value outside the original range it will raise an exception. To get around this, the interpolator contains a <code>.x</code> parameter ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/08/23/interpolation-in-python/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/08/23/interpolation-in-python/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/06/26/tiling-png-images-in-linux/" rel="bookmark"
-                           title="Permalink to Tiling png images in linux">Tiling png images in linux</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-06-26T16:25:31+01:00">
-                Published: Thu 26 June 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">Tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/linux.html">linux</a> </p>
-</footer><!-- /.post-info -->                <p>For printing multiple images, it's usually handy to tile images so that more than one page fits on a piece of paper at once. This can be achieved with ImageMagick and the <code>montage</code> command.</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/08/23/interpolation-in-python/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/06/26/tiling-png-images-in-linux/">Tiling png images in linux</a></h2>
+                <div class="summary"><p>For printing multiple images, it's usually handy to tile images so that more than one page fits on a piece of paper at once. This can be achieved with ImageMagick and the <code>montage</code> command.</p>
 <h3>Building a tiled image</h3>
 <p>For a 2x2 image an example command is:</p>
 <div class="highlight"><pre>montage -tile 2x2 ...</pre></div>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/06/26/tiling-png-images-in-linux/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/06/26/tiling-png-images-in-linux/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/06/16/failed-loading-plugin-copr/" rel="bookmark"
-                           title="Permalink to Failed loading plugin: copr">Failed loading plugin: copr</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-06-16T16:09:35+01:00">
-                Published: Mon 16 June 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">Tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/linux-fedora.html">linux fedora</a> </p>
-</footer><!-- /.post-info -->                <p>If you're:</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/06/26/tiling-png-images-in-linux/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/06/16/failed-loading-plugin-copr/">Failed loading plugin: copr</a></h2>
+                <div class="summary"><p>If you're:</p>
 <ul>
 <li>running Fedora</li>
 <li>using dnf as a package manager</li>
@@ -221,52 +140,22 @@
 
 <p>I have not tested if this will work installing with pip yet.
 The linked ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/06/16/failed-loading-plugin-copr/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/06/16/failed-loading-plugin-copr/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/" rel="bookmark"
-                           title="Permalink to Using a Makefile for science!">Using a Makefile for science!</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-04-23T10:27:49+01:00">
-                Published: Wed 23 April 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">Tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/make.html">make</a> <a href="https://mindriot101.github.io/tag/code.html">code</a> <a href="https://mindriot101.github.io/tag/science.html">science</a> </p>
-</footer><!-- /.post-info -->                <p>The declarative style of a Makefile (or substitute your own language-of-choice's implementation of *akefiles) lends itself well to scientific processes, where a reproducible method is crucial. I recently found this out when analysing some data, which consisted of the following:</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/06/16/failed-loading-plugin-copr/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/">Using a Makefile for science!</a></h2>
+                <div class="summary"><p>The declarative style of a Makefile (or substitute your own language-of-choice's implementation of *akefiles) lends itself well to scientific processes, where a reproducible method is crucial. I recently found this out when analysing some data, which consisted of the following:</p>
 <ol>
 <li>compile the source code of the programs I was ...</li></ol>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/" rel="bookmark"
-                           title="Permalink to IPython version 2.0">IPython version 2.0</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-04-02T16:32:38+01:00">
-                Published: Wed 02 April 2014
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->                <p>So IPython has updated to version 2.0. The full changelog <a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html">can be found here</a> and to summarise the key points:</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/04/23/using-a-makefile-for-science/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/">IPython version 2.0</a></h2>
+                <div class="summary"><p>So IPython has updated to version 2.0. The full changelog <a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html">can be found here</a> and to summarise the key points:</p>
 <ul>
 <li>interactive widgets for the notebook</li>
 <li>directory navigation in the notebook dashboard</li>
@@ -275,104 +164,315 @@ The linked ...</p>
 <li>a security model for notebooks</li>
 </ul>
 <p>I ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/">Testing PyMC3</a></h2>
+                <div class="summary"><p>I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be ...</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/">Dickwraith stories</a></h2>
+                <div class="summary"><p>So I've done some very dickish things as a darkwraith in Dark Souls, mostly involving firestorm. I'm certain my stories are not the <em>worst</em> but they're probably some of the worst things <em>I've</em> done! I'm leaving this here as a confessional of sorts, but also ...</p>
+                    <a class="btn btn-default btn-xs" href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/">more ...</a>
+                </div>
+            </article>
+            <hr/>
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/" rel="bookmark"
-                           title="Permalink to Testing PyMC3">Testing PyMC3</a></h1>
-                </header>
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a
+                            href="https://mindriot101.github.io/author/simon-walker.html">1</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker2.html">2</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker3.html">3</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker4.html">4</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker5.html">5</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker6.html">6</a></li>
+                    <li class=""><a
+                            href="https://mindriot101.github.io/author/simon-walker7.html">7</a></li>
+                <li class="next"><a
+                        href="https://mindriot101.github.io/author/simon-walker2.html">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2014-03-08T13:14:42+00:00">
-                Published: Sat 08 March 2014
-        </abbr>
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+              </ul>
+            </li>
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/tech.html">tech</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->                <p>I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/" rel="bookmark"
-                           title="Permalink to Dickwraith stories">Dickwraith stories</a></h1>
-                </header>
 
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-12-09T23:23:34+00:00">
-                Published: Mon 09 December 2013
-        </abbr>
+            <li class="list-group-item"><a href="https://mindriot101.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/travel.html">
+                            travel
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/astronomy.html">
+                            astronomy
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/linux.html">
+                            linux
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/osx.html">
+                            osx
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/python.html">
+                            python
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://mindriot101.github.io/tag/git.html">
+                            git
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://mindriot101.github.io/tag/c.html">
+                            c
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://mindriot101.github.io/tag/vim.html">
+                            vim
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://mindriot101.github.io/tag/ruby.html">
+                            ruby
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/ipython.html">
+                            ipython
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/visualisation.html">
+                            visualisation
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/science.html">
+                            science
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/latex.html">
+                            latex
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/dark-souls.html">
+                            dark souls
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/foreman.html">
+                            foreman
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/devops.html">
+                            devops
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/vagrant.html">
+                            vagrant
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/blog.html">
+                            blog
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/homebrew.html">
+                            homebrew
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/make.html">
+                            make
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/gamedev.html">
+                            gamedev
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/synergy.html">
+                            synergy
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/linux-fedora.html">
+                            linux fedora
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/itpp.html">
+                            itpp
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/code.html">
+                            code
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/productivity.html">
+                            productivity
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/nginx.html">
+                            nginx
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/firefox.html">
+                            firefox
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/android.html">
+                            android
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/nodejs.html">
+                            nodejs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/ssh.html">
+                            ssh
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/guard.html">
+                            guard
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/webdev.html">
+                            webdev
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/code-design.html">
+                            code design
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/puppet.html">
+                            puppet
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/scipy.html">
+                            scipy
+                        </a>
+                    </li>
+                </ul>
+            </li>
+    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+      <ul class="list-group" id="links">
+        <li class="list-group-item">
+            <a href="http://mindriot101.github.io/cv/" target="_blank">
+                CV
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
+                Work
+            </a>
+        </li>
+      </ul>
+    </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container-fluid">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Simon Walker
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
-        </address>
-<p>In <a href="https://mindriot101.github.io/category/gaming.html">gaming</a>. </p>
-<p>tags: <a href="https://mindriot101.github.io/tag/dark-souls.html">dark souls</a> </p>
-</footer><!-- /.post-info -->                <p>So I've done some very dickish things as a darkwraith in Dark Souls, mostly involving firestorm. I'm certain my stories are not the <em>worst</em> but they're probably some of the worst things <em>I've</em> done! I'm leaving this here as a confessional of sorts, but also ...</p>
-                <a class="readmore" href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/">read more</a>
-<p>There are <a href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 7
-        <a href="https://mindriot101.github.io/author/simon-walker2.html">&raquo;</a>
-</p>
-                </section><!-- /#content -->
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>blogroll</h2>
-                        <ul>
-                            <li><a href="http://mindriot101.github.io/cv/">CV</a></li>
-                            <li><a href="https://osrc.dfm.io/mindriot101/">OSRC</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
-                            <li><a href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
 
-                            <li><a href="https://twitter.com/srwalker101">@srwalker101</a></li>
-                            <li><a href="https://github.com/mindriot101">mindriot101</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
-
+    <!-- Disqus -->
     <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-41369282-4']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'circularspace-blog'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
     </script>
-<script type="text/javascript">
-    var disqus_shortname = 'circularspace-blog';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-41369282-4']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
 </body>
 </html>
