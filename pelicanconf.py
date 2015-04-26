@@ -27,7 +27,10 @@ ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 MENUITEMS = [('all', '/archives.html'), ]
 
 # Theming
-THEME = 'themes/notmyidea'
+THEME = 'themes/pelican-bootstrap3'
+BOOTSTRAP_THEME = 'readable'
+PYGMENTS_STYLE = 'monokai'
+BOOTSTRAP_FLUID = True
 
 # Blogroll
 LINKS = (('CV', 'http://mindriot101.github.io/cv/'),
