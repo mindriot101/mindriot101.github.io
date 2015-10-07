@@ -14,13 +14,13 @@
 
         <meta name="author" content="Simon Walker" />
         <meta name="keywords" content="python" />
-        <meta name="description" content="" />
+        <meta name="description" content="pymysql Defaults to autocommit=False connection = pymysql.connect(user=&#39;user&#39;, db=&#39;test&#39;) cursor = connection.cursor() cursor.execute(&#39;insert into test (value) values (10)&#39;) connection.close() connection = pymysql.connect(user=&#39;user&#39;, db=&#39;test&#39;) cursor = connection.cursor() cursor.execute(&#39;select value from test&#39;) # =&gt; [] To commit changes to the database, #commit() must be ..." />
 
         <meta property="og:site_name" content="circularspace" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Python database transactions"/>
         <meta property="og:url" content="https://mindriot101.github.io/blog/2015/09/19/python-database-transactions/"/>
-        <meta property="og:description" content=""/>
+        <meta property="og:description" content="pymysql Defaults to autocommit=False connection = pymysql.connect(user=&#39;user&#39;, db=&#39;test&#39;) cursor = connection.cursor() cursor.execute(&#39;insert into test (value) values (10)&#39;) connection.close() connection = pymysql.connect(user=&#39;user&#39;, db=&#39;test&#39;) cursor = connection.cursor() cursor.execute(&#39;select value from test&#39;) # =&gt; [] To commit changes to the database, #commit() must be ..."/>
         <meta property="article:published_time" content="2015-09-19" />
             <meta property="article:section" content="tech" />
             <meta property="article:tag" content="python" />
@@ -108,7 +108,79 @@ circularspace            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <script src="https://gist.github.com/mindriot101/664924f7a0e4e961aea9.js"></script>
+                <h2><code>pymysql</code></h2>
+<ul>
+<li>Defaults to <code>autocommit=False</code></li>
+</ul>
+<div class="highlight"><pre><span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+<span class="c"># =&gt; []</span>
+</pre></div>
+
+
+<p>To commit changes to the database, <code>#commit()</code> must be called:</p>
+<div class="highlight"><pre><span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+<span class="c"># Call the commit line</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+<span class="c"># =&gt; [(10, )]</span>
+</pre></div>
+
+
+<p>With a context manager on a connection, an implicit transaction is opened:</p>
+<div class="highlight"><pre><span class="k">with</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+    <span class="c"># =&gt; [(10, )]</span>
+</pre></div>
+
+
+<p>The <code>connect</code> function includes an autocommit parameter:</p>
+<div class="highlight"><pre><span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+<span class="c"># =&gt; [(10, )]</span>
+</pre></div>
+
+
+<p>Multiple cursors can see any changes made within a transaction</p>
+<div class="highlight"><pre><span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor2</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+<span class="n">cursor2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+<span class="c"># =&gt; [(10, )]</span>
+</pre></div>
+
+
+<p>Multiple connections are isolated from each other</p>
+<div class="highlight"><pre><span class="n">connection</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">connection2</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor2</span> <span class="o">=</span> <span class="n">connection2</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into test (value) values (10)&#39;</span><span class="p">)</span>
+<span class="n">cursor2</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select value from test&#39;</span><span class="p">)</span>
+<span class="c"># =&gt; []</span>
+</pre></div>
             </div>
             <!-- /.entry-content -->
     <hr/>
@@ -162,11 +234,6 @@ circularspace            </a>
             <li class="list-group-item"><a href="https://mindriot101.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
                 <ul class="list-group " id="tags">
                     <li class="list-group-item tag-1">
-                        <a href="https://mindriot101.github.io/tag/travel.html">
-                            travel
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-1">
                         <a href="https://mindriot101.github.io/tag/astronomy.html">
                             astronomy
                         </a>
@@ -186,14 +253,19 @@ circularspace            </a>
                             python
                         </a>
                     </li>
-                    <li class="list-group-item tag-2">
-                        <a href="https://mindriot101.github.io/tag/c.html">
-                            c
+                    <li class="list-group-item tag-1">
+                        <a href="https://mindriot101.github.io/tag/travel.html">
+                            travel
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="https://mindriot101.github.io/tag/git.html">
-                            git
+                        <a href="https://mindriot101.github.io/tag/vim.html">
+                            vim
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://mindriot101.github.io/tag/c.html">
+                            c
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
@@ -202,13 +274,13 @@ circularspace            </a>
                         </a>
                     </li>
                     <li class="list-group-item tag-2">
-                        <a href="https://mindriot101.github.io/tag/vim.html">
-                            vim
+                        <a href="https://mindriot101.github.io/tag/git.html">
+                            git
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
-                        <a href="https://mindriot101.github.io/tag/latex.html">
-                            latex
+                        <a href="https://mindriot101.github.io/tag/visualisation.html">
+                            visualisation
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
@@ -217,78 +289,18 @@ circularspace            </a>
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
-                        <a href="https://mindriot101.github.io/tag/ipython.html">
-                            ipython
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-3">
                         <a href="https://mindriot101.github.io/tag/science.html">
                             science
                         </a>
                     </li>
                     <li class="list-group-item tag-3">
-                        <a href="https://mindriot101.github.io/tag/visualisation.html">
-                            visualisation
+                        <a href="https://mindriot101.github.io/tag/latex.html">
+                            latex
                         </a>
                     </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/firefox.html">
-                            firefox
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/gamedev.html">
-                            gamedev
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/foreman.html">
-                            foreman
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/linux-fedora.html">
-                            linux fedora
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/code-design.html">
-                            code design
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/synergy.html">
-                            synergy
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/webdev.html">
-                            webdev
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/code.html">
-                            code
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/vagrant.html">
-                            vagrant
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/nodejs.html">
-                            nodejs
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/puppet.html">
-                            puppet
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/make.html">
-                            make
+                    <li class="list-group-item tag-3">
+                        <a href="https://mindriot101.github.io/tag/ipython.html">
+                            ipython
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -297,28 +309,18 @@ circularspace            </a>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/firefox.html">
+                            firefox
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/blog.html">
+                            blog
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
                         <a href="https://mindriot101.github.io/tag/guard.html">
                             guard
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/nginx.html">
-                            nginx
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/ssh.html">
-                            ssh
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/devops.html">
-                            devops
-                        </a>
-                    </li>
-                    <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/productivity.html">
-                            productivity
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -327,8 +329,68 @@ circularspace            </a>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/puppet.html">
+                            puppet
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/productivity.html">
+                            productivity
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/synergy.html">
+                            synergy
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/make.html">
+                            make
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/code-design.html">
+                            code design
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/vagrant.html">
+                            vagrant
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/code.html">
+                            code
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
                         <a href="https://mindriot101.github.io/tag/itpp.html">
                             itpp
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/foreman.html">
+                            foreman
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/nginx.html">
+                            nginx
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/gamedev.html">
+                            gamedev
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/devops.html">
+                            devops
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/ssh.html">
+                            ssh
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
@@ -337,8 +399,18 @@ circularspace            </a>
                         </a>
                     </li>
                     <li class="list-group-item tag-4">
-                        <a href="https://mindriot101.github.io/tag/blog.html">
-                            blog
+                        <a href="https://mindriot101.github.io/tag/linux-fedora.html">
+                            linux fedora
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/nodejs.html">
+                            nodejs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://mindriot101.github.io/tag/webdev.html">
+                            webdev
                         </a>
                     </li>
                 </ul>
