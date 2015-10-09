@@ -82,3 +82,18 @@ cursor.execute('insert into test (value) values (10)')
 cursor2.execute('select value from test')
 # => []
 ```
+
+Using a connection as a context manager starts and commits a transaction, or rolls back on error
+
+```python
+connection = pymysql.connect(user='user', db='test')
+# Implicit transaction, and automatic #commit call
+with connection as cursor:
+    cursor.execute('insert into test (value) values (10)')
+connection.close()
+
+connection = pymysql.connect(user='user', db='test')
+cursor = connection.cursor()
+cursor.execute('select value from test')
+# => [(10, )]
+```
