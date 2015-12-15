@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tech.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2015-09-19T14:47:23+01:00</updated><entry><title>Python database transactions</title><link href="https://mindriot101.github.io/blog/2015/09/19/python-database-transactions/" rel="alternate"></link><updated>2015-09-19T14:47:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2015-09-19:blog/2015/09/19/python-database-transactions/</id><summary type="html">&lt;h2&gt;&lt;code&gt;pymysql&lt;/code&gt;&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tech.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2015-12-15T13:41:39+00:00</updated><entry><title>Add timestamps to stdout</title><link href="https://mindriot101.github.io/blog/2015/12/15/add-timestamps-to-stdout/" rel="alternate"></link><updated>2015-12-15T13:41:39+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2015-12-15:blog/2015/12/15/add-timestamps-to-stdout/</id><summary type="html">&lt;p&gt;I spent some time trying to get timestamps added to C++ printing, e.g .through &lt;code&gt;cout&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I naive approach is to write a function &lt;code&gt;get_current_time()&lt;/code&gt; and put it before all printing statements e.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cout&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;get_current_time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Message&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This requires changing all logging statements. Then my googling stumbled upon &lt;a href="https://stackoverflow.com/questions/22118713/add-time-stamp-with-stdcout"&gt;this question&lt;/a&gt; which had an &lt;a href="http://stackoverflow.com/a/22119115/56711"&gt;elegant solution&lt;/a&gt; incorporating a decorator object.&lt;/p&gt;
+&lt;p&gt;Further down the page however I came upon a much nicer solution that transcends languages and programs and can be applied to running shell commands. &lt;a href="http://stackoverflow.com/a/22130756/56711"&gt;The answer I ended up stealing and adding to my .zshrc&lt;/a&gt; is as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;function&lt;/span&gt; add_timestamps&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    awk &lt;span class="s1"&gt;&amp;#39;{print &amp;quot;[&amp;quot;strftime()&amp;quot;]: &amp;quot;$0}&amp;#39;&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This can be used after a program is run e.g. &lt;code&gt;a.out | add_timestamps&lt;/code&gt; to add the current time before every line printed out by &lt;code&gt;a.out&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Even &lt;code&gt;top&lt;/code&gt; can be passed through this function, but with predictably nasty results!&lt;/p&gt;</summary></entry><entry><title>Python database transactions</title><link href="https://mindriot101.github.io/blog/2015/09/19/python-database-transactions/" rel="alternate"></link><updated>2015-09-19T14:47:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2015-09-19:blog/2015/09/19/python-database-transactions/</id><summary type="html">&lt;h2&gt;&lt;code&gt;pymysql&lt;/code&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Defaults to &lt;code&gt;autocommit=False&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
