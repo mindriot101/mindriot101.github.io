@@ -21,5 +21,4 @@ DELETE_OUTPUT_DIRECTORY = True
 
 # Following items are often useful when publishing
 
-DISQUS_SITENAME = "circularspace-blog"
 GOOGLE_ANALYTICS = "UA-41369282-4"
