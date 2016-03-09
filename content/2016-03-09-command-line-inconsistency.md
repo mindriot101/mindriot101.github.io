@@ -1,6 +1,7 @@
 title: Command line inconsistency
 date: Wed  9 Mar 2016 15:20:14 GMT
-category: linux tech
+category: tech
+tags: linux
 
 ## RTFM!
 
