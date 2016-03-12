@@ -18,7 +18,3 @@ CATEGORY_FEED_ATOM = 'feeds/%s.xml'
 TAG_FEED_ATOM = 'feeds/tag_%s.xml'
 
 DELETE_OUTPUT_DIRECTORY = True
-
-# Following items are often useful when publishing
-
-GOOGLE_ANALYTICS = "UA-41369282-4"
