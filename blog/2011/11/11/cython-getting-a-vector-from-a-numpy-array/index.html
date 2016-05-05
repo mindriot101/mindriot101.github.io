@@ -9,7 +9,7 @@
 
 
 
-<link rel="canonical" href="https://blog.simonrw.com/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/">
+<link rel="canonical" href="https://mindriot101.github.io/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/">
 
         <meta name="author" content="Simon Walker" />
         <meta name="keywords" content="python" />
@@ -18,7 +18,7 @@
         <meta property="og:site_name" content="circularspace" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Cython: getting a vector from a numpy array"/>
-        <meta property="og:url" content="https://blog.simonrw.com/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/"/>
+        <meta property="og:url" content="https://mindriot101.github.io/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/"/>
         <meta property="og:description" content="This is a problem that has been challenging me for a while: my c++ code uses vectors everywhere so how can I wrap these classes and functions into python easily? Ive tried many many times with e.g. swig or boost::python to no avail. That is until today… Thanks ..."/>
         <meta property="article:published_time" content="2011-11-11" />
             <meta property="article:section" content="tech" />
@@ -27,18 +27,18 @@
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://blog.simonrw.com/theme/css/bootstrap.readable.min.css" type="text/css"/>
-    <link href="https://blog.simonrw.com/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
+    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="https://blog.simonrw.com/theme/css/pygments/monokai.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://blog.simonrw.com/theme/css/style.css" type="text/css"/>
+    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
 
-        <link href="https://blog.simonrw.com/feeds/all.xml" type="application/atom+xml" rel="alternate"
+        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
               title="circularspace ATOM Feed"/>
 
 
 
-        <link href="https://blog.simonrw.com/feeds/tech.xml" type="application/atom+xml" rel="alternate"
+        <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate"
               title="circularspace tech ATOM Feed"/>
 
 </head>
@@ -53,27 +53,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="https://blog.simonrw.com/" class="navbar-brand">
+            <a href="https://mindriot101.github.io/" class="navbar-brand">
 circularspace            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                     <li><a href="/archives.html">all</a></li>
                         <li >
-                            <a href="https://blog.simonrw.com/category/gaming.html">Gaming</a>
+                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
                         </li>
                         <li >
-                            <a href="https://blog.simonrw.com/category/life.html">Life</a>
+                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
                         </li>
                         <li >
-                            <a href="https://blog.simonrw.com/category/science.html">Science</a>
+                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
                         </li>
                         <li class="active">
-                            <a href="https://blog.simonrw.com/category/tech.html">Tech</a>
+                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://blog.simonrw.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -88,7 +88,7 @@ circularspace            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="https://blog.simonrw.com/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/"
+                    <a href="https://mindriot101.github.io/blog/2011/11/11/cython-getting-a-vector-from-a-numpy-array/"
                        rel="bookmark"
                        title="Permalink to Cython: getting a vector from a numpy array">
                         Cython: getting a vector from a numpy array
@@ -109,7 +109,7 @@ circularspace            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="https://blog.simonrw.com/tag/python.html">python</a>
+	<a href="https://mindriot101.github.io/tag/python.html">python</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
@@ -192,13 +192,13 @@ Once I get more comfortable with the syntax I might try and write a templated ve
       </div>
    </div>
 </footer>
-<script src="https://blog.simonrw.com/theme/js/jquery.min.js"></script>
+<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://blog.simonrw.com/theme/js/bootstrap.min.js"></script>
+<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://blog.simonrw.com/theme/js/respond.min.js"></script>
+<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
 
 
 </body>
