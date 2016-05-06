@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Authors - circularspace</title>
+    <title>Numpy functions may not do what you think - circularspace</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,15 +9,22 @@
 
 
 
+<link rel="canonical" href="https://blog.simonrw.com/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/">
 
         <meta name="author" content="Simon Walker" />
+        <meta name="keywords" content="python,numpy" />
+        <meta name="description" content="Numpy has the ability to mask arrays and ignore their values for certain computations, called &#34;masked arrays&#34;. They contain a .mask attribute which is a boolean array, True where the value should be masked and False otherwise. Numpy also comes with a suite of functions which can handle this masking ..." />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="circularspace" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="circularspace"/>
-        <meta property="og:url" content="https://blog.simonrw.com"/>
-        <meta property="og:description" content="circularspace"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Numpy functions may not do what you think"/>
+        <meta property="og:url" content="https://blog.simonrw.com/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/"/>
+        <meta property="og:description" content="Numpy has the ability to mask arrays and ignore their values for certain computations, called &#34;masked arrays&#34;. They contain a .mask attribute which is a boolean array, True where the value should be masked and False otherwise. Numpy also comes with a suite of functions which can handle this masking ..."/>
+        <meta property="article:published_time" content="2016-05-06" />
+            <meta property="article:section" content="tech" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="numpy" />
+            <meta property="article:author" content="Simon Walker" />
 
 
     <!-- Bootstrap -->
@@ -32,6 +39,8 @@
 
 
 
+        <link href="https://blog.simonrw.com/feeds/tech.xml" type="application/atom+xml" rel="alternate"
+              title="circularspace tech ATOM Feed"/>
 
 </head>
 <body>
@@ -60,7 +69,7 @@ circularspace            </a>
                         <li >
                             <a href="https://blog.simonrw.com/category/science.html">Science</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="https://blog.simonrw.com/category/tech.html">Tech</a>
                         </li>
             </ul>
@@ -76,8 +85,51 @@ circularspace            </a>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9">
-    <h1>Authors on circularspace</h1>
-        <li><a href="https://blog.simonrw.com/author/simon-walker.html">Simon Walker</a> (66)</li>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://blog.simonrw.com/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/"
+                       rel="bookmark"
+                       title="Permalink to Numpy functions may not do what you think">
+                        Numpy functions may not do what you think
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-05-06T09:42:56+01:00"> Fri 06 May 2016</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://blog.simonrw.com/tag/python.html">python</a>
+        /
+	<a href="https://blog.simonrw.com/tag/numpy.html">numpy</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>Numpy has the ability to mask arrays and ignore their values for certain computations, called "masked arrays". They contain a <code>.mask</code> attribute which is a boolean array, <code>True</code> where the value should be masked and <code>False</code> otherwise.</p>
+<p>Numpy also comes with a suite of functions which can handle this masking naturally. Typically for a function in the <code>np.</code> namespace, there is a masked-array-aware version under the <code>np.ma.</code> namespace:</p>
+<div class="highlight"><pre>np.median  =&gt; np.ma.median
+np.average =&gt; np.ma.average
+</pre></div>
+
+
+<p>A crucial thing to remember however is that <strong>standard <code>numpy</code> functions ignore the mask for a masked array</strong>.</p>
+<p>This caught me out when sigma clipping values using <code>astropy.stats.sigma_clip</code> - which masks out values outside the sigma range. To ignore the sigma clipped values I should have used <code>np.ma.median</code> instead of <code>np.median</code>.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
