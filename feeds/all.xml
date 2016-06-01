@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://blog.simonrw.com/" rel="alternate"></link><link href="https://blog.simonrw.com/feeds/all.xml" rel="self"></link><id>https://blog.simonrw.com/</id><updated>2016-05-06T09:42:56+01:00</updated><entry><title>Numpy functions may not do what you think</title><link href="https://blog.simonrw.com/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/" rel="alternate"></link><updated>2016-05-06T09:42:56+01:00</updated><author><name>Simon Walker</name></author><id>tag:blog.simonrw.com,2016-05-06:blog/2016/05/06/numpy-functions-may-not-do-what-you-think/</id><summary type="html">&lt;p&gt;Numpy has the ability to mask arrays and ignore their values for certain computations, called "masked arrays". They contain a &lt;code&gt;.mask&lt;/code&gt; attribute which is a boolean array, &lt;code&gt;True&lt;/code&gt; where the value should be masked and &lt;code&gt;False&lt;/code&gt; otherwise.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://blog.simonrw.com/" rel="alternate"></link><link href="https://blog.simonrw.com/feeds/all.xml" rel="self"></link><id>https://blog.simonrw.com/</id><updated>2016-06-01T08:40:18+01:00</updated><entry><title>Fighting the compiler</title><link href="https://blog.simonrw.com/blog/2016/06/01/fighting-the-compiler/" rel="alternate"></link><updated>2016-06-01T08:40:18+01:00</updated><author><name>Simon Walker</name></author><id>tag:blog.simonrw.com,2016-06-01:blog/2016/06/01/fighting-the-compiler/</id><summary type="html">&lt;p&gt;I'm learning &lt;a href="https://www.rust-lang.org/"&gt;Rust&lt;/a&gt; at the moment, which I'm finding quite an interesting
+challenge.  I agree with a lot of the Rust principles and find it extremely
+comforting that the compiler has got my back, but it's bringing me back to my
+early times learning C and "fighting with the compiler".&lt;/p&gt;
+&lt;p&gt;How many hours did I spend adding "&amp;amp;" and "*" to variables to pass into
+functions before I really understood what it meant for a function to take a
+pointer? Simple rules like:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;if a function takes a pointer argument and expects a "simple" data type,
+    e.g.  integer then pass the address of a variable with "&amp;amp;"&lt;/li&gt;
+&lt;li&gt;if a function expects an array, then the array variable is equivalent to a
+    pointer already so just pass the array variable&lt;/li&gt;
+&lt;li&gt;if a function expects a &lt;em&gt;double&lt;/em&gt; pointer "**" then it expects to change
+    the value of a normal pointer, so treat the pointer itself like a single
+    variable in point 1 above.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;During one of his talks, Steve Klabnik stated that he no longer thinks of
+"fighting the compiler", but instead considers it like a helpful friend passing
+warnings about inadvisable behaviour.&lt;/p&gt;
+&lt;p&gt;I can't say I've reached that stage yet.  It very much feels to me like when I
+was learning C again.  Quite nice in a way, reminding me of my roots but on the
+other hand I find it very un-reassuring.  The key is that I don't understand
+&lt;em&gt;why&lt;/em&gt; the compiler is complaining - I haven't taken the language rules to heart
+yet.  I've read the excellent &lt;a href="https://doc.rust-lang.org/book/"&gt;rust book&lt;/a&gt; in its entirity, but this
+does not mean I &lt;em&gt;know&lt;/em&gt; the rules.  I know that with time it will come, and the
+more I use the language the easier it will be. &lt;/p&gt;
+&lt;p&gt;I have two learning projects on the go at the moment.  The first is an attempt
+to wrap a &lt;a href="https://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html"&gt;C astronomy library&lt;/a&gt; enabling access to the FITS data
+format, and hopefully allowing me and others in the astronomy community to
+start using Rust.  The second is a small remote API fetcher, with the idea to
+run on my raspberry pi with a temperature sensor, and compare the predictions
+made by weather models to the measured temperature.&lt;/p&gt;
+&lt;p&gt;My FITS library is &lt;a href="https://crates.io/crates/fitsio"&gt;up on crates.io&lt;/a&gt;, and the API fetcher is on
+&lt;a href="https://github.com/mindriot101/met-office-tester"&gt;github&lt;/a&gt;, comments are welcome!&lt;/p&gt;
+&lt;p&gt;I look forward to productive times with Rust.  As a Python user with a
+background in C/C++, I like the way Rust straddles the two - the memory safety
+of Python but without a garbage collector, and the close-to-the-metal speed and
+efficiency of C/C++.  I've been looking for a compiled language with RAII that
+isn't C++ for ages.&lt;/p&gt;</summary><category term="rust"></category></entry><entry><title>Numpy functions may not do what you think</title><link href="https://blog.simonrw.com/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/" rel="alternate"></link><updated>2016-05-06T09:42:56+01:00</updated><author><name>Simon Walker</name></author><id>tag:blog.simonrw.com,2016-05-06:blog/2016/05/06/numpy-functions-may-not-do-what-you-think/</id><summary type="html">&lt;p&gt;Numpy has the ability to mask arrays and ignore their values for certain computations, called "masked arrays". They contain a &lt;code&gt;.mask&lt;/code&gt; attribute which is a boolean array, &lt;code&gt;True&lt;/code&gt; where the value should be masked and &lt;code&gt;False&lt;/code&gt; otherwise.&lt;/p&gt;
 &lt;p&gt;Numpy also comes with a suite of functions which can handle this masking naturally. Typically for a function in the &lt;code&gt;np.&lt;/code&gt; namespace, there is a masked-array-aware version under the &lt;code&gt;np.ma.&lt;/code&gt; namespace:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;np.median  =&amp;gt; np.ma.median
 np.average =&amp;gt; np.ma.average

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Fighting the compiler - circularspace</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="https://blog.simonrw.com/blog/2016/06/01/fighting-the-compiler/">
+
+        <meta name="author" content="Simon Walker" />
+        <meta name="keywords" content="rust" />
+        <meta name="description" content="I&#39;m learning Rust at the moment, which I&#39;m finding quite an interesting challenge. I agree with a lot of the Rust principles and find it extremely comforting that the compiler has got my back, but it&#39;s bringing me back to my early times learning C and &#34;fighting ..." />
+
+        <meta property="og:site_name" content="circularspace" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Fighting the compiler"/>
+        <meta property="og:url" content="https://blog.simonrw.com/blog/2016/06/01/fighting-the-compiler/"/>
+        <meta property="og:description" content="I&#39;m learning Rust at the moment, which I&#39;m finding quite an interesting challenge. I agree with a lot of the Rust principles and find it extremely comforting that the compiler has got my back, but it&#39;s bringing me back to my early times learning C and &#34;fighting ..."/>
+        <meta property="article:published_time" content="2016-06-01" />
+            <meta property="article:section" content="tech" />
+            <meta property="article:tag" content="rust" />
+            <meta property="article:author" content="Simon Walker" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://blog.simonrw.com/theme/css/bootstrap.readable.min.css" type="text/css"/>
+    <link href="https://blog.simonrw.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://blog.simonrw.com/theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://blog.simonrw.com/theme/css/style.css" type="text/css"/>
+
+        <link href="https://blog.simonrw.com/feeds/all.xml" type="application/atom+xml" rel="alternate"
+              title="circularspace ATOM Feed"/>
+
+
+
+        <link href="https://blog.simonrw.com/feeds/tech.xml" type="application/atom+xml" rel="alternate"
+              title="circularspace tech ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://blog.simonrw.com/" class="navbar-brand">
+circularspace            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/archives.html">all</a></li>
+                        <li >
+                            <a href="https://blog.simonrw.com/category/gaming.html">Gaming</a>
+                        </li>
+                        <li >
+                            <a href="https://blog.simonrw.com/category/life.html">Life</a>
+                        </li>
+                        <li >
+                            <a href="https://blog.simonrw.com/category/science.html">Science</a>
+                        </li>
+                        <li class="active">
+                            <a href="https://blog.simonrw.com/category/tech.html">Tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://blog.simonrw.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://blog.simonrw.com/blog/2016/06/01/fighting-the-compiler/"
+                       rel="bookmark"
+                       title="Permalink to Fighting the compiler">
+                        Fighting the compiler
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-06-01T08:40:18+01:00"> Wed 01 June 2016</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://blog.simonrw.com/tag/rust.html">rust</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I'm learning <a href="https://www.rust-lang.org/">Rust</a> at the moment, which I'm finding quite an interesting
+challenge.  I agree with a lot of the Rust principles and find it extremely
+comforting that the compiler has got my back, but it's bringing me back to my
+early times learning C and "fighting with the compiler".</p>
+<p>How many hours did I spend adding "&amp;" and "*" to variables to pass into
+functions before I really understood what it meant for a function to take a
+pointer? Simple rules like:</p>
+<ol>
+<li>if a function takes a pointer argument and expects a "simple" data type,
+    e.g.  integer then pass the address of a variable with "&amp;"</li>
+<li>if a function expects an array, then the array variable is equivalent to a
+    pointer already so just pass the array variable</li>
+<li>if a function expects a <em>double</em> pointer "**" then it expects to change
+    the value of a normal pointer, so treat the pointer itself like a single
+    variable in point 1 above.</li>
+</ol>
+<p>During one of his talks, Steve Klabnik stated that he no longer thinks of
+"fighting the compiler", but instead considers it like a helpful friend passing
+warnings about inadvisable behaviour.</p>
+<p>I can't say I've reached that stage yet.  It very much feels to me like when I
+was learning C again.  Quite nice in a way, reminding me of my roots but on the
+other hand I find it very un-reassuring.  The key is that I don't understand
+<em>why</em> the compiler is complaining - I haven't taken the language rules to heart
+yet.  I've read the excellent <a href="https://doc.rust-lang.org/book/">rust book</a> in its entirity, but this
+does not mean I <em>know</em> the rules.  I know that with time it will come, and the
+more I use the language the easier it will be. </p>
+<p>I have two learning projects on the go at the moment.  The first is an attempt
+to wrap a <a href="https://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">C astronomy library</a> enabling access to the FITS data
+format, and hopefully allowing me and others in the astronomy community to
+start using Rust.  The second is a small remote API fetcher, with the idea to
+run on my raspberry pi with a temperature sensor, and compare the predictions
+made by weather models to the measured temperature.</p>
+<p>My FITS library is <a href="https://crates.io/crates/fitsio">up on crates.io</a>, and the API fetcher is on
+<a href="https://github.com/mindriot101/met-office-tester">github</a>, comments are welcome!</p>
+<p>I look forward to productive times with Rust.  As a Python user with a
+background in C/C++, I like the way Rust straddles the two - the memory safety
+of Python but without a garbage collector, and the close-to-the-metal speed and
+efficiency of C/C++.  I've been looking for a compiled language with RAII that
+isn't C++ for ages.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+              </ul>
+            </li>
+
+
+
+
+
+    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+      <ul class="list-group" id="links">
+        <li class="list-group-item">
+            <a href="http://mindriot101.github.io/cv/" target="_blank">
+                CV
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
+                Work
+            </a>
+        </li>
+      </ul>
+    </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container-fluid">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2016 Simon Walker
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://blog.simonrw.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://blog.simonrw.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://blog.simonrw.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

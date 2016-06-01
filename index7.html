@@ -77,6 +77,24 @@ circularspace            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="https://blog.simonrw.com/blog/2010/07/08/linking-on-linux/">Linking on linux</a></h2>
+                <div class="summary"><p>I've just found out what some strange linking options mean with gcc!</p>
+<p>Quite often i've seen at the linking stage</p>
+<div class="highlight"><pre>gcc object.o -o executable.out -lsomelibrary -Wl,-rpath,somepath
+</pre></div>
+
+
+<p>I've discovered that the -Wl,-rpath,somepath expands basically to</p>
+<div class="highlight"><pre>-Wl -rpath<span class="o">=</span>somepath
+</pre></div>
+
+
+<p>and this means the ...</p>
+                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/07/08/linking-on-linux/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="https://blog.simonrw.com/blog/2010/07/01/allowing-the-use-of-clang-in-qmake/">Allowing the use of clang in qmake</a></h2>
                 <div class="summary"><p>Clang is an attempt at creating a gcc replacement front end for *nix
 based systems with static code analysis and more helpful error messages
