@@ -80,6 +80,20 @@ circularspace            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="https://blog.simonrw.com/blog/2013/02/08/nested-gitignore-files/">Nested gitignore files</a></h2>
+                <div class="summary"><p>Today I found out that .gitignore files can be nested.</p>
+<p>For example the directory tree</p>
+<p>a
+a/b
+.gitignore
+a/b/.gitignore</p>
+<p>can have files in b ignored by a/b/.gitignore.</p>
+<p>This helps split the responsibility of ignoring files by topic and really helps organisation!</p>
+                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2013/02/08/nested-gitignore-files/">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="https://blog.simonrw.com/blog/2013/02/05/embedding-python-in-latex/">Embedding Python in LaTeX</a></h2>
                 <div class="summary"><p>Combining Python with LaTeX is a powerful combination. It allows for arbitrary code to be executed which either gives the results of expressions, or can be used to embed programatically certain things e.g. the paths of files or images.</p>
 <p>By downloading python.sty and including it in a usepackage ...</p>
@@ -154,18 +168,6 @@ That is until today…</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2011/04/08/tunneling-to-a-remote-machine-via-ssh/">Tunneling to a remote machine via ssh</a></h2>
-                <div class="summary"><p>Update: For the most part, I want to tunnel from the server to the local machine. This only works with the localhostname set to localhost, for example to tunnel a mysql server to the current machine port 10101:</p>
-<div class="highlight"><pre>ssh -L 10101:localhost:3306 user@remoteserver.com -N
-</pre></div>
-
-
-<p>The localhost is ...</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2011/04/08/tunneling-to-a-remote-machine-via-ssh/">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="https://blog.simonrw.com/category/tech3.html">&laquo;</a>
@@ -180,6 +182,8 @@ That is until today…</p>
                             href="https://blog.simonrw.com/category/tech4.html">4</a></li>
                     <li class=""><a
                             href="https://blog.simonrw.com/category/tech5.html">5</a></li>
+                    <li class=""><a
+                            href="https://blog.simonrw.com/category/tech6.html">6</a></li>
                 <li class="next"><a
                         href="https://blog.simonrw.com/category/tech5.html">&raquo;</a></li>
         </ul>

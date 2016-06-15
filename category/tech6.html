@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Articles by Simon Walker - circularspace</title>
+    <title>tech - circularspace</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -10,7 +10,8 @@
 
 
 
-        <meta name="author" content="Simon Walker" />
+    <meta name="author" content="Simon Walker" />
+    <meta name="keywords" content="tech" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="circularspace" />
@@ -32,6 +33,8 @@
 
 
 
+        <link href="https://blog.simonrw.com/feeds/tech.xml" type="application/atom+xml" rel="alternate"
+              title="circularspace tech ATOM Feed"/>
 
 </head>
 <body>
@@ -60,7 +63,7 @@ circularspace            </a>
                         <li >
                             <a href="https://blog.simonrw.com/category/science.html">Science</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="https://blog.simonrw.com/category/tech.html">Tech</a>
                         </li>
             </ul>
@@ -77,58 +80,6 @@ circularspace            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/">Changing the rpath on a linux binary</a></h2>
-                <div class="summary"><p><a href="http://nixos.org/patchelf.html">PatchELF</a> is a program that allows the patching of the rpath of a
-linux binary to be whatever you want, even the printing of it.</p>
-<!--more-->
-
-<p><strong>Short explanation:</strong></p>
-<p>Shared libraries are used in an operating system to allow the easy
-updating of code and patch fixing to a large group of ...</p></!--more-->
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/07/08/linking-on-linux/">Linking on linux</a></h2>
-                <div class="summary"><p>I've just found out what some strange linking options mean with gcc!</p>
-<p>Quite often i've seen at the linking stage</p>
-<div class="highlight"><pre>gcc object.o -o executable.out -lsomelibrary -Wl,-rpath,somepath
-</pre></div>
-
-
-<p>I've discovered that the -Wl,-rpath,somepath expands basically to</p>
-<div class="highlight"><pre>-Wl -rpath<span class="o">=</span>somepath
-</pre></div>
-
-
-<p>and this means the ...</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/07/08/linking-on-linux/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/07/01/allowing-the-use-of-clang-in-qmake/">Allowing the use of clang in qmake</a></h2>
-                <div class="summary"><p>Clang is an attempt at creating a gcc replacement front end for *nix
-based systems with static code analysis and more helpful error messages
-etc.</p>
-<p>To allow the use of the clang compiler, the easiest way is to create a 
-new <em>mkspec</em>, and create a Makefile with</p>
-<div class="highlight"><pre>qmake -spec linux-clang ...</pre></div>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/07/01/allowing-the-use-of-clang-in-qmake/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/06/24/adam-buxton-alone-in-the-shed/">Adam Buxton - alone in the shed</a></h2>
-                <div class="summary"><iframe width="560" height="315" src="http://www.youtube.com/embed/k0QbyaN7E1E" frameborder="0" allowfullscreen></iframe>
-
-<p>Nuff said...</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/06/24/adam-buxton-alone-in-the-shed/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
                 <h2><a href="https://blog.simonrw.com/blog/2010/06/23/turn-of-middle-click-page-loading-in-firefox/">Turn of middle click page loading in Firefox</a></h2>
                 <div class="summary"><p>In linux, the middle mouse button by default pastes the contents of the
 clipboard into something. If I had a penny for every time I've miss
@@ -139,55 +90,22 @@ middle-clicked a link and tried to open a url like "for \$file in
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/06/22/pinky-and-the-brain-tongue-twister/">Pinky and the Brain, Tongue Twister</a></h2>
-                <div class="summary"><iframe width="420" height="315" src="//www.youtube.com/embed/eIu4fP4fOHE" frameborder="0" allowfullscreen></iframe>
-
-<p>This is a pretty awesome tongue twister! Also should be known the voice
-of Brain is none other than the actor Maurice Lamarche, a voice actor
-for Futurama and other programs. He did the voice of the "big brain"! Oh
-the irony...</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/06/22/pinky-and-the-brain-tongue-twister/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/06/13/cliff-on-beer/">Cliff on beer</a></h2>
-                <div class="summary"><p><img alt="Cliff on beer" src="http://i.imgur.com/79Mzg.jpg" /></p>
-<p>So true!</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/06/13/cliff-on-beer/">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="https://blog.simonrw.com/blog/2010/06/12/bbqworld-cup/">BBQ/World cup</a></h2>
-                <div class="summary"><p>Just been to a bbq at a friends house during which we watched the first
-world cup 2010 game that we were involved in (England vs. USA). Twas
-pretty rubbish really, 1-1 end score plus a complete fumble by the
-England goalkeeper. Not exactly decisive!</p>
-<p>Anway the bbq was good ...</p>
-                    <a class="btn btn-default btn-xs" href="https://blog.simonrw.com/blog/2010/06/12/bbqworld-cup/">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
-                <li class="prev"><a href="https://blog.simonrw.com/author/simon-walker6.html">&laquo;</a>
+                <li class="prev"><a href="https://blog.simonrw.com/category/tech5.html">&laquo;</a>
                 </li>
                     <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker.html">1</a></li>
+                            href="https://blog.simonrw.com/category/tech.html">1</a></li>
                     <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker2.html">2</a></li>
+                            href="https://blog.simonrw.com/category/tech2.html">2</a></li>
                     <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker3.html">3</a></li>
+                            href="https://blog.simonrw.com/category/tech3.html">3</a></li>
                     <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker4.html">4</a></li>
+                            href="https://blog.simonrw.com/category/tech4.html">4</a></li>
                     <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker5.html">5</a></li>
-                    <li class=""><a
-                            href="https://blog.simonrw.com/author/simon-walker6.html">6</a></li>
+                            href="https://blog.simonrw.com/category/tech5.html">5</a></li>
                     <li class="active"><a
-                            href="https://blog.simonrw.com/author/simon-walker7.html">7</a></li>
+                            href="https://blog.simonrw.com/category/tech6.html">6</a></li>
                 <li class="next disabled"><a href="#">&raquo;</a></li>
         </ul>
         </div>
