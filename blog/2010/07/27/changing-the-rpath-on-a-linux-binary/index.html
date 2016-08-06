@@ -1,122 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
-<head>
-    <title>Changing the rpath on a linux binary - circularspace</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="https://npmcdn.com/hack/dist/hack.css">
+        <link type="text/css" rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <title>circularspace</title>
 
-
-
-<link rel="canonical" href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/">
-
-        <meta name="author" content="Simon Walker" />
-        <meta name="keywords" content="linux,c" />
-        <meta name="description" content="PatchELF is a program that allows the patching of the rpath of a linux binary to be whatever you want, even the printing of it. Short explanation: Shared libraries are used in an operating system to allow the easy updating of code and patch fixing to a large group of ..." />
-
-        <meta property="og:site_name" content="circularspace" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Changing the rpath on a linux binary"/>
-        <meta property="og:url" content="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/"/>
-        <meta property="og:description" content="PatchELF is a program that allows the patching of the rpath of a linux binary to be whatever you want, even the printing of it. Short explanation: Shared libraries are used in an operating system to allow the easy updating of code and patch fixing to a large group of ..."/>
-        <meta property="article:published_time" content="2010-07-27" />
-            <meta property="article:section" content="tech" />
-            <meta property="article:tag" content="linux" />
-            <meta property="article:tag" content="c" />
-            <meta property="article:author" content="Simon Walker" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
-    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
-
-        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace ATOM Feed"/>
-
-
-
-        <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace tech ATOM Feed"/>
-
-</head>
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="https://mindriot101.github.io/" class="navbar-brand">
-circularspace            </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                    <li><a href="/archives.html">all</a></li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
-                        </li>
-                        <li class="active">
-                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
+            <meta name="author" content="Simon Walker" />
+    </head>
+    <body class="hack">
+        <div class="container">
+<div id="header">
+    <h1><a href="https://mindriot101.github.io/">circularspace</a></h1>
+</div>    <section>
         <article>
-            <header class="page-header">
-                <h1>
-                    <a href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/"
-                       rel="bookmark"
-                       title="Permalink to Changing the rpath on a linux binary">
-                        Changing the rpath on a linux binary
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2010-07-27T10:15:00+02:00"> Tue 27 July 2010</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://mindriot101.github.io/tag/linux.html">linux</a>
-        /
-	<a href="https://mindriot101.github.io/tag/c.html">c</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                </div>
-                <p><a href="http://nixos.org/patchelf.html">PatchELF</a> is a program that allows the patching of the rpath of a
+            <header>
+                <h2>
+                    <a href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/" rel="bookmark"
+                       title="Permalink to Changing the rpath on a linux binary">Changing the rpath on a linux binary</a></h1>
+                </h2>
+                <p><i>2010-07-27</i></p>
+                <div class="entry-content">
+                    <p><a href="http://nixos.org/patchelf.html">PatchELF</a> is a program that allows the patching of the rpath of a
 linux binary to be whatever you want, even the printing of it.</p>
 <!--more-->
 
@@ -150,68 +55,10 @@ location (eg. for testing against a custom version of the system
 libraries).  It even allows the changing of the system default path
 interpreter.</p>
 <p>For more information see <a href="http://www.eyrie.org/~eagle/notes/rpath.html">this very informative post</a>.</p>
-            </div>
-            <!-- /.entry-content -->
+                </div>
+            </header>
         </article>
     </section>
-
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://mindriot101.github.io/cv/" target="_blank">
-                CV
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
-                Work
-            </a>
-        </li>
-      </ul>
-    </li>
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container-fluid">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2016 Simon Walker
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
-
-
-</body>
+    </body>
 </html>

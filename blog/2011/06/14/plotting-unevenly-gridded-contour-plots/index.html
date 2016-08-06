@@ -1,122 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
-<head>
-    <title>Plotting unevenly gridded contour plots - circularspace</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="https://npmcdn.com/hack/dist/hack.css">
+        <link type="text/css" rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <title>circularspace</title>
 
-
-
-<link rel="canonical" href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/">
-
-        <meta name="author" content="Simon Walker" />
-        <meta name="keywords" content="python,visualisation" />
-        <meta name="description" content="Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour ..." />
-
-        <meta property="og:site_name" content="circularspace" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Plotting unevenly gridded contour plots"/>
-        <meta property="og:url" content="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/"/>
-        <meta property="og:description" content="Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour ..."/>
-        <meta property="article:published_time" content="2011-06-14" />
-            <meta property="article:section" content="tech" />
-            <meta property="article:tag" content="python" />
-            <meta property="article:tag" content="visualisation" />
-            <meta property="article:author" content="Simon Walker" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
-    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
-
-        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace ATOM Feed"/>
-
-
-
-        <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace tech ATOM Feed"/>
-
-</head>
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="https://mindriot101.github.io/" class="navbar-brand">
-circularspace            </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                    <li><a href="/archives.html">all</a></li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
-                        </li>
-                        <li class="active">
-                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
+            <meta name="author" content="Simon Walker" />
+    </head>
+    <body class="hack">
+        <div class="container">
+<div id="header">
+    <h1><a href="https://mindriot101.github.io/">circularspace</a></h1>
+</div>    <section>
         <article>
-            <header class="page-header">
-                <h1>
-                    <a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/"
-                       rel="bookmark"
-                       title="Permalink to Plotting unevenly gridded contour plots">
-                        Plotting unevenly gridded contour plots
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2011-06-14T15:16:27+02:00"> Tue 14 June 2011</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://mindriot101.github.io/tag/python.html">python</a>
-        /
-	<a href="https://mindriot101.github.io/tag/visualisation.html">visualisation</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                </div>
-                <p>Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour plots require evenly spaced x and y points with z points to match. This is until I found a way</p>
+            <header>
+                <h2>
+                    <a href="https://mindriot101.github.io/blog/2011/06/14/plotting-unevenly-gridded-contour-plots/" rel="bookmark"
+                       title="Permalink to Plotting unevenly gridded contour plots">Plotting unevenly gridded contour plots</a></h1>
+                </h2>
+                <p><i>2011-06-14</i></p>
+                <div class="entry-content">
+                    <p>Quite often at work I have to generate colour maps of certain things, which are generally not sampled evenly in coordinate space. I am also a huge fan of Python, so I thought to myself: can I combine these things? Well until now I didnt think you could. Matplotlibs contour plots require evenly spaced x and y points with z points to match. This is until I found a way</p>
 <p>This method is taken from example 2here, and is the way I do it now.</p>
 <p>Firstly generate an evenly spaced grid of your x and y data. The simplest way to do this is for data x and y:</p>
 <div class="highlight"><pre><span class="n">xi</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
@@ -136,68 +41,10 @@ the evenly spaced x and y values (xi and yi)</p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">zi</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
 </pre></div>
-            </div>
-            <!-- /.entry-content -->
+                </div>
+            </header>
         </article>
     </section>
-
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://mindriot101.github.io/cv/" target="_blank">
-                CV
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
-                Work
-            </a>
-        </li>
-      </ul>
-    </li>
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container-fluid">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2016 Simon Walker
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
-
-
-</body>
+    </body>
 </html>

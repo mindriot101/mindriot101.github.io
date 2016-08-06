@@ -1,122 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
-<head>
-    <title>Function fitting with lmfit - circularspace</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="https://npmcdn.com/hack/dist/hack.css">
+        <link type="text/css" rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <title>circularspace</title>
 
-
-
-<link rel="canonical" href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/">
-
-        <meta name="author" content="Simon Walker" />
-        <meta name="keywords" content="science,python" />
-        <meta name="description" content="Scipy contains functions for fitting equations with Python, in its scipy.optimize module. The two main ones I&#39;ve used in the past are leastsq and curve_fit, which in itself is a convenience wrapper around leastsq. curve_fit For this operation you require three (four) things: a function to fit of ..." />
-
-        <meta property="og:site_name" content="circularspace" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Function fitting with lmfit"/>
-        <meta property="og:url" content="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/"/>
-        <meta property="og:description" content="Scipy contains functions for fitting equations with Python, in its scipy.optimize module. The two main ones I&#39;ve used in the past are leastsq and curve_fit, which in itself is a convenience wrapper around leastsq. curve_fit For this operation you require three (four) things: a function to fit of ..."/>
-        <meta property="article:published_time" content="2013-07-04" />
-            <meta property="article:section" content="tech" />
-            <meta property="article:tag" content="science" />
-            <meta property="article:tag" content="python" />
-            <meta property="article:author" content="Simon Walker" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
-    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
-
-        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace ATOM Feed"/>
-
-
-
-        <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace tech ATOM Feed"/>
-
-</head>
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="https://mindriot101.github.io/" class="navbar-brand">
-circularspace            </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                    <li><a href="/archives.html">all</a></li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
-                        </li>
-                        <li class="active">
-                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
+            <meta name="author" content="Simon Walker" />
+    </head>
+    <body class="hack">
+        <div class="container">
+<div id="header">
+    <h1><a href="https://mindriot101.github.io/">circularspace</a></h1>
+</div>    <section>
         <article>
-            <header class="page-header">
-                <h1>
-                    <a href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/"
-                       rel="bookmark"
-                       title="Permalink to Function fitting with lmfit">
-                        Function fitting with lmfit
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2013-07-04T18:49:00+02:00"> Thu 04 July 2013</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://mindriot101.github.io/tag/science.html">science</a>
-        /
-	<a href="https://mindriot101.github.io/tag/python.html">python</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                </div>
-                <p><a href="http://www.scipy.org/">Scipy</a> contains functions for fitting equations with <a href="http://www.python.org">Python</a>, in its <code>scipy.optimize</code> module. The two main ones I've used in the past are <code>leastsq</code> and <code>curve_fit</code>, which in itself is a convenience wrapper around <code>leastsq</code>.</p>
+            <header>
+                <h2>
+                    <a href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="bookmark"
+                       title="Permalink to Function fitting with lmfit">Function fitting with lmfit</a></h1>
+                </h2>
+                <p><i>2013-07-04</i></p>
+                <div class="entry-content">
+                    <p><a href="http://www.scipy.org/">Scipy</a> contains functions for fitting equations with <a href="http://www.python.org">Python</a>, in its <code>scipy.optimize</code> module. The two main ones I've used in the past are <code>leastsq</code> and <code>curve_fit</code>, which in itself is a convenience wrapper around <code>leastsq</code>.</p>
 <h2><code>curve_fit</code></h2>
 <p>For this operation you require three (four) things:</p>
 <ul>
@@ -182,68 +87,10 @@ $$</p>
 
 <p>The uncertainties can be accessed with the <code>stderr</code> parameter. A nice report can be printed with <code>lmfit.report_fit(params)</code>.</p>
 <p>Crucially the initial values for the parameter guesses as well as bounds and (something I've not explored much) functional relationships between them. This is a simple way of applying some basic Bayesian priors to the parameter assumptions.</p>
-            </div>
-            <!-- /.entry-content -->
+                </div>
+            </header>
         </article>
     </section>
-
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://mindriot101.github.io/cv/" target="_blank">
-                CV
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
-                Work
-            </a>
-        </li>
-      </ul>
-    </li>
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container-fluid">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2016 Simon Walker
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
-
-
-</body>
+    </body>
 </html>

@@ -1,122 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
-<head>
-    <title>Null objects for the win - circularspace</title>
-    <!-- Using the latest rendering mode for IE -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="https://npmcdn.com/hack/dist/hack.css">
+        <link type="text/css" rel="stylesheet" href="https://mindriot101.github.io/theme/css/main.css" />
+        <title>circularspace</title>
 
-
-
-<link rel="canonical" href="https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/">
-
-        <meta name="author" content="Simon Walker" />
-        <meta name="keywords" content="python,code design" />
-        <meta name="description" content="So I&#39;ve been watching a lot of OO refactoring screencasts and reading posts and I&#39;m able to say I&#39;ve implemented some of the advice I&#39;ve heard. Life&#39;s all about learning eh? So the main example I want to talk about here is Null objects. Null ..." />
-
-        <meta property="og:site_name" content="circularspace" />
-        <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Null objects for the win"/>
-        <meta property="og:url" content="https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/"/>
-        <meta property="og:description" content="So I&#39;ve been watching a lot of OO refactoring screencasts and reading posts and I&#39;m able to say I&#39;ve implemented some of the advice I&#39;ve heard. Life&#39;s all about learning eh? So the main example I want to talk about here is Null objects. Null ..."/>
-        <meta property="article:published_time" content="2013-09-04" />
-            <meta property="article:section" content="tech" />
-            <meta property="article:tag" content="python" />
-            <meta property="article:tag" content="code design" />
-            <meta property="article:author" content="Simon Walker" />
-
-
-    <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/bootstrap.readable.min.css" type="text/css"/>
-    <link href="https://mindriot101.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
-
-    <link href="https://mindriot101.github.io/theme/css/pygments/monokai.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://mindriot101.github.io/theme/css/style.css" type="text/css"/>
-
-        <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace ATOM Feed"/>
-
-
-
-        <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate"
-              title="circularspace tech ATOM Feed"/>
-
-</head>
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="https://mindriot101.github.io/" class="navbar-brand">
-circularspace            </a>
-        </div>
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-                    <li><a href="/archives.html">all</a></li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/gaming.html">Gaming</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/life.html">Life</a>
-                        </li>
-                        <li >
-                            <a href="https://mindriot101.github.io/category/science.html">Science</a>
-                        </li>
-                        <li class="active">
-                            <a href="https://mindriot101.github.io/category/tech.html">Tech</a>
-                        </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://mindriot101.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-</div> <!-- /.navbar -->
-<!-- Banner -->
-<!-- End Banner -->
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-9">
-    <section id="content">
+            <meta name="author" content="Simon Walker" />
+    </head>
+    <body class="hack">
+        <div class="container">
+<div id="header">
+    <h1><a href="https://mindriot101.github.io/">circularspace</a></h1>
+</div>    <section>
         <article>
-            <header class="page-header">
-                <h1>
-                    <a href="https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/"
-                       rel="bookmark"
-                       title="Permalink to Null objects for the win">
-                        Null objects for the win
-                    </a>
-                </h1>
-            </header>
-            <div class="entry-content">
-                <div class="panel">
-                    <div class="panel-body">
-<footer class="post-info">
-    <span class="label label-default">Date</span>
-    <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2013-09-04T23:18:00+02:00"> Wed 04 September 2013</time>
-    </span>
-
-
-
-
-
-<span class="label label-default">Tags</span>
-	<a href="https://mindriot101.github.io/tag/python.html">python</a>
-        /
-	<a href="https://mindriot101.github.io/tag/code-design.html">code design</a>
-    
-</footer><!-- /.post-info -->                    </div>
-                </div>
-                <p>So I've been watching a lot of OO refactoring screencasts and reading posts and I'm able to say I've implemented some of the advice I've heard. Life's all about learning eh?</p>
+            <header>
+                <h2>
+                    <a href="https://mindriot101.github.io/blog/2013/09/04/null-objects-for-the-win/" rel="bookmark"
+                       title="Permalink to Null objects for the win">Null objects for the win</a></h1>
+                </h2>
+                <p><i>2013-09-04</i></p>
+                <div class="entry-content">
+                    <p>So I've been watching a lot of OO refactoring screencasts and reading posts and I'm able to say I've implemented some of the advice I've heard. Life's all about learning eh?</p>
 <p>So the main example I want to talk about here is <em>Null objects</em>. </p>
 <h2>Null objects</h2>
 <p>In dynamic languages, and Ruby in particular<sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> the concept of the <em>lack of something</em> needs to be encapsulated. For example: you're wrapping the database and no entry exists; what to you return? In Ruby it's often <code>nil</code> but this is not great for app design. This <code>nil</code> will proliferate through your app causing errors in its wake (<code>NoMethodError</code>) and causing de-localised stacktraces. Another example is the concept of a guest user. How do you represent this? Subclass the normal User class? <em><code>nil</code></em>?!
@@ -157,68 +62,10 @@ One way to combat this is to introduce Null Objects, where they look like a stan
 </li>
 </ol>
 </div>
-            </div>
-            <!-- /.entry-content -->
+                </div>
+            </header>
         </article>
     </section>
-
         </div>
-        <div class="col-sm-3" id="sidebar">
-            <aside>
-
-<section class="well well-sm">
-    <ul class="list-group list-group-flush">
-            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
-              <ul class="list-group" id="social">
-                <li class="list-group-item"><a href="https://twitter.com/srwalker101"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
-                <li class="list-group-item"><a href="https://github.com/mindriot101"><i class="fa fa-github-square fa-lg"></i> github</a></li>
-              </ul>
-            </li>
-
-
-
-
-
-    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
-      <ul class="list-group" id="links">
-        <li class="list-group-item">
-            <a href="http://mindriot101.github.io/cv/" target="_blank">
-                CV
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/" target="_blank">
-                Work
-            </a>
-        </li>
-      </ul>
-    </li>
-    </ul>
-</section>
-            </aside>
-        </div>
-    </div>
-</div>
-<footer>
-   <div class="container-fluid">
-      <hr>
-      <div class="row">
-         <div class="col-xs-10">&copy; 2016 Simon Walker
-            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
-            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
-         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
-      </div>
-   </div>
-</footer>
-<script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
-
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
-
-<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="https://mindriot101.github.io/theme/js/respond.min.js"></script>
-
-
-</body>
+    </body>
 </html>
