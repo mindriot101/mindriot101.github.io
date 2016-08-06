@@ -27,7 +27,7 @@ ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 MENUITEMS = [('all', '/archives.html'), ]
 
 # Theming
-THEME = 'themes/pelican-bootstrap3'
+THEME = 'themes/srw-hack'
 BOOTSTRAP_THEME = 'readable'
 PYGMENTS_STYLE = 'monokai'
 BOOTSTRAP_FLUID = True
@@ -49,3 +49,5 @@ DEFAULT_PAGINATION = 10
 # Copy CNAME file to output
 STATIC_PATHS = ['extra/CNAME']
 EXTRA_PATH_METADATA = {'extra/CNAME': {'path': 'CNAME'},}
+
+USE_PAGER = True
