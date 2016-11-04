@@ -6,3 +6,8 @@ article {
 body {
     background-color: #f2f2f2;
 }
+
+/* Add source code pro and Inconsolata to custom list of choosable fonts. "Inherit" from hack defaults */
+body.hack {
+    font-family: Source Code pro,Inconsolata,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,serif;
+}
