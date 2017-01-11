@@ -155,7 +155,7 @@ value. In the example, it's <code>a</code> and <code>b</code>.</p>
 <p><em>Convert your loop into a function that takes a single argument of
 things that vary, and other parameters of fixed data</em></p>
 <p>The way <code>python</code>'s multiprocessing works, it's generally easiest to use
-<code>multiprocessing.Pool.map</code>, but this takes a function with a single
+<a href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool"><code>multiprocessing.Pool.map</code></a>, but this takes a function with a single
 argument. We'll sort this out in the next step. <strong>It's extremely important
 to make sure your code works as before after this conversion. This is
 the source of most errors.</strong></p>
@@ -183,7 +183,7 @@ the source of most errors.</strong></p>
 
 
 <h3>Step 5</h3>
-<p><em>Create a partially applied function</em></p>
+<p><em>Create a partially applied function, using <a href="https://docs.python.org/3/library/functools.html#functools.partial"><code>functools.partial</code></a></em></p>
 <p>This is how we get around the single argument problem, we "bake in" the
 constant arguments into a new function which takes a single argument:</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
@@ -246,7 +246,7 @@ constant arguments into a new function which takes a single argument:</p>
 <ol>
 <li>import the <code>Pool</code> object, which defaults to one process per cpu</li>
 <li>create an iterable of your arguments which vary per loop iteration.
-   This can either be a list or generator. Look up the <a href="https://docs.python.org/3/library/functions.html#zip">zip</a>
+   This can either be a list or generator. Look up the <a href="https://docs.python.org/3/library/functions.html#zip"><code>zip</code></a>
    documentation for more information.</li>
 <li>Using the <code>Pool</code> as a context manager cleans up the processes after
    use</li>
@@ -268,7 +268,7 @@ this is your problem</li>
 </ul>
 </li>
 <li>Exceptions in processes cause wierd behaviour. Newer versions of
-Python are better at this than older ones (<em>cough</em> python 2 <em>cough</em>),
+Python are better at this than older ones (<em>*cough</em>* python 2 <em>*cough</em>*),
 but generally you cannot catch exceptions thrown from other processes.
 Make your <code>worker_fn</code> bulletproof.</li>
 <li>A consequence of the previous point is that trying to Ctrl-C out of a

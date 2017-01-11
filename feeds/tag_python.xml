@@ -38,7 +38,7 @@ value. In the example, it's &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/cod
 &lt;p&gt;&lt;em&gt;Convert your loop into a function that takes a single argument of
 things that vary, and other parameters of fixed data&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The way &lt;code&gt;python&lt;/code&gt;'s multiprocessing works, it's generally easiest to use
-&lt;code&gt;multiprocessing.Pool.map&lt;/code&gt;, but this takes a function with a single
+&lt;a href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool"&gt;&lt;code&gt;multiprocessing.Pool.map&lt;/code&gt;&lt;/a&gt;, but this takes a function with a single
 argument. We'll sort this out in the next step. &lt;strong&gt;It's extremely important
 to make sure your code works as before after this conversion. This is
 the source of most errors.&lt;/strong&gt;&lt;/p&gt;
@@ -66,7 +66,7 @@ the source of most errors.&lt;/strong&gt;&lt;/p&gt;
 
 
 &lt;h3&gt;Step 5&lt;/h3&gt;
-&lt;p&gt;&lt;em&gt;Create a partially applied function&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Create a partially applied function, using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;This is how we get around the single argument problem, we "bake in" the
 constant arguments into a new function which takes a single argument:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;
@@ -129,7 +129,7 @@ constant arguments into a new function which takes a single argument:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;import the &lt;code&gt;Pool&lt;/code&gt; object, which defaults to one process per cpu&lt;/li&gt;
 &lt;li&gt;create an iterable of your arguments which vary per loop iteration.
-   This can either be a list or generator. Look up the &lt;a href="https://docs.python.org/3/library/functions.html#zip"&gt;zip&lt;/a&gt;
+   This can either be a list or generator. Look up the &lt;a href="https://docs.python.org/3/library/functions.html#zip"&gt;&lt;code&gt;zip&lt;/code&gt;&lt;/a&gt;
    documentation for more information.&lt;/li&gt;
 &lt;li&gt;Using the &lt;code&gt;Pool&lt;/code&gt; as a context manager cleans up the processes after
    use&lt;/li&gt;
@@ -151,7 +151,7 @@ this is your problem&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Exceptions in processes cause wierd behaviour. Newer versions of
-Python are better at this than older ones (&lt;em&gt;cough&lt;/em&gt; python 2 &lt;em&gt;cough&lt;/em&gt;),
+Python are better at this than older ones (&lt;em&gt;*cough&lt;/em&gt;* python 2 &lt;em&gt;*cough&lt;/em&gt;*),
 but generally you cannot catch exceptions thrown from other processes.
 Make your &lt;code&gt;worker_fn&lt;/code&gt; bulletproof.&lt;/li&gt;
 &lt;li&gt;A consequence of the previous point is that trying to Ctrl-C out of a
