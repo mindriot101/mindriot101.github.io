@@ -8,6 +8,8 @@ I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
 common method of parallel problems here: _embarassingly parallel problems_.
 
+I've created an [example notebook][2] which can be used as a base.
+
 Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:
 
@@ -181,3 +183,4 @@ the `KeyboardInterrupt` error, but they do not synchronise and exit
 sanely. This is possibly fixed in Python 3.? but I don't quite know.
 
 [1]: https://docs.python.org/3/library/functions.html#zip
+[2]: http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
