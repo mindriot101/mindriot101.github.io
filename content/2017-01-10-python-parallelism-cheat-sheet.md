@@ -88,7 +88,7 @@ print(results)
 
 ### Step 5
 
-_Create a partially applied function_
+_Create a partially applied function, using [`functools.partial`][4]_
 
 This is how we get around the single argument problem, we "bake in" the
 constant arguments into a new function which takes a single argument:
@@ -154,7 +154,7 @@ results = pool.map(fn, zipped_args)  # 4
 
 1. import the `Pool` object, which defaults to one process per cpu
 2. create an iterable of your arguments which vary per loop iteration.
-   This can either be a list or generator. Look up the [zip][1]
+   This can either be a list or generator. Look up the [`zip`][1]
    documentation for more information.
 3. Using the `Pool` as a context manager cleans up the processes after
    use
@@ -174,7 +174,7 @@ important ones that can't are:
     * if you find yourself with tracebacks that contain "pickle" then
     this is your problem
 * Exceptions in processes cause wierd behaviour. Newer versions of
-Python are better at this than older ones (*cough* python 2 *cough*),
+Python are better at this than older ones (*\*cough*\* python 2 *\*cough*\*),
 but generally you cannot catch exceptions thrown from other processes.
 Make your `worker_fn` bulletproof.
 * A consequence of the previous point is that trying to Ctrl-C out of a
@@ -185,3 +185,4 @@ sanely. This is possibly fixed in Python 3.? but I don't quite know.
 [1]: https://docs.python.org/3/library/functions.html#zip
 [2]: http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
 [3]: https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool
+[4]: https://docs.python.org/3/library/functools.html#functools.partial
