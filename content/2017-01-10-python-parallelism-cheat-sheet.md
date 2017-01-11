@@ -15,7 +15,7 @@ illustrates the procedure:
 import numpy as np
 
 a = np.arange(20)
-b = np.random.uniform(0, 10, shape=20)
+b = np.random.uniform(0, 10, size=20)
 const = 100
 
 results = []
@@ -78,7 +78,7 @@ def worker_fn(changing_stuff, const_value):
     return (avalue + bvalue) * const_value
 
 a = np.arange(20)
-b = np.random.uniform(0, 10, shape=20)
+b = np.random.uniform(0, 10, size=20)
 const = 100
 
 results = []
@@ -140,7 +140,7 @@ def worker_fn(changing_stuff, const_value):
     return (avalue + bvalue) * const_value
 
 a = np.arange(20)
-b = np.random.uniform(0, 10, shape=20)
+b = np.random.uniform(0, 10, size=20)
 const = 100
 
 fn = partial(worker_fn, const_value=const)
