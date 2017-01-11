@@ -1,8 +1,8 @@
 title: Python parallelism cheat sheet
+Authors: Simon Walker, James McCormac
 date: Tue Jan 10 22:53:24 GMT 2017
 category: tech
 tags: python
-status: draft
 
 I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
@@ -12,16 +12,14 @@ Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:
 
 ```python
-import numpy as np
-
-a = np.arange(20)
-b = np.random.uniform(0, 10, size=20)
+avalues = range(20)
+bvalues = range(100, 120)
 const = 100
 
 results = []
-for (avalue, bvalue) in zip(a, b):
+for a, b in zip(avalues, bvalues):
     # pretend this computation is much more expensive
-    results.append((avalue + bvalue) * const)
+    results.append((a + b) * const)
 print(results)
 ```
 
@@ -34,8 +32,8 @@ performs lots of work for each iteration. In the code example, it is the
 loop over `a` and `b`:
 
 ```python
-for (avalue, bvalue) in zip(a, b):
-    results.append((avalue + bvalue) * const)
+for a, b in zip(avalues, bvalues):
+    results.append((a + b) * const)
 ```
 
 ### Step 2
@@ -43,7 +41,7 @@ for (avalue, bvalue) in zip(a, b):
 _Find out what data changes for each iteration of the loop_
 
 Typically the loop iterates over _something_. It may be more than one
-value. In the example, it's `avalue` and `bvalue`.
+value. In the example, it's `a` and `b`.
 
 ### Step 3
 
@@ -65,26 +63,23 @@ the source of most errors.**
 Applying this process to the example:
 
 ```python
-import numpy as np
-
-
 def worker_fn(changing_stuff, const_value):
     '''A function that takes as it's first parameter
     the values that change for each loop iteration, and
     the remaining parameters do not change with each
     loop iteration
     '''
-    avalue, bvalue = changing_stuff
-    return (avalue + bvalue) * const_value
+    a, b = changing_stuff
+    return (a + b) * const_value
 
-a = np.arange(20)
-b = np.random.uniform(0, 10, size=20)
+avalues = range(20)
+bvalues = range(100, 120)
 const = 100
 
 results = []
-for (avalue, bvalue) in zip(a, b):
+for a, b in zip(avalues, bvalues):
     # call the new function
-    result = worker_fn((avalue, bvalue), const)
+    result = worker_fn((a, b), const)
     results.append(result)
 print(results)
 ```
@@ -98,17 +93,16 @@ constant arguments into a new function which takes a single argument:
 
 ```python
 from functools import partial
-import numpy as np
 
 
 def worker_fn(changing_stuff, const_value):
-    '''A function that takes as it's first parameter
+    '''A function that takes avalues it's first parameter
     the values that change for each loop iteration, and
     the remaining parameters do not change with each
     loop iteration
     '''
-    avalue, bvalue = changing_stuff
-    return (avalue + bvalue) * const_value
+    a, b = changing_stuff
+    return (a + b) * const_value
 
 
 # ...
@@ -127,7 +121,6 @@ Now replace the for loop with the common pool set up:
 ```python
 from functools import partial
 from multiprocessing import Pool  # 1
-import numpy as np
 
 
 def worker_fn(changing_stuff, const_value):
@@ -136,17 +129,17 @@ def worker_fn(changing_stuff, const_value):
     the remaining parameters do not change with each
     loop iteration
     '''
-    avalue, bvalue = changing_stuff
-    return (avalue + bvalue) * const_value
+    a, b = changing_stuff
+    return (a + b) * const_value
 
-a = np.arange(20)
-b = np.random.uniform(0, 10, size=20)
+avalues = range(20)
+bvalues = range(100, 120)
 const = 100
 
 fn = partial(worker_fn, const_value=const)
 
 # this must be an `iterable`, so a list or generator
-zipped_args = zip(a, b)  # 2
+zipped_args = zip(avalues, bvalues)  # 2
 
 # Python 3
 with Pool() as pool:  # 3
