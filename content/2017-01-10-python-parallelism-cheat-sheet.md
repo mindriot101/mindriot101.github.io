@@ -57,7 +57,7 @@ _Convert your loop into a function that takes a single argument of
 things that vary, and other parameters of fixed data_
 
 The way `python`'s multiprocessing works, it's generally easiest to use
-`multiprocessing.Pool.map`, but this takes a function with a single
+[`multiprocessing.Pool.map`][3], but this takes a function with a single
 argument. We'll sort this out in the next step. **It's extremely important
 to make sure your code works as before after this conversion. This is
 the source of most errors.**
@@ -184,3 +184,4 @@ sanely. This is possibly fixed in Python 3.? but I don't quite know.
 
 [1]: https://docs.python.org/3/library/functions.html#zip
 [2]: http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
+[3]: https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool
