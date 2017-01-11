@@ -27,7 +27,7 @@ ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 MENUITEMS = [('all', '/archives.html'), ]
 
 # Theming
-THEME = 'themes/srw-hack'
+THEME = 'themes/pelican-clean-blog'
 BOOTSTRAP_THEME = 'readable'
 PYGMENTS_STYLE = 'monokai'
 BOOTSTRAP_FLUID = True
@@ -54,3 +54,7 @@ EXTRA_PATH_METADATA = {
 }
 
 USE_PAGER = True
+
+GITHUB_URL = 'https://github.com/mindriot101'
+TWITTER_URL = 'https://twitter.com/srwalker101'
+COLOR_SCHEME_CSS = 'monokai.css'
