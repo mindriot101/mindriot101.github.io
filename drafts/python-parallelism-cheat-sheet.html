@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Python parallelism cheat sheet</title>
+
+            <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Full Atom Feed" />
+            <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate" title="circularspace Categories Atom Feed" />
+        <!-- Bootstrap Core CSS -->
+        <link href="https://mindriot101.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="https://mindriot101.github.io/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="https://mindriot101.github.io/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="I often get asked "how can I parallelise my Python code?". I've come up with this simple cheat sheet to explain it. I will only explain the ...">
+
+        <meta name="author" content="Simon Walker">
+
+        <meta name="tags" content="python">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="circularspace">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="https://mindriot101.github.io/author/simon-walker.html">
+	<meta property="og:url" content="https://mindriot101.github.io/drafts/python-parallelism-cheat-sheet.html">
+	<meta property="og:title" content="Python parallelism cheat sheet">
+	<meta property="article:published_time" content="2017-01-10 22:53:24+00:00">
+            <meta property="og:description" content="I often get asked "how can I parallelise my Python code?". I've come up with this simple cheat sheet to explain it. I will only explain the ...">
+
+            <meta property="og:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@srwalker101">
+        <meta name="twitter:title" content="Python parallelism cheat sheet">
+
+            <meta name="twitter:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+
+            <meta name="twitter:description" content="I often get asked "how can I parallelise my Python code?". I've come up with this simple cheat sheet to explain it. I will only explain the ...">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://mindriot101.github.io/">circularspace</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives.html">all</a></li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('https://mindriot101.github.io/theme/images/post-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Python parallelism cheat sheet</h1>
+                        <span class="meta">Posted by
+                                <a href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+                             on Tue 10 January 2017
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <p>I often get asked "how can I parallelise my Python code?". I've come up
+with this simple cheat sheet to explain it. I will only explain the most
+common method of parallel problems here: <em>embarassingly parallel problems</em>.</p>
+<p>Throughout, we shall be referring to this code example. It's basic, but
+illustrates the procedure:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c"># pretend this computation is much more expensive</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>Step 1</h3>
+<p><em>Find the part to parallelise.</em></p>
+<p>In most of my applications, typically this is a single <code>for</code>-loop which
+performs lots of work for each iteration. In the code example, it is the
+loop over <code>a</code> and <code>b</code>:</p>
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>Step 2</h3>
+<p><em>Find out what data changes for each iteration of the loop</em></p>
+<p>Typically the loop iterates over <em>something</em>. It may be more than one
+value. In the example, it's <code>avalue</code> and <code>bvalue</code>.</p>
+<h3>Step 3</h3>
+<p><em>Find out what data <strong>does not</strong> change for each iteration of the loop</em></p>
+<p>This data should ideally be read only. In the example it's <code>const</code>.</p>
+<h3>Step 4</h3>
+<p><em>Convert your loop into a function that takes a single argument of
+things that vary, and other parameters of fixed data</em></p>
+<p>The way <code>python</code>'s multiprocessing works, it's generally easiest to use
+<code>multiprocessing.Pool.map</code>, but this takes a function with a single
+argument. We'll sort this out in the next step. <strong>It's extremely important
+to make sure your code works as before after this conversion. This is
+the source of most errors.</strong></p>
+<p>Applying this process to the example:</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;A function that takes as it&#39;s first parameter</span>
+<span class="sd">    the values that change for each loop iteration, and</span>
+<span class="sd">    the remaining parameters do not change with each</span>
+<span class="sd">    loop iteration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="c"># call the new function</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">worker_fn</span><span class="p">((</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">),</span> <span class="n">const</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+
+
+<h3>Step 5</h3>
+<p><em>Create a partially applied function</em></p>
+<p>This is how we get around the single argument problem, we "bake in" the
+constant arguments into a new function which takes a single argument:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;A function that takes as it&#39;s first parameter</span>
+<span class="sd">    the values that change for each loop iteration, and</span>
+<span class="sd">    the remaining parameters do not change with each</span>
+<span class="sd">    loop iteration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+
+
+<span class="c"># ...</span>
+<span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c"># this function now takes only a single argument</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">worker_fn</span><span class="p">,</span> <span class="n">const_value</span><span class="o">=</span><span class="n">const</span><span class="p">)</span>
+
+<span class="c"># ...</span>
+</pre></div>
+
+
+<h3>Step 6</h3>
+<p>Now replace the for loop with the common pool set up:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>  <span class="c"># 1</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;A function that takes as it&#39;s first parameter</span>
+<span class="sd">    the values that change for each loop iteration, and</span>
+<span class="sd">    the remaining parameters do not change with each</span>
+<span class="sd">    loop iteration</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">worker_fn</span><span class="p">,</span> <span class="n">const_value</span><span class="o">=</span><span class="n">const</span><span class="p">)</span>
+
+<span class="c"># this must be an `iterable`, so a list or generator</span>
+<span class="n">zipped_args</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c"># 2</span>
+
+<span class="c"># Python 3</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>  <span class="c"># 3</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">zipped_args</span><span class="p">)</span>  <span class="c"># 4</span>
+
+<span class="c"># or if you&#39;re stuck with Python 2:</span>
+<span class="n">pool</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">()</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">zipped_args</span><span class="p">)</span>  <span class="c"># 4</span>
+</pre></div>
+
+
+<ol>
+<li>import the <code>Pool</code> object, which defaults to one process per cpu</li>
+<li>create an iterable of your arguments which vary per loop iteration.
+   This can either be a list or generator. Look up the <a href="https://docs.python.org/3/library/functions.html#zip">zip</a>
+   documentation for more information.</li>
+<li>Using the <code>Pool</code> as a context manager cleans up the processes after
+   use</li>
+<li>We call the <code>map</code> function, which applies a function taking one
+   argument, to an iterable of things.</li>
+</ol>
+<p>With these changes, your code should be parallelised! Of course things
+may not be that easy. Here are some common gotchas:</p>
+<ul>
+<li>The biggest problem is with pickling. This is the process of
+converting python code to a string, to give to the other processes
+running your code. Lots of things can be pickled in Python, but some
+important ones that can't are:<ul>
+<li>class instances, so you cannot use an instance method as your
+worker function</li>
+<li>open files or sockets</li>
+<li>if you find yourself with tracebacks that contain "pickle" then
+this is your problem</li>
+</ul>
+</li>
+<li>Exceptions in processes cause wierd behaviour. Newer versions of
+Python are better at this than older ones (<em>cough</em> python 2 <em>cough</em>),
+but generally you cannot catch exceptions thrown from other processes.
+Make your <code>worker_fn</code> bulletproof.</li>
+<li>A consequence of the previous point is that trying to Ctrl-C out of a
+parallelised piece of code does not work, because the processes receive
+the <code>KeyboardInterrupt</code> error, but they do not synchronise and exit
+sanely. This is possibly fixed in Python 3.? but I don't quite know.</li>
+</ul>
+    </article>
+
+        <div class="tags">
+            <p>tags: <a href="https://mindriot101.github.io/tag/python.html">python</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://twitter.com/srwalker101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mindriot101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog powered by <a href="http://getpelican.com">Pelican</a>,
+    which takes great advantage of <a href="http://python.org">Python</a>.
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="https://mindriot101.github.io/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
