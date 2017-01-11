@@ -38,6 +38,7 @@
         <meta name="description" content="I often get asked "how can I parallelise my Python code?". I've come up with this simple cheat sheet to explain it. I will only explain the ...">
 
         <meta name="author" content="Simon Walker">
+        <meta name="author" content="James McCormac">
 
         <meta name="tags" content="python">
 
@@ -46,7 +47,8 @@
 
 	<meta property="og:type" content="article">
             <meta property="article:author" content="https://mindriot101.github.io/author/simon-walker.html">
-	<meta property="og:url" content="https://mindriot101.github.io/drafts/python-parallelism-cheat-sheet.html">
+            <meta property="article:author" content="https://mindriot101.github.io/author/james-mccormac.html">
+	<meta property="og:url" content="https://mindriot101.github.io/blog/2017/01/10/python-parallelism-cheat-sheet/">
 	<meta property="og:title" content="Python parallelism cheat sheet">
 	<meta property="article:published_time" content="2017-01-10 22:53:24+00:00">
             <meta property="og:description" content="I often get asked "how can I parallelise my Python code?". I've come up with this simple cheat sheet to explain it. I will only explain the ...">
@@ -98,6 +100,7 @@
                         <h1>Python parallelism cheat sheet</h1>
                         <span class="meta">Posted by
                                 <a href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+                                <a href="https://mindriot101.github.io/author/james-mccormac.html">James McCormac</a>
                              on Tue 10 January 2017
                         </span>
                         
@@ -116,18 +119,17 @@
         <p>I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
 common method of parallel problems here: <em>embarassingly parallel problems</em>.</p>
+<p>I've created an <a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef">example notebook</a> which can be used as a base.</p>
 <p>Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">avalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">bvalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
 <span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">avalues</span><span class="p">,</span> <span class="n">bvalues</span><span class="p">):</span>
     <span class="c"># pretend this computation is much more expensive</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
 
@@ -137,15 +139,15 @@ illustrates the procedure:</p>
 <p>In most of my applications, typically this is a single <code>for</code>-loop which
 performs lots of work for each iteration. In the code example, it is the
 loop over <code>a</code> and <code>b</code>:</p>
-<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">avalues</span><span class="p">,</span> <span class="n">bvalues</span><span class="p">):</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">const</span><span class="p">)</span>
 </pre></div>
 
 
 <h3>Step 2</h3>
 <p><em>Find out what data changes for each iteration of the loop</em></p>
 <p>Typically the loop iterates over <em>something</em>. It may be more than one
-value. In the example, it's <code>avalue</code> and <code>bvalue</code>.</p>
+value. In the example, it's <code>a</code> and <code>b</code>.</p>
 <h3>Step 3</h3>
 <p><em>Find out what data <strong>does not</strong> change for each iteration of the loop</em></p>
 <p>This data should ideally be read only. In the example it's <code>const</code>.</p>
@@ -158,26 +160,23 @@ argument. We'll sort this out in the next step. <strong>It's extremely important
 to make sure your code works as before after this conversion. This is
 the source of most errors.</strong></p>
 <p>Applying this process to the example:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
-
-<span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;A function that takes as it&#39;s first parameter</span>
 <span class="sd">    the values that change for each loop iteration, and</span>
 <span class="sd">    the remaining parameters do not change with each</span>
 <span class="sd">    loop iteration</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
 
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">avalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">bvalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
 <span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">avalues</span><span class="p">,</span> <span class="n">bvalues</span><span class="p">):</span>
     <span class="c"># call the new function</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">worker_fn</span><span class="p">((</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">),</span> <span class="n">const</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">worker_fn</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">const</span><span class="p">)</span>
     <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
@@ -188,17 +187,16 @@ the source of most errors.</strong></p>
 <p>This is how we get around the single argument problem, we "bake in" the
 constant arguments into a new function which takes a single argument:</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 
 <span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;A function that takes as it&#39;s first parameter</span>
+    <span class="sd">&#39;&#39;&#39;A function that takes avalues it&#39;s first parameter</span>
 <span class="sd">    the values that change for each loop iteration, and</span>
 <span class="sd">    the remaining parameters do not change with each</span>
 <span class="sd">    loop iteration</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
 
 
 <span class="c"># ...</span>
@@ -215,7 +213,6 @@ constant arguments into a new function which takes a single argument:</p>
 <p>Now replace the for loop with the common pool set up:</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>  <span class="c"># 1</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 
 <span class="k">def</span> <span class="nf">worker_fn</span><span class="p">(</span><span class="n">changing_stuff</span><span class="p">,</span> <span class="n">const_value</span><span class="p">):</span>
@@ -224,17 +221,17 @@ constant arguments into a new function which takes a single argument:</p>
 <span class="sd">    the remaining parameters do not change with each</span>
 <span class="sd">    loop iteration</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="n">changing_stuff</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">avalue</span> <span class="o">+</span> <span class="n">bvalue</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">changing_stuff</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">const_value</span>
 
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">avalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">bvalues</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
 <span class="n">const</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">worker_fn</span><span class="p">,</span> <span class="n">const_value</span><span class="o">=</span><span class="n">const</span><span class="p">)</span>
 
 <span class="c"># this must be an `iterable`, so a list or generator</span>
-<span class="n">zipped_args</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c"># 2</span>
+<span class="n">zipped_args</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">avalues</span><span class="p">,</span> <span class="n">bvalues</span><span class="p">)</span>  <span class="c"># 2</span>
 
 <span class="c"># Python 3</span>
 <span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>  <span class="c"># 3</span>

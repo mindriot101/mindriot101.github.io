@@ -1,5 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_python.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2016-05-06T09:42:56+01:00</updated><entry><title>Numpy functions may not do what you think</title><link href="https://mindriot101.github.io/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/" rel="alternate"></link><updated>2016-05-06T09:42:56+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2016-05-06:blog/2016/05/06/numpy-functions-may-not-do-what-you-think/</id><summary type="html">&lt;p&gt;Numpy has the ability to mask arrays and ignore their values for certain computations, called "masked arrays". They contain a &lt;code&gt;.mask&lt;/code&gt; attribute which is a boolean array, &lt;code&gt;True&lt;/code&gt; where the value should be masked and &lt;code&gt;False&lt;/code&gt; otherwise.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_python.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-01-10T22:53:24+00:00</updated><entry><title>Python parallelism cheat sheet</title><link href="https://mindriot101.github.io/blog/2017/01/10/python-parallelism-cheat-sheet/" rel="alternate"></link><updated>2017-01-10T22:53:24+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-01-10:blog/2017/01/10/python-parallelism-cheat-sheet/</id><summary type="html">&lt;p&gt;I often get asked "how can I parallelise my Python code?". I've come up
+with this simple cheat sheet to explain it. I will only explain the most
+common method of parallel problems here: &lt;em&gt;embarassingly parallel problems&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;I've created an &lt;a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
+&lt;p&gt;Throughout, we shall be referring to this code example. It's basic, but
+illustrates the procedure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c"&gt;# pretend this computation is much more expensive&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Step 1&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Find the part to parallelise.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In most of my applications, typically this is a single &lt;code&gt;for&lt;/code&gt;-loop which
+performs lots of work for each iteration. In the code example, it is the
+loop over &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Step 2&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Find out what data changes for each iteration of the loop&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Typically the loop iterates over &lt;em&gt;something&lt;/em&gt;. It may be more than one
+value. In the example, it's &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Step 3&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Find out what data &lt;strong&gt;does not&lt;/strong&gt; change for each iteration of the loop&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This data should ideally be read only. In the example it's &lt;code&gt;const&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Step 4&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Convert your loop into a function that takes a single argument of
+things that vary, and other parameters of fixed data&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The way &lt;code&gt;python&lt;/code&gt;'s multiprocessing works, it's generally easiest to use
+&lt;code&gt;multiprocessing.Pool.map&lt;/code&gt;, but this takes a function with a single
+argument. We'll sort this out in the next step. &lt;strong&gt;It's extremely important
+to make sure your code works as before after this conversion. This is
+the source of most errors.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Applying this process to the example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A function that takes as it&amp;#39;s first parameter&lt;/span&gt;
+&lt;span class="sd"&gt;    the values that change for each loop iteration, and&lt;/span&gt;
+&lt;span class="sd"&gt;    the remaining parameters do not change with each&lt;/span&gt;
+&lt;span class="sd"&gt;    loop iteration&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c"&gt;# call the new function&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Step 5&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Create a partially applied function&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This is how we get around the single argument problem, we "bake in" the
+constant arguments into a new function which takes a single argument:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A function that takes avalues it&amp;#39;s first parameter&lt;/span&gt;
+&lt;span class="sd"&gt;    the values that change for each loop iteration, and&lt;/span&gt;
+&lt;span class="sd"&gt;    the remaining parameters do not change with each&lt;/span&gt;
+&lt;span class="sd"&gt;    loop iteration&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="c"&gt;# this function now takes only a single argument&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Step 6&lt;/h3&gt;
+&lt;p&gt;Now replace the for loop with the common pool set up:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;multiprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;  &lt;span class="c"&gt;# 1&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A function that takes as it&amp;#39;s first parameter&lt;/span&gt;
+&lt;span class="sd"&gt;    the values that change for each loop iteration, and&lt;/span&gt;
+&lt;span class="sd"&gt;    the remaining parameters do not change with each&lt;/span&gt;
+&lt;span class="sd"&gt;    loop iteration&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;fn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# this must be an `iterable`, so a list or generator&lt;/span&gt;
+&lt;span class="n"&gt;zipped_args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 2&lt;/span&gt;
+
+&lt;span class="c"&gt;# Python 3&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="c"&gt;# 3&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+
+&lt;span class="c"&gt;# or if you&amp;#39;re stuck with Python 2:&lt;/span&gt;
+&lt;span class="n"&gt;pool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;import the &lt;code&gt;Pool&lt;/code&gt; object, which defaults to one process per cpu&lt;/li&gt;
+&lt;li&gt;create an iterable of your arguments which vary per loop iteration.
+   This can either be a list or generator. Look up the &lt;a href="https://docs.python.org/3/library/functions.html#zip"&gt;zip&lt;/a&gt;
+   documentation for more information.&lt;/li&gt;
+&lt;li&gt;Using the &lt;code&gt;Pool&lt;/code&gt; as a context manager cleans up the processes after
+   use&lt;/li&gt;
+&lt;li&gt;We call the &lt;code&gt;map&lt;/code&gt; function, which applies a function taking one
+   argument, to an iterable of things.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;With these changes, your code should be parallelised! Of course things
+may not be that easy. Here are some common gotchas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The biggest problem is with pickling. This is the process of
+converting python code to a string, to give to the other processes
+running your code. Lots of things can be pickled in Python, but some
+important ones that can't are:&lt;ul&gt;
+&lt;li&gt;class instances, so you cannot use an instance method as your
+worker function&lt;/li&gt;
+&lt;li&gt;open files or sockets&lt;/li&gt;
+&lt;li&gt;if you find yourself with tracebacks that contain "pickle" then
+this is your problem&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Exceptions in processes cause wierd behaviour. Newer versions of
+Python are better at this than older ones (&lt;em&gt;cough&lt;/em&gt; python 2 &lt;em&gt;cough&lt;/em&gt;),
+but generally you cannot catch exceptions thrown from other processes.
+Make your &lt;code&gt;worker_fn&lt;/code&gt; bulletproof.&lt;/li&gt;
+&lt;li&gt;A consequence of the previous point is that trying to Ctrl-C out of a
+parallelised piece of code does not work, because the processes receive
+the &lt;code&gt;KeyboardInterrupt&lt;/code&gt; error, but they do not synchronise and exit
+sanely. This is possibly fixed in Python 3.? but I don't quite know.&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="python"></category></entry><entry><title>Numpy functions may not do what you think</title><link href="https://mindriot101.github.io/blog/2016/05/06/numpy-functions-may-not-do-what-you-think/" rel="alternate"></link><updated>2016-05-06T09:42:56+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2016-05-06:blog/2016/05/06/numpy-functions-may-not-do-what-you-think/</id><summary type="html">&lt;p&gt;Numpy has the ability to mask arrays and ignore their values for certain computations, called "masked arrays". They contain a &lt;code&gt;.mask&lt;/code&gt; attribute which is a boolean array, &lt;code&gt;True&lt;/code&gt; where the value should be masked and &lt;code&gt;False&lt;/code&gt; otherwise.&lt;/p&gt;
 &lt;p&gt;Numpy also comes with a suite of functions which can handle this masking naturally. Typically for a function in the &lt;code&gt;np.&lt;/code&gt; namespace, there is a masked-array-aware version under the &lt;code&gt;np.ma.&lt;/code&gt; namespace:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;np.median  =&amp;gt; np.ma.median
 np.average =&amp;gt; np.ma.average
