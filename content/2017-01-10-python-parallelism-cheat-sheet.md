@@ -1,5 +1,5 @@
 title: Python parallelism cheat sheet
-Authors: Simon Walker, James McCormac
+Authors: Simon Walker
 date: Tue Jan 10 22:53:24 GMT 2017
 category: tech
 tags: python
@@ -182,7 +182,14 @@ parallelised piece of code does not work, because the processes receive
 the `KeyboardInterrupt` error, but they do not synchronise and exit
 sanely. This is possibly fixed in Python 3.? but I don't quite know.
 
+---
+
+_Many thanks to [James McCormac][5] for helpful suggestions._
+
+
+
 [1]: https://docs.python.org/3/library/functions.html#zip
 [2]: http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
 [3]: https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool
 [4]: https://docs.python.org/3/library/functools.html#functools.partial
+[5]: https://github.com/jmccormac01
