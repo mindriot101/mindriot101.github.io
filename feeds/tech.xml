@@ -158,7 +158,9 @@ Make your &lt;code&gt;worker_fn&lt;/code&gt; bulletproof.&lt;/li&gt;
 parallelised piece of code does not work, because the processes receive
 the &lt;code&gt;KeyboardInterrupt&lt;/code&gt; error, but they do not synchronise and exit
 sanely. This is possibly fixed in Python 3.? but I don't quite know.&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="python"></category></entry><entry><title>Installing rust on older linux systems</title><link href="https://mindriot101.github.io/blog/2016/06/15/installing-rust-on-older-linux-systems/" rel="alternate"></link><updated>2016-06-15T10:52:51+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2016-06-15:blog/2016/06/15/installing-rust-on-older-linux-systems/</id><summary type="html">&lt;p&gt;At work we use SLES 11 which has quite old versions of openssl and
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;Many thanks to &lt;a href="https://github.com/jmccormac01"&gt;James McCormac&lt;/a&gt; for helpful suggestions.&lt;/em&gt;&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Installing rust on older linux systems</title><link href="https://mindriot101.github.io/blog/2016/06/15/installing-rust-on-older-linux-systems/" rel="alternate"></link><updated>2016-06-15T10:52:51+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2016-06-15:blog/2016/06/15/installing-rust-on-older-linux-systems/</id><summary type="html">&lt;p&gt;At work we use SLES 11 which has quite old versions of openssl and
 installed certificates. I was getting certificate errors trying to
 install rust with the &lt;a href="https://www.rustup.rs/"&gt;rustup&lt;/a&gt; tool. &lt;/p&gt;
 &lt;p&gt;I tried searching for any help at all but in the end I followed the
