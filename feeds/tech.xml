@@ -2,6 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tech.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-01-10T22:53:24+00:00</updated><entry><title>Python parallelism cheat sheet</title><link href="https://mindriot101.github.io/blog/2017/01/10/python-parallelism-cheat-sheet/" rel="alternate"></link><updated>2017-01-10T22:53:24+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-01-10:blog/2017/01/10/python-parallelism-cheat-sheet/</id><summary type="html">&lt;p&gt;I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
 common method of parallel problems here: &lt;em&gt;embarassingly parallel problems&lt;/em&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;This blog post is the first in a series I am writing, covering methods of simple parallelism. The following posts cover more convenient methods, as well as some things that should be considered.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
 &lt;p&gt;I've created an &lt;a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
 &lt;p&gt;Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:&lt;/p&gt;
