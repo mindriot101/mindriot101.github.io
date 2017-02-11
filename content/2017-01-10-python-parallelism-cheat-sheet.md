@@ -8,6 +8,14 @@ I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
 common method of parallel problems here: _embarassingly parallel problems_.
 
+---
+
+_This blog post is the first in a series I am writing, covering methods of simple parallelism. The following posts cover more convenient methods, as well as some things that should be considered._
+
+_If I've skipped your favourite method of parallelism, feel free to [tweet me](https://twitter.com/srwalker101) or [add a comment on the tracking issue](https://github.com/mindriot101/mindriot101.github.io/issues/2) informing me._
+
+---
+
 I've created an [example notebook][2] which can be used as a base.
 
 Throughout, we shall be referring to this code example. It's basic, but
