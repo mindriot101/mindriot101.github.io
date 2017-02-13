@@ -6,7 +6,7 @@ tags: python
 
 I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
-common method of parallel problems here: _embarassingly parallel problems_.
+common method of parallel problems here: [_embarrassingly parallel problems_](https://en.wikipedia.org/wiki/Embarrassingly_parallel).
 
 ---
 
