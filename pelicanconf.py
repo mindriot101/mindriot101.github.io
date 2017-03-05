@@ -28,6 +28,8 @@ MENUITEMS = [('all', '/archives.html'), ]
 
 # Theming
 THEME = 'themes/pelican-clean-blog'
+HEADER_COVER = None
+HEADER_COLOR = '#444'
 BOOTSTRAP_THEME = 'readable'
 PYGMENTS_STYLE = 'monokai'
 BOOTSTRAP_FLUID = True
