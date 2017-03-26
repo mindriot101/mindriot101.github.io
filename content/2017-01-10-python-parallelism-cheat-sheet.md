@@ -15,7 +15,7 @@ _This blog post is the first in a series I am writing, covering methods of simpl
 ## Parallelism methods
 
 * [Basics and introduction](/blog/2017/01/10/python-parallelism-cheat-sheet/)
-* [Function objects](/blog/2017/03/26/python-parallelism-cheat-sheet-2/)
+* [Function objects](/blog/2017/03/26/python-parallelism-cheat-sheet-part-2/)
 
 _If I've skipped your favourite method of parallelism, feel free to [tweet me](https://twitter.com/srwalker101) or [add a comment on the tracking issue](https://github.com/mindriot101/mindriot101.github.io/issues/2) informing me._
 
