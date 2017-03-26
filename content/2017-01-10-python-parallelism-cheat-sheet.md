@@ -12,6 +12,11 @@ common method of parallel problems here: [_embarrassingly parallel problems_](ht
 
 _This blog post is the first in a series I am writing, covering methods of simple parallelism. The following posts cover more convenient methods, as well as some things that should be considered._
 
+## Parallelism methods
+
+* [Basics and introduction](/blog/2017/01/10/python-parallelism-cheat-sheet/)
+* [Function objects](/blog/2017/03/26/python-parallelism-cheat-sheet-2/)
+
 _If I've skipped your favourite method of parallelism, feel free to [tweet me](https://twitter.com/srwalker101) or [add a comment on the tracking issue](https://github.com/mindriot101/mindriot101.github.io/issues/2) informing me._
 
 ---
