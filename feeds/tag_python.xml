@@ -3,7 +3,7 @@
 &lt;h2&gt;Parallelism methods&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="/blog/2017/01/10/python-parallelism-cheat-sheet/"&gt;Basics and introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-part-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
@@ -137,7 +137,7 @@ common method of parallel problems here: &lt;a href="https://en.wikipedia.org/wi
 &lt;h2&gt;Parallelism methods&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="/blog/2017/01/10/python-parallelism-cheat-sheet/"&gt;Basics and introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-part-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
