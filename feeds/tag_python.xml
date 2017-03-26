@@ -1,9 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_python.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-01-10T22:53:24+00:00</updated><entry><title>Python parallelism cheat sheet</title><link href="https://mindriot101.github.io/blog/2017/01/10/python-parallelism-cheat-sheet/" rel="alternate"></link><updated>2017-01-10T22:53:24+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-01-10:blog/2017/01/10/python-parallelism-cheat-sheet/</id><summary type="html">&lt;p&gt;I often get asked "how can I parallelise my Python code?". I've come up
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_python.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-03-26T20:31:55+01:00</updated><entry><title>Python parallelism cheat sheet (part 2)</title><link href="https://mindriot101.github.io/blog/2017/03/26/python-parallelism-cheat-sheet-part-2/" rel="alternate"></link><updated>2017-03-26T20:31:55+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-03-26:blog/2017/03/26/python-parallelism-cheat-sheet-part-2/</id><summary type="html">&lt;p&gt;&lt;em&gt;This blog post is the second in a series I am writing, covering methods of simple parallelism. The following posts cover more convenient methods, as well as some things that should be considered.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Parallelism methods&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/blog/2017/01/10/python-parallelism-cheat-sheet/"&gt;Basics and introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;This method was brought to my attention by &lt;a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/"&gt;Tom Marsh&lt;/a&gt;, and is a nice alternative to using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In Python, a custom class instance can be treated like a function (technically a &lt;em&gt;callable&lt;/em&gt;) if it has a &lt;code&gt;__call__&lt;/code&gt; method:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__call__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Hello world!&amp;#39;&lt;/span&gt;
+
+&lt;span class="n"&gt;foo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;  &lt;span class="c"&gt;# Hello world!&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can take advantage of this for parallelism reasons, by replacing the construction of the partial function with a custom class, which stores any constant state as instance variables, and defines a &lt;code&gt;__call__&lt;/code&gt; method to perform the work.&lt;/p&gt;
+&lt;p&gt;To recap, the problem we are trying to parallelise is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c"&gt;# pretend this computation is much more expensive&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The parallelised version with &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt; looked like:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;multiprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;  &lt;span class="c"&gt;# 1&lt;/span&gt;
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39;A function that takes as it&amp;#39;s first parameter&lt;/span&gt;
+&lt;span class="sd"&gt;    the values that change for each loop iteration, and&lt;/span&gt;
+&lt;span class="sd"&gt;    the remaining parameters do not change with each&lt;/span&gt;
+&lt;span class="sd"&gt;    loop iteration&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;fn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;worker_fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# this must be an `iterable`, so a list or generator&lt;/span&gt;
+&lt;span class="n"&gt;zipped_args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 2&lt;/span&gt;
+
+&lt;span class="c"&gt;# Python 3&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="c"&gt;# 3&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+
+&lt;span class="c"&gt;# or if you&amp;#39;re stuck with Python 2:&lt;/span&gt;
+&lt;span class="n"&gt;pool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Instead of creating a partial function, we define a class which stores constant values as instance properties, and defines &lt;code&gt;__call__&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;partial&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;multiprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;  &lt;span class="c"&gt;# 1&lt;/span&gt;
+
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Worker&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39; Function object, which wraps any constant state with the class,&lt;/span&gt;
+&lt;span class="sd"&gt;    along with implementing a method to call with the varying argument&lt;/span&gt;
+&lt;span class="sd"&gt;    values.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;const_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__call__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;const_value&lt;/span&gt;
+
+&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;bvalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;const&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="n"&gt;fn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# this must be an `iterable`, so a list or generator&lt;/span&gt;
+&lt;span class="n"&gt;zipped_args&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;avalues&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;bvalues&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 2&lt;/span&gt;
+
+&lt;span class="c"&gt;# Python 3&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  &lt;span class="c"&gt;# 3&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+
+&lt;span class="c"&gt;# or if you&amp;#39;re stuck with Python 2:&lt;/span&gt;
+&lt;span class="n"&gt;pool&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# 4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Wrapup&lt;/h2&gt;
+&lt;p&gt;Some things to note about this approach:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;technically implementing &lt;code&gt;__call__&lt;/code&gt; is not necessary - due to Python's attribute access any function can be used:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Worker&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;const_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;const_value&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;changing_stuff&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="c"&gt;# implentation&lt;/span&gt;
+
+&lt;span class="c"&gt;# ...&lt;/span&gt;
+
+&lt;span class="n"&gt;worker&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Worker&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;const_value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;const&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;Pool&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pool&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;worker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zipped_args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;this solution may cause issues with concurrency, which the &lt;code&gt;functools.partial&lt;/code&gt; version does not.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each process has access to the &lt;code&gt;Worker&lt;/code&gt; instance, and due to lack of mutability controls in Python, can change anything on the instance. Should the &lt;code&gt;__call__&lt;/code&gt; method change any state on the &lt;code&gt;Worker&lt;/code&gt; instance then all hell breaks loose. With the &lt;code&gt;functools.partial&lt;/code&gt; version, the function contents cannot change the value of the arguments passed so each function invocation has its own copy. This leads into&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the function objects &lt;em&gt;may&lt;/em&gt; be more (memory) efficient&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I do not know for sure about this one, but as &lt;code&gt;functools.partial&lt;/code&gt; objects copy the data across whereas function objects have the information stored once on the instance. This may mean that each &lt;em&gt;process&lt;/em&gt; has a copy of the constant data with function objects, instead of each &lt;em&gt;function invocation&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Alternatively Python may be more clever than this, and the information may be accessed more efficiently 🤷&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Python parallelism cheat sheet</title><link href="https://mindriot101.github.io/blog/2017/01/10/python-parallelism-cheat-sheet/" rel="alternate"></link><updated>2017-01-10T22:53:24+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-01-10:blog/2017/01/10/python-parallelism-cheat-sheet/</id><summary type="html">&lt;p&gt;I often get asked "how can I parallelise my Python code?". I've come up
 with this simple cheat sheet to explain it. I will only explain the most
 common method of parallel problems here: &lt;a href="https://en.wikipedia.org/wiki/Embarrassingly_parallel"&gt;&lt;em&gt;embarrassingly parallel problems&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;em&gt;This blog post is the first in a series I am writing, covering methods of simple parallelism. The following posts cover more convenient methods, as well as some things that should be considered.&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Parallelism methods&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/blog/2017/01/10/python-parallelism-cheat-sheet/"&gt;Basics and introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/blog/2017/03/26/python-parallelism-cheat-sheet-2/"&gt;Function objects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;I've created an &lt;a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
