@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+
+import argparse
+import glob
+import shutil
+import datetime
+import os
+import subprocess as sp
+
+
+def parse_date(filename):
+    basename = os.path.basename(filename)
+    parts = basename.split('-')
+    year, month, day = tuple(map(int, parts[:3]))
+    return datetime.date(year, month, day)
+
+
+def latest_file(files):
+    start_date = parse_date(files[0])
+    filename = files[0]
+    for file in files:
+        d = parse_date(file)
+        if d > start_date:
+            start_date = d
+            filename = file
+    return filename
+
+
+def fetch_latest_post():
+    files = glob.glob('content/*.md')
+    return latest_file(files)
+
+
+def compute_new_post_name(new_name):
+    today = datetime.date.today()
+    stub = new_name.replace(' ', '-').replace('_', '-')
+    return 'content/{year}-{month:02d}-{day:02d}-{stub}.md'.format(
+        year=today.year,
+        month=today.month,
+        day=today.day,
+        stub=stub)
+
+
+def edit(path):
+    editor = os.environ.get('EDITOR', 'vim')
+    sp.check_call([editor, path])
+
+
+def main(args):
+    latest_post = fetch_latest_post()
+    new_post_name = compute_new_post_name(args.name)
+    shutil.copyfile(latest_post, new_post_name)
+    edit(new_post_name)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('name')
+    main(parser.parse_args())
