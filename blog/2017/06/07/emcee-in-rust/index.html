@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Emcee in Rust</title>
+
+            <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Full Atom Feed" />
+            <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate" title="circularspace Categories Atom Feed" />
+        <!-- Bootstrap Core CSS -->
+        <link href="https://mindriot101.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="https://mindriot101.github.io/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="https://mindriot101.github.io/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="I've been re-implementing the Python emcee library in Rust. I thought it would be a good project to tackle for a few reasons: I actively ...">
+
+        <meta name="author" content="Simon Walker">
+
+        <meta name="tags" content="rust">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="circularspace">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="https://mindriot101.github.io/author/simon-walker.html">
+	<meta property="og:url" content="https://mindriot101.github.io/blog/2017/06/07/emcee-in-rust/">
+	<meta property="og:title" content="Emcee in Rust">
+	<meta property="article:published_time" content="2017-06-07 19:59:23+01:00">
+            <meta property="og:description" content="I've been re-implementing the Python emcee library in Rust. I thought it would be a good project to tackle for a few reasons: I actively ...">
+
+            <meta property="og:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@srwalker101">
+        <meta name="twitter:title" content="Emcee in Rust">
+
+            <meta name="twitter:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+
+            <meta name="twitter:description" content="I've been re-implementing the Python emcee library in Rust. I thought it would be a good project to tackle for a few reasons: I actively ...">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://mindriot101.github.io/">circularspace</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives.html">all</a></li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-color: #444">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Emcee in Rust</h1>
+                        <span class="meta">Posted by
+                                <a href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+                             on Wed 07 June 2017
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <p>I've been re-implementing the <a href="http://dan.iel.fm/emcee/current/">Python <code>emcee</code> library</a> in Rust.</p>
+<p>I thought it would be a good project to tackle for a few reasons:</p>
+<ul>
+<li>I actively use it in my own work, and am reasonably familiar with the API and how it works</li>
+<li>it has few external dependencies and is mostly pure Python</li>
+<li>it performs cpu-limited computations which suit a compiled high performance language</li>
+<li>the Python version has parallelism to increase speed, which should be easily achievable with rust</li>
+</ul>
+<p>(We'll see that for the time being the last point has been put on hold.)</p>
+<p>After getting the project to feature parity, or at least for the major features are completed, I thought I'd reflect a little on the process, and differences in design between the Rust version and the Python version.</p>
+<h2>Background</h2>
+<p><code>emcee</code> is an Ensemble sampler for Markov-Chain Monte-Carlo (MCMC) processes. It uses a series of walkers to explore N-dimensional parameter space efficiently and without getting hung up on sharp local likelihood spikes.</p>
+<p>The API is very simple to use - you supply your "objective" function, a function to be maximised, and an array of starting points for each walker, and the sampler samples the parameter space. After the given number of iterations have been performed, the location in parameter space of each of the walkers at each iteration can be analysed to extract posterior distributions, find correlations between parameters, and visualise the process.</p>
+<p>The objective function encodes prior probabilities and likelihood values, as per <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes' rule</a>, which is applicable for problems in science as Bayesian statistics are my preferred way to describe probability. For more information on this topic, see Jake VanderPlas' <a href="http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/">excellent series</a>.</p>
+<h2>The Rust version</h2>
+<p>When starting to write the sampler, I realised that due to Python's dynamic nature, the objective function and required arguments are quite dynamic. In Python the objective function is wrapped in a wrapper which stores the function arguments and keyword arguments so the function can be pickled and sent to other processes:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">_function_wrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a hack to make the likelihood function pickleable when ``args``</span>
+<span class="sd">    or ``kwargs`` are also included.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">traceback</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;emcee: Exception while calling your likelihood function:&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;  params:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;  args:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;  kwargs:&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;  exception:&quot;</span><span class="p">)</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="k">raise</span>
+</pre></div>
+
+
+<p><a href="https://github.com/dfm/emcee/blob/7984142541bd907fc1ef74fb2c49b663bb9086f3/emcee/ensemble.py#L507">(link)</a></p>
+<p>This dynamic wrapping of a function is not really supported in Rust, where everything must have a known type at compile time.</p>
+<p>Instead I used Rust's trait system to allow the user to supply their own objective function and for arguments to be stored with the objective <code>Struct</code>:</p>
+<div class="highlight"><pre><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">Prob</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="n">lnlike</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Guess</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="n">lnprior</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Guess</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="n">lnprob</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Guess</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">lnp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">lnprior</span><span class="p">(</span><span class="n">params</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">lnp</span><span class="p">.</span><span class="n">is_finite</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">lnp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">lnlike</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="o">-::</span><span class="n">std</span><span class="o">::</span><span class="kt">f64</span><span class="o">::</span><span class="n">INFINITY</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+
+
+<p>Note the default implementation of Bayes' rule, which the user does not have to supply. I find this separation between prior probability and objective function helps understanding for new users, who hear about applying priors to MCMC analysis and are then asked to write a single function.</p>
+<p>Where Python defines external data when constructing the sampler, the Rust version allows the user to store any data on whatever struct implements <code>Prob</code>, for example for a simple linear model:</p>
+<div class="highlight"><pre><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="n">LinearModel</span><span class="o">&lt;</span><span class="nl">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">&#39;a</span><span class="w"> </span><span class="p">[</span><span class="kt">f64</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">&#39;a</span><span class="w"> </span><span class="p">[</span><span class="kt">f64</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">impl</span><span class="o">&lt;</span><span class="nl">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="n">LinearModel</span><span class="o">&lt;</span><span class="nl">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">new</span><span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">&#39;a</span><span class="w"> </span><span class="p">[</span><span class="kt">f64</span><span class="p">],</span><span class="w"> </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">&#39;a</span><span class="w"> </span><span class="p">[</span><span class="kt">f64</span><span class="p">])</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">LinearModel</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">impl</span><span class="o">&lt;</span><span class="nl">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Prob</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">LinearModel</span><span class="o">&lt;</span><span class="nl">&#39;a</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">lnprior</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_params</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Guess</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// no prior information</span>
+<span class="w">            </span><span class="mf">0.0</span><span class="k">f64</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">fn</span><span class="w"> </span><span class="n">lnlike</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="o">:</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Guess</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">f64</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="w"></span>
+<span class="w">                </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"></span>
+<span class="w">                </span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">.</span><span class="n">fold</span><span class="p">(</span><span class="mf">0.0</span><span class="k">f64</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">acc</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">model_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="kd">let</span><span class="w"> </span><span class="n">residual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">model_value</span><span class="p">;</span><span class="w"></span>
+<span class="w">                    </span><span class="n">acc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">residual</span><span class="p">.</span><span class="n">powf</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="p">});</span><span class="w"></span>
+<span class="w">            </span><span class="o">-</span><span class="n">sum</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+
+
+<h2>Problems encountered</h2>
+<p>Random floating point numbers are hard to work with! Despite leaning on the <a href="https://crates.io/crates/assert_approx_eq"><code>assert_approx_eq</code></a> crate which compares floating point numbers for <em>approximate</em> equality, sometimes extra wide tolerances had to be used to get the numbers to compare.</p>
+<p>As alluded to earlier, I have not got parallelism working yet in the Rust implementation. To be fair, and as expected the sampler is much faster than it's python counterpart (once it's run in <code>release</code> mode that is), but that is not very forward thinking.</p>
+<p>The Python implementation parallelises the application of the user's objective function to the vector of trial walker positions. The (usually correct) assumption is that the user's objective function is much slower than a single iteration of the sampler, and by it's nature the MCMC sampling algorithm is difficult to parallelise in general.</p>
+<p>I did struggle with parallelising in the same way, with both <code>threadpool</code> and <code>rayon</code>, due to borrowing and <code>Sync</code> problems, but the performance is good for the time being. Should the library become popular (i.e. more than just me using it) and the need arise, I'll look into it again.</p>
+<p>On that note, the latest release has been tagged <code>1.0.0-alpha.1</code> indicating that it's got the features I wish to add for a version 1 library, but needs more user testing.</p>
+<p>So if you're interested, please check out the library at <a href="https://crates.io/crates/emcee"><code>https://crates.io/crates/emcee</code></a> and read the <a href="https://docs.rs/emcee/1.0.0-alpha.1/emcee/">documentation</a>. I appreciate any feedback.</p>
+    </article>
+
+        <div class="tags">
+            <p>tags: <a href="https://mindriot101.github.io/tag/rust.html">rust</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://twitter.com/srwalker101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mindriot101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog powered by <a href="http://getpelican.com">Pelican</a>,
+    which takes great advantage of <a href="http://python.org">Python</a>.
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="https://mindriot101.github.io/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
