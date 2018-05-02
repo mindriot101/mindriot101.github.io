@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/tag_nodejs.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2013-02-24T00:00:00+01:00</updated><entry><title>(node) development on OSX</title><link href="https://mindriot101.github.io/blog/2013/02/24/node-development-on-osx/" rel="alternate"></link><updated>2013-02-24T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-24:blog/2013/02/24/node-development-on-osx/</id><summary type="html">&lt;p&gt;I love my Macbook Pro, for development and general computing use. Before I
 purchased it I was a die hard linux user (apart from gaming which is still
 dominated by windows unfortunately.) My work involves linux&lt;sup id="fnref:my-job"&gt;&lt;a class="footnote-ref" href="#fn:my-job" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; and I am a
-committed &lt;a href="http://vim.org"&gt;vim&lt;/a&gt; user. &lt;/p&gt;
+committed &lt;a href="https://vim.org"&gt;vim&lt;/a&gt; user. &lt;/p&gt;
 &lt;p&gt;My work colleagues tend to laugh when I say that I want to use my mouse as
 little as possible, and that I am quite experienced in command line use. It
 pains me every time I see my office mates reach over to the mouse to click the
@@ -23,11 +23,11 @@ but usually this is from my laptop.&lt;/p&gt;
 seeing it instantly in my browser, or just reloading it myself. For this and
 other development, I use a few tools:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://mxcl.github.com/homebrew/"&gt;Homebrew&lt;/a&gt; for package installation&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://blog.boastr.net/?page_id=2342"&gt;Better snap tool&lt;/a&gt; for tiling windows
+&lt;li&gt;&lt;a href="https://brew.sh"&gt;Homebrew&lt;/a&gt; for package installation&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.boastr.net/?page_id=2342"&gt;Better snap tool&lt;/a&gt; for tiling windows
   side by side&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://code.google.com/p/macvim/"&gt;Macvim&lt;/a&gt; for editing, &lt;code&gt;brew install macvim&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://www.iterm2.com"&gt;iTerm2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/macvim/"&gt;Macvim&lt;/a&gt; for editing, &lt;code&gt;brew install macvim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.iterm2.com"&gt;iTerm2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/joh/when-changed"&gt;when-changed.py&lt;/a&gt; for
   compiling/running/whatever when files have changed&lt;/li&gt;
 &lt;/ul&gt;
@@ -36,7 +36,7 @@ other development, I use a few tools:&lt;/p&gt;
 &lt;p&gt;Linux has it's share of problems, which should be classed as more &lt;em&gt;challenges&lt;/em&gt;
 than problems as it's fun I assure you. On the other hand it's package
 management system is top notch. The Mac OSX equivalent is Homebrew and is
-superbly managed with packages on &lt;a href="http://github.com"&gt;github&lt;/a&gt;. This takes the
+superbly managed with packages on &lt;a href="https://github.com"&gt;github&lt;/a&gt;. This takes the
 difficulty out of installing a lot of packages, but is still missing some nice
 features.&lt;/p&gt;
 &lt;p&gt;The nice thing about Linux's package management is that the packages are
@@ -72,10 +72,10 @@ something is different.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Any time I save the post, by build system (&lt;a href="http://fabfile.org"&gt;fabric&lt;/a&gt;)
+&lt;p&gt;Any time I save the post, by build system (&lt;a href="https://fabfile.org"&gt;fabric&lt;/a&gt;)
 recompiles the post so I can just reload the browser to see the changes.&lt;/p&gt;
 &lt;h3&gt;Application to node&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://nodejs.org"&gt;node&lt;/a&gt; actually comes with a tool similar to
+&lt;p&gt;&lt;a href="https://nodejs.org"&gt;node&lt;/a&gt; actually comes with a tool similar to
 &lt;code&gt;when-changed.py&lt;/code&gt;, it's called &lt;code&gt;supervisor&lt;/code&gt;, and can be installed globally with
 npm: &lt;code&gt;npm install --global supervisor&lt;/code&gt;. It can reload the server file with any
 changes. I can edit it in one pane with macvim, and view the changes in the

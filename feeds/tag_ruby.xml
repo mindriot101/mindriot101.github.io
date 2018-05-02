@@ -39,7 +39,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;How can anybody sleep at night?!&lt;/p&gt;</summary><category term="ruby"></category></entry><entry><title>Ruby: first impressions</title><link href="https://mindriot101.github.io/blog/2013/08/26/ruby-first-impressions/" rel="alternate"></link><updated>2013-08-26T22:14:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-26:blog/2013/08/26/ruby-first-impressions/</id><summary type="html">&lt;p&gt;So I've been trying &lt;a href="http://www.ruby-lang.org/en/"&gt;Ruby&lt;/a&gt; recently,
+&lt;p&gt;How can anybody sleep at night?!&lt;/p&gt;</summary><category term="ruby"></category></entry><entry><title>Ruby: first impressions</title><link href="https://mindriot101.github.io/blog/2013/08/26/ruby-first-impressions/" rel="alternate"></link><updated>2013-08-26T22:14:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-26:blog/2013/08/26/ruby-first-impressions/</id><summary type="html">&lt;p&gt;So I've been trying &lt;a href="https://www.ruby-lang.org/en/"&gt;Ruby&lt;/a&gt; recently,
 partially trying to add some substance to my CV, and partially out of
 curiosity. I used to be a complete python snob; I didn't understand
 why anyone &lt;em&gt;wouldn't&lt;/em&gt; use python. It is a dynamic language so no more
@@ -230,11 +230,11 @@ for more information. I hope to learn more of what Ruby has to offer in the
 future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
 &lt;h2&gt;Resources&lt;/h2&gt;
 &lt;h3&gt;Beginner&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://railsforzombies.org/"&gt;Rails for Zombies&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://railsforzombies.org/"&gt;Rails for Zombies&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Technical&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://railscasts.com/"&gt;Railscasts&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://railscasts.com/"&gt;Railscasts&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Advanced&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://robots.thoughtbot.com/"&gt;Thoughtbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://robots.thoughtbot.com/"&gt;Thoughtbot&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;(I'll try and keep these updated)&lt;/p&gt;
 &lt;div class="footnote"&gt;
 &lt;hr /&gt;
@@ -243,9 +243,9 @@ future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
 &lt;p&gt;"job"&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</summary><category term="ruby"></category></entry><entry><title>Using guard with foreman</title><link href="https://mindriot101.github.io/blog/2013/07/29/using-guard-with-foreman/" rel="alternate"></link><updated>2013-07-29T11:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-29:blog/2013/07/29/using-guard-with-foreman/</id><summary type="html">&lt;p&gt;I've been playing with &lt;a href="http://www.ruby-lang.org/"&gt;Ruby&lt;/a&gt; quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.&lt;/p&gt;
-&lt;p&gt;This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found &lt;a href="http://ddollar.github.io/foreman/"&gt;foreman&lt;/a&gt; which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by &lt;a href="http://heroku.com"&gt;heroku&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;I was using this technique with a simple &lt;code&gt;Procfile&lt;/code&gt; for managing my thesis. I have two tasks running: &lt;a href="http://users.phys.psu.edu/~collins/software/latexmk-jcc/"&gt;latexmk&lt;/a&gt; which manages the latex compiling, and &lt;a href="http://guardgem.org/"&gt;guard&lt;/a&gt; which manages the python plotting.&lt;/p&gt;
+&lt;/div&gt;</summary><category term="ruby"></category></entry><entry><title>Using guard with foreman</title><link href="https://mindriot101.github.io/blog/2013/07/29/using-guard-with-foreman/" rel="alternate"></link><updated>2013-07-29T11:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-29:blog/2013/07/29/using-guard-with-foreman/</id><summary type="html">&lt;p&gt;I've been playing with &lt;a href="https://www.ruby-lang.org/"&gt;Ruby&lt;/a&gt; quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.&lt;/p&gt;
+&lt;p&gt;This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found &lt;a href="https://ddollar.github.io/foreman/"&gt;foreman&lt;/a&gt; which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by &lt;a href="https://heroku.com"&gt;heroku&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was using this technique with a simple &lt;code&gt;Procfile&lt;/code&gt; for managing my thesis. I have two tasks running: &lt;a href="https://users.phys.psu.edu/~collins/software/latexmk-jcc/"&gt;latexmk&lt;/a&gt; which manages the latex compiling, and &lt;a href="https://guardgem.org/"&gt;guard&lt;/a&gt; which manages the python plotting.&lt;/p&gt;
 &lt;p&gt;I added these to the &lt;code&gt;Procfile&lt;/code&gt; as such&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ss"&gt;latex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;latexmk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pvc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="no"&gt;Thesis&lt;/span&gt;
 &lt;span class="ss"&gt;plotting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="n"&gt;guard&lt;/span&gt;

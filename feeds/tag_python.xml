@@ -7,7 +7,7 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;This method was brought to my attention by &lt;a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/"&gt;Tom Marsh&lt;/a&gt;, and is a nice alternative to using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This method was brought to my attention by &lt;a href="https://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/"&gt;Tom Marsh&lt;/a&gt;, and is a nice alternative to using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In Python, a custom class instance can be treated like a function (technically a &lt;em&gt;callable&lt;/em&gt;) if it has a &lt;code&gt;__call__&lt;/code&gt; method:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__call__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -141,7 +141,7 @@ common method of parallel problems here: &lt;a href="https://en.wikipedia.org/wi
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;I've created an &lt;a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
+&lt;p&gt;I've created an &lt;a href="https://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
 &lt;p&gt;Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -425,7 +425,7 @@ np.average =&amp;gt; np.ma.average
 
 &lt;p&gt;This setting has three options: &lt;code&gt;0&lt;/code&gt; to disable the feature, &lt;code&gt;1&lt;/code&gt; to enable it in a "smart" sense, and 2 where it's enabled always. The main difference between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt; is when a "bare" function is called, e.g. &lt;code&gt;more_stuff&lt;/code&gt; in the example above, without parentheses. With &lt;code&gt;autocall = 2&lt;/code&gt; the function is &lt;em&gt;called&lt;/em&gt; rather than merely returned.&lt;/p&gt;
 &lt;h2&gt;Starting up with &lt;code&gt;seaborn&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;I am a fan of the &lt;a href="http://stanford.edu/~mwaskom/software/seaborn/"&gt;seaborn&lt;/a&gt; visualisation package, for the styles and extra features. In the &lt;code&gt;pylab&lt;/code&gt; profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py"&gt;in this file&lt;/a&gt;. I'll explain it here.&lt;/p&gt;
+&lt;p&gt;I am a fan of the &lt;a href="https://stanford.edu/~mwaskom/software/seaborn/"&gt;seaborn&lt;/a&gt; visualisation package, for the styles and extra features. In the &lt;code&gt;pylab&lt;/code&gt; profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py"&gt;in this file&lt;/a&gt;. I'll explain it here.&lt;/p&gt;
 &lt;p&gt;The code:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;print_function&lt;/span&gt;
 
@@ -457,7 +457,7 @@ ind = (new_x &amp;gt; interp.x.min()) &amp;amp; (new_x &amp;lt; interp.x.max())
 # Finally create the new interpolated data, remembering
 # to apply the index to the x data also
 interpolated_x, interpolated_y = new_x[ind], interp(new_x[ind])
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="scipy"></category></entry><entry><title>IPython version 2.0</title><link href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/" rel="alternate"></link><updated>2014-04-02T16:32:38+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-04-02:blog/2014/04/02/ipython-version-20/</id><summary type="html">&lt;p&gt;So IPython has updated to version 2.0. The full changelog &lt;a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html"&gt;can be found here&lt;/a&gt; and to summarise the key points:&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="scipy"></category></entry><entry><title>IPython version 2.0</title><link href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/" rel="alternate"></link><updated>2014-04-02T16:32:38+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-04-02:blog/2014/04/02/ipython-version-20/</id><summary type="html">&lt;p&gt;So IPython has updated to version 2.0. The full changelog &lt;a href="https://ipython.org/ipython-doc/dev/whatsnew/version2.0.html"&gt;can be found here&lt;/a&gt; and to summarise the key points:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;interactive widgets for the notebook&lt;/li&gt;
 &lt;li&gt;directory navigation in the notebook dashboard&lt;/li&gt;
@@ -469,7 +469,7 @@ interpolated_x, interpolated_y = new_x[ind], interp(new_x[ind])
 &lt;h2&gt;Directory navigation and persistent URLs&lt;/h2&gt;
 &lt;p&gt;This feature enables navigation to seemingly an arbitrary location relative to the initial directory that &lt;code&gt;ipython notebook&lt;/code&gt; was called in. I suppose this prevents access to sensitive locations or locations that the user wants to keep out of the search path. For example all of my work is under a root directory of &lt;code&gt;~/work&lt;/code&gt; so if I start a notebook here then my other directories further up are not visible.&lt;/p&gt;
 &lt;p&gt;The following screenshot gives the example on the IPython homepage, and shows the navigable locations.&lt;/p&gt;
-&lt;p&gt;&lt;img src='http://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'&gt;
+&lt;p&gt;&lt;img src='https://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'&gt;
 &lt;/img&gt;&lt;/p&gt;
 &lt;p&gt;With this a single server can manage all of the notebooks on a single machine. I was hoping for this functionality rather than either &lt;/p&gt;
 &lt;ul&gt;
@@ -482,12 +482,12 @@ interpolated_x, interpolated_y = new_x[ind], interp(new_x[ind])
 &lt;h2&gt;The final caveats&lt;/h2&gt;
 &lt;!-- vim keybindings --&gt;
 
-&lt;p&gt;Of course I've yet to find a vim emulator that I'm happy with. &lt;a href="http://neovim.org/"&gt;Neovim&lt;/a&gt; promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.&lt;/p&gt;
+&lt;p&gt;Of course I've yet to find a vim emulator that I'm happy with. &lt;a href="https://neovim.org/"&gt;Neovim&lt;/a&gt; promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.&lt;/p&gt;
 &lt;p&gt;This is of course not a failing in IPython notebook specifically, but of anything that isn't vim really...&lt;/p&gt;
 &lt;!-- nicer format so git diffs are better --&gt;
 
 &lt;p&gt;One final thought, not about the new changes but about IPython notebook files in general. Yes the save format is renamed json and so is human readable and can be diffed, but has anyone really usefully diffed a notebook? It's basically impossible. Perhaps I've just not tried hard enough, and now with IPython 2.0 I may become more accustomed to diffing IPython notebook files and realise the folly of my ways.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Testing PyMC3</title><link href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/" rel="alternate"></link><updated>2014-03-08T13:14:42+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-03-08:blog/2014/03/08/testing-pymc3/</id><summary type="html">&lt;p&gt;I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be consistent though.&lt;/p&gt;
-&lt;p&gt;I managed to get the &lt;a href="http://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb"&gt;tutorial&lt;/a&gt; to run by installing the following:&lt;/p&gt;
+&lt;p&gt;I managed to get the &lt;a href="https://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb"&gt;tutorial&lt;/a&gt; to run by installing the following:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;Theano==0.6.0
 pymc==3.0
 scipy==0.13.3
@@ -539,7 +539,7 @@ One way to combat this is to introduce Null Objects, where they look like a stan
 &lt;p&gt;due to the prevalence of &lt;code&gt;nil&lt;/code&gt;s&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</summary><category term="python"></category><category term="code design"></category></entry><entry><title>Function fitting with lmfit</title><link href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="alternate"></link><updated>2013-07-04T18:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-04:blog/2013/07/04/function-fitting-with-lmfit/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.scipy.org/"&gt;Scipy&lt;/a&gt; contains functions for fitting equations with &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt;, in its &lt;code&gt;scipy.optimize&lt;/code&gt; module. The two main ones I've used in the past are &lt;code&gt;leastsq&lt;/code&gt; and &lt;code&gt;curve_fit&lt;/code&gt;, which in itself is a convenience wrapper around &lt;code&gt;leastsq&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;</summary><category term="python"></category><category term="code design"></category></entry><entry><title>Function fitting with lmfit</title><link href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="alternate"></link><updated>2013-07-04T18:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-04:blog/2013/07/04/function-fitting-with-lmfit/</id><summary type="html">&lt;p&gt;&lt;a href="https://www.scipy.org/"&gt;Scipy&lt;/a&gt; contains functions for fitting equations with &lt;a href="https://www.python.org"&gt;Python&lt;/a&gt;, in its &lt;code&gt;scipy.optimize&lt;/code&gt; module. The two main ones I've used in the past are &lt;code&gt;leastsq&lt;/code&gt; and &lt;code&gt;curve_fit&lt;/code&gt;, which in itself is a convenience wrapper around &lt;code&gt;leastsq&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;&lt;code&gt;curve_fit&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;For this operation you require three (four) things:&lt;/p&gt;
 &lt;ul&gt;
@@ -608,13 +608,13 @@ $$&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;This will usually throw an error containing the script &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Origin http://localhost:8000 is not allowed by Access-Control-Allow-Origin
+&lt;div class="highlight"&gt;&lt;pre&gt;Origin https://localhost:8000 is not allowed by Access-Control-Allow-Origin
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This is a security measure input by web browsers to prevent cross domain scripting attacks, and is a good idea, but during development this can be a problem.&lt;/p&gt;
-&lt;p&gt;One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as &lt;a href="http://mcavage.github.com/node-restify/"&gt;restify&lt;/a&gt; is ideal.&lt;/p&gt;
-&lt;p&gt;A nice option as supplied by &lt;a href="http://stackoverflow.com/a/14187628/56711"&gt;this&lt;/a&gt; SO answer is to add middleware to allow certain domains access to the REST server.&lt;/p&gt;
+&lt;p&gt;One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as &lt;a href="https://mcavage.github.com/node-restify/"&gt;restify&lt;/a&gt; is ideal.&lt;/p&gt;
+&lt;p&gt;A nice option as supplied by &lt;a href="https://stackoverflow.com/a/14187628/56711"&gt;this&lt;/a&gt; SO answer is to add middleware to allow certain domains access to the REST server.&lt;/p&gt;
 &lt;p&gt;For development this is a handy workaround, but for production obviously &lt;em&gt;DO NOT USE!&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;For restify this can be inserted before your normal CRUD routes as middleware using &lt;code&gt;server.use(...)&lt;/code&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="webdev"></category></entry><entry><title>Embedding Python in LaTeX</title><link href="https://mindriot101.github.io/blog/2013/02/05/embedding-python-in-latex/" rel="alternate"></link><updated>2013-02-05T11:38:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-05:blog/2013/02/05/embedding-python-in-latex/</id><summary type="html">&lt;p&gt;Combining Python with LaTeX is a powerful combination. It allows for arbitrary code to be executed which either gives the results of expressions, or can be used to embed programatically certain things e.g. the paths of files or images.&lt;/p&gt;
 &lt;p&gt;By downloading python.sty and including it in a usepackage block, python code can be run.&lt;/p&gt;
@@ -665,7 +665,7 @@ the evenly spaced x and y values (xi and yi)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;contourf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;zi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="visualisation"></category></entry><entry><title>Adding module imports to iPython startup</title><link href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/" rel="alternate"></link><updated>2011-01-12T10:19:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2011-01-12:blog/2011/01/12/adding-module-imports-to-ipython-startup/</id><summary type="html">&lt;p&gt;I'm constantly opening an iPython interpreter and having to import my
-common modules (for me &lt;a href="http://www.stsci.edu/resources/software_hardware/pyfits"&gt;pyfits&lt;/a&gt; mostly).&lt;/p&gt;
+common modules (for me &lt;a href="https://www.stsci.edu/resources/software_hardware/pyfits"&gt;pyfits&lt;/a&gt; mostly).&lt;/p&gt;
 &lt;p&gt;The easiest way to import modules on iPython startup is to look in your&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ipy_user_conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-06-07T19:59:23+01:00</updated><entry><title>Emcee in Rust</title><link href="https://mindriot101.github.io/blog/2017/06/07/emcee-in-rust/" rel="alternate"></link><updated>2017-06-07T19:59:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-06-07:blog/2017/06/07/emcee-in-rust/</id><summary type="html">&lt;p&gt;I've been re-implementing the &lt;a href="http://dan.iel.fm/emcee/current/"&gt;Python &lt;code&gt;emcee&lt;/code&gt; library&lt;/a&gt; in Rust.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2017-06-07T19:59:23+01:00</updated><entry><title>Emcee in Rust</title><link href="https://mindriot101.github.io/blog/2017/06/07/emcee-in-rust/" rel="alternate"></link><updated>2017-06-07T19:59:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2017-06-07:blog/2017/06/07/emcee-in-rust/</id><summary type="html">&lt;p&gt;I've been re-implementing the &lt;a href="https://dan.iel.fm/emcee/current/"&gt;Python &lt;code&gt;emcee&lt;/code&gt; library&lt;/a&gt; in Rust.&lt;/p&gt;
 &lt;p&gt;I thought it would be a good project to tackle for a few reasons:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;I actively use it in my own work, and am reasonably familiar with the API and how it works&lt;/li&gt;
@@ -12,7 +12,7 @@
 &lt;h2&gt;Background&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;emcee&lt;/code&gt; is an Ensemble sampler for Markov-Chain Monte-Carlo (MCMC) processes. It uses a series of walkers to explore N-dimensional parameter space efficiently and without getting hung up on sharp local likelihood spikes.&lt;/p&gt;
 &lt;p&gt;The API is very simple to use - you supply your "objective" function, a function to be maximised, and an array of starting points for each walker, and the sampler samples the parameter space. After the given number of iterations have been performed, the location in parameter space of each of the walkers at each iteration can be analysed to extract posterior distributions, find correlations between parameters, and visualise the process.&lt;/p&gt;
-&lt;p&gt;The objective function encodes prior probabilities and likelihood values, as per &lt;a href="https://en.wikipedia.org/wiki/Bayes%27_theorem"&gt;Bayes' rule&lt;/a&gt;, which is applicable for problems in science as Bayesian statistics are my preferred way to describe probability. For more information on this topic, see Jake VanderPlas' &lt;a href="http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/"&gt;excellent series&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The objective function encodes prior probabilities and likelihood values, as per &lt;a href="https://en.wikipedia.org/wiki/Bayes%27_theorem"&gt;Bayes' rule&lt;/a&gt;, which is applicable for problems in science as Bayesian statistics are my preferred way to describe probability. For more information on this topic, see Jake VanderPlas' &lt;a href="https://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/"&gt;excellent series&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;The Rust version&lt;/h2&gt;
 &lt;p&gt;When starting to write the sampler, I realised that due to Python's dynamic nature, the objective function and required arguments are quite dynamic. In Python the objective function is wrapped in a wrapper which stores the function arguments and keyword arguments so the function can be pickled and sent to other processes:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;_function_wrapper&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -109,7 +109,7 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;This method was brought to my attention by &lt;a href="http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/"&gt;Tom Marsh&lt;/a&gt;, and is a nice alternative to using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This method was brought to my attention by &lt;a href="https://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/"&gt;Tom Marsh&lt;/a&gt;, and is a nice alternative to using &lt;a href="https://docs.python.org/3/library/functools.html#functools.partial"&gt;&lt;code&gt;functools.partial&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In Python, a custom class instance can be treated like a function (technically a &lt;em&gt;callable&lt;/em&gt;) if it has a &lt;code&gt;__call__&lt;/code&gt; method:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Foo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;object&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__call__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
@@ -243,7 +243,7 @@ common method of parallel problems here: &lt;a href="https://en.wikipedia.org/wi
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;If I've skipped your favourite method of parallelism, feel free to &lt;a href="https://twitter.com/srwalker101"&gt;tweet me&lt;/a&gt; or &lt;a href="https://github.com/mindriot101/mindriot101.github.io/issues/2"&gt;add a comment on the tracking issue&lt;/a&gt; informing me.&lt;/em&gt;&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;I've created an &lt;a href="http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
+&lt;p&gt;I've created an &lt;a href="https://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef"&gt;example notebook&lt;/a&gt; which can be used as a base.&lt;/p&gt;
 &lt;p&gt;Throughout, we shall be referring to this code example. It's basic, but
 illustrates the procedure:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;avalues&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -521,8 +521,8 @@ in groups if need be&lt;/em&gt;&lt;/p&gt;</summary><category term="linux"></cate
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;This requires changing all logging statements. Then my googling stumbled upon &lt;a href="https://stackoverflow.com/questions/22118713/add-time-stamp-with-stdcout"&gt;this question&lt;/a&gt; which had an &lt;a href="http://stackoverflow.com/a/22119115/56711"&gt;elegant solution&lt;/a&gt; incorporating a decorator object.&lt;/p&gt;
-&lt;p&gt;Further down the page however I came upon a much nicer solution that transcends languages and programs and can be applied to running shell commands. &lt;a href="http://stackoverflow.com/a/22130756/56711"&gt;The answer I ended up stealing and adding to my .zshrc&lt;/a&gt; is as follows:&lt;/p&gt;
+&lt;p&gt;This requires changing all logging statements. Then my googling stumbled upon &lt;a href="https://stackoverflow.com/questions/22118713/add-time-stamp-with-stdcout"&gt;this question&lt;/a&gt; which had an &lt;a href="https://stackoverflow.com/a/22119115/56711"&gt;elegant solution&lt;/a&gt; incorporating a decorator object.&lt;/p&gt;
+&lt;p&gt;Further down the page however I came upon a much nicer solution that transcends languages and programs and can be applied to running shell commands. &lt;a href="https://stackoverflow.com/a/22130756/56711"&gt;The answer I ended up stealing and adding to my .zshrc&lt;/a&gt; is as follows:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;function&lt;/span&gt; add_timestamps&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
     awk &lt;span class="s1"&gt;&amp;#39;{print &amp;quot;[&amp;quot;strftime()&amp;quot;]: &amp;quot;$0}&amp;#39;&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
@@ -648,7 +648,7 @@ in groups if need be&lt;/em&gt;&lt;/p&gt;</summary><category term="linux"></cate
 
 &lt;p&gt;This setting has three options: &lt;code&gt;0&lt;/code&gt; to disable the feature, &lt;code&gt;1&lt;/code&gt; to enable it in a "smart" sense, and 2 where it's enabled always. The main difference between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;2&lt;/code&gt; is when a "bare" function is called, e.g. &lt;code&gt;more_stuff&lt;/code&gt; in the example above, without parentheses. With &lt;code&gt;autocall = 2&lt;/code&gt; the function is &lt;em&gt;called&lt;/em&gt; rather than merely returned.&lt;/p&gt;
 &lt;h2&gt;Starting up with &lt;code&gt;seaborn&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;I am a fan of the &lt;a href="http://stanford.edu/~mwaskom/software/seaborn/"&gt;seaborn&lt;/a&gt; visualisation package, for the styles and extra features. In the &lt;code&gt;pylab&lt;/code&gt; profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py"&gt;in this file&lt;/a&gt;. I'll explain it here.&lt;/p&gt;
+&lt;p&gt;I am a fan of the &lt;a href="https://stanford.edu/~mwaskom/software/seaborn/"&gt;seaborn&lt;/a&gt; visualisation package, for the styles and extra features. In the &lt;code&gt;pylab&lt;/code&gt; profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py"&gt;in this file&lt;/a&gt;. I'll explain it here.&lt;/p&gt;
 &lt;p&gt;The code:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;__future__&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;print_function&lt;/span&gt;
 
@@ -668,7 +668,7 @@ in groups if need be&lt;/em&gt;&lt;/p&gt;</summary><category term="linux"></cate
 &lt;ul&gt;
 &lt;li&gt;"Normal" mode: &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py"&gt;https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_default/ipython_config.py&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;"Pylab" mode: &lt;a href="https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py"&gt;https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/ipython_config.py&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</summary><category term="python"></category><category term="visualisation"></category><category term="ipython"></category></entry><entry><title>git submodules are not so bad</title><link href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/" rel="alternate"></link><updated>2014-12-28T23:25:51+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-12-28:blog/2014/12/28/git-submodules-are-not-so-bad/</id><summary type="html">&lt;p&gt;I see a lot of complaints about git submodules, &lt;a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/"&gt;people suggesting alternatives&lt;/a&gt;, &lt;a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/"&gt;complaints about merging&lt;/a&gt; or other bits and pieces.&lt;/p&gt;
+&lt;/ul&gt;</summary><category term="python"></category><category term="visualisation"></category><category term="ipython"></category></entry><entry><title>git submodules are not so bad</title><link href="https://mindriot101.github.io/blog/2014/12/28/git-submodules-are-not-so-bad/" rel="alternate"></link><updated>2014-12-28T23:25:51+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-12-28:blog/2014/12/28/git-submodules-are-not-so-bad/</id><summary type="html">&lt;p&gt;I see a lot of complaints about git submodules, &lt;a href="https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/"&gt;people suggesting alternatives&lt;/a&gt;, &lt;a href="https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/"&gt;complaints about merging&lt;/a&gt; or other bits and pieces.&lt;/p&gt;
 &lt;p&gt;Git submodules &lt;em&gt;have their place&lt;/em&gt;. Yes they are not ideal for all situations but they are ideal for the typical use case I'm about to outline.&lt;/p&gt;
 &lt;h2&gt;Example use case&lt;/h2&gt;
 &lt;p&gt;In my work I have a &lt;em&gt;master&lt;/em&gt; project which contains multiple submodules. Each submodule is also cloned into a separate &lt;em&gt;development&lt;/em&gt; repository sitting near by. I use the &lt;em&gt;master&lt;/em&gt; repository to synchronise pushes to the deployment server (in this case an isolated computer sitting on a mountain in Chile!)&lt;/p&gt;
@@ -706,11 +706,11 @@ in groups if need be&lt;/em&gt;&lt;/p&gt;</summary><category term="linux"></cate
 
 &lt;p&gt;and therefore shouts at me for forgetting rule 1. above. It can be disabled via: &lt;code&gt;git status --ignore-submodules=dirty&lt;/code&gt; but I do not recommend this. Consider it a &lt;em&gt;feature&lt;/em&gt;.&lt;/p&gt;
 &lt;h2&gt;Git subtree&lt;/h2&gt;
-&lt;p&gt;A common suggested alternative is &lt;a href="http://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging"&gt;git subtree&lt;/a&gt; which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell &lt;code&gt;git subtree&lt;/code&gt; creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.&lt;/p&gt;
+&lt;p&gt;A common suggested alternative is &lt;a href="https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging"&gt;git subtree&lt;/a&gt; which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell &lt;code&gt;git subtree&lt;/code&gt; creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.&lt;/p&gt;
 &lt;h2&gt;Hints and tips&lt;/h2&gt;
 &lt;p&gt;Some hints and tips I always have to google myself:&lt;/p&gt;
 &lt;h3&gt;Remove a submodule&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://stackoverflow.com/a/16162000/56711"&gt;source&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/a/16162000/56711"&gt;source&lt;/a&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;git submodule deinit asubmodule
 git rm asubmodule
 &lt;/pre&gt;&lt;/div&gt;
@@ -789,7 +789,7 @@ The linked bug report suggests that this will be registered as a dependency as o
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;when calling subtasks with a simple &lt;code&gt;make&lt;/code&gt;. Now with &lt;code&gt;$(MAKE)&lt;/code&gt; the jobs run in parallel where possible.&lt;/p&gt;</summary><category term="make"></category><category term="code"></category><category term="science"></category></entry><entry><title>IPython version 2.0</title><link href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/" rel="alternate"></link><updated>2014-04-02T16:32:38+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-04-02:blog/2014/04/02/ipython-version-20/</id><summary type="html">&lt;p&gt;So IPython has updated to version 2.0. The full changelog &lt;a href="http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html"&gt;can be found here&lt;/a&gt; and to summarise the key points:&lt;/p&gt;
+&lt;p&gt;when calling subtasks with a simple &lt;code&gt;make&lt;/code&gt;. Now with &lt;code&gt;$(MAKE)&lt;/code&gt; the jobs run in parallel where possible.&lt;/p&gt;</summary><category term="make"></category><category term="code"></category><category term="science"></category></entry><entry><title>IPython version 2.0</title><link href="https://mindriot101.github.io/blog/2014/04/02/ipython-version-20/" rel="alternate"></link><updated>2014-04-02T16:32:38+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-04-02:blog/2014/04/02/ipython-version-20/</id><summary type="html">&lt;p&gt;So IPython has updated to version 2.0. The full changelog &lt;a href="https://ipython.org/ipython-doc/dev/whatsnew/version2.0.html"&gt;can be found here&lt;/a&gt; and to summarise the key points:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;interactive widgets for the notebook&lt;/li&gt;
 &lt;li&gt;directory navigation in the notebook dashboard&lt;/li&gt;
@@ -801,7 +801,7 @@ The linked bug report suggests that this will be registered as a dependency as o
 &lt;h2&gt;Directory navigation and persistent URLs&lt;/h2&gt;
 &lt;p&gt;This feature enables navigation to seemingly an arbitrary location relative to the initial directory that &lt;code&gt;ipython notebook&lt;/code&gt; was called in. I suppose this prevents access to sensitive locations or locations that the user wants to keep out of the search path. For example all of my work is under a root directory of &lt;code&gt;~/work&lt;/code&gt; so if I start a notebook here then my other directories further up are not visible.&lt;/p&gt;
 &lt;p&gt;The following screenshot gives the example on the IPython homepage, and shows the navigable locations.&lt;/p&gt;
-&lt;p&gt;&lt;img src='http://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'&gt;
+&lt;p&gt;&lt;img src='https://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'&gt;
 &lt;/img&gt;&lt;/p&gt;
 &lt;p&gt;With this a single server can manage all of the notebooks on a single machine. I was hoping for this functionality rather than either &lt;/p&gt;
 &lt;ul&gt;
@@ -814,12 +814,12 @@ The linked bug report suggests that this will be registered as a dependency as o
 &lt;h2&gt;The final caveats&lt;/h2&gt;
 &lt;!-- vim keybindings --&gt;
 
-&lt;p&gt;Of course I've yet to find a vim emulator that I'm happy with. &lt;a href="http://neovim.org/"&gt;Neovim&lt;/a&gt; promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.&lt;/p&gt;
+&lt;p&gt;Of course I've yet to find a vim emulator that I'm happy with. &lt;a href="https://neovim.org/"&gt;Neovim&lt;/a&gt; promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.&lt;/p&gt;
 &lt;p&gt;This is of course not a failing in IPython notebook specifically, but of anything that isn't vim really...&lt;/p&gt;
 &lt;!-- nicer format so git diffs are better --&gt;
 
 &lt;p&gt;One final thought, not about the new changes but about IPython notebook files in general. Yes the save format is renamed json and so is human readable and can be diffed, but has anyone really usefully diffed a notebook? It's basically impossible. Perhaps I've just not tried hard enough, and now with IPython 2.0 I may become more accustomed to diffing IPython notebook files and realise the folly of my ways.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Testing PyMC3</title><link href="https://mindriot101.github.io/blog/2014/03/08/testing-pymc3/" rel="alternate"></link><updated>2014-03-08T13:14:42+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2014-03-08:blog/2014/03/08/testing-pymc3/</id><summary type="html">&lt;p&gt;I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be consistent though.&lt;/p&gt;
-&lt;p&gt;I managed to get the &lt;a href="http://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb"&gt;tutorial&lt;/a&gt; to run by installing the following:&lt;/p&gt;
+&lt;p&gt;I managed to get the &lt;a href="https://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb"&gt;tutorial&lt;/a&gt; to run by installing the following:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;Theano==0.6.0
 pymc==3.0
 scipy==0.13.3
@@ -834,7 +834,7 @@ scipy==0.13.3
 &lt;p&gt;I had some trouble installing the &lt;code&gt;pymc3&lt;/code&gt; branch without installing the specific version of Theano shown.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Dickwraith stories</title><link href="https://mindriot101.github.io/blog/2013/12/09/dickwraith-stories/" rel="alternate"></link><updated>2013-12-09T23:23:34+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-12-09:blog/2013/12/09/dickwraith-stories/</id><summary type="html">&lt;p&gt;So I've done some very dickish things as a darkwraith in Dark Souls, mostly involving firestorm. I'm certain my stories are not the &lt;em&gt;worst&lt;/em&gt; but they're probably some of the worst things &lt;em&gt;I've&lt;/em&gt; done! I'm leaving this here as a confessional of sorts, but also a great place to leave my invasion stories.&lt;/p&gt;
 &lt;p&gt;Some context: these stories were probably performed on my SL1 dickwraith character, using a +5 chaos battle axe for max damage. I'm armed with a max pyro flame with firestorm and fire surge for the comedy.&lt;/p&gt;
 &lt;p&gt;I was fighting a naked character with bonewheel shield, and fighting on the roof of Sen's. We were on the narrow bridge and my opponent was clearly trying to run past me to the boss fog. We had a small interaction which left me with the impression that it would only take two hits, and even hitting the bonewheel shield would do considerable damage. The single hit I landed caused fear in my opponent so she started running. I thought of getting a handy backstab (remember I'm playing a dickwraith) so pursued. In my excitement I didn't notice that she went into the cage lift and I continued running. We shared a tense ride down to the ground floor, and we were both attacking like mad. My wolf ring allowed me to get the hits and my victory achieved.&lt;/p&gt;
-&lt;p&gt;Again on the roof of Sen's, I enter the host's world and go on the hunt. I see the archer is missing so start running to the top. I see the words "Summoning Phantom" on my screen and realising that Tarkus was on his way. I'd earlier failed to kill a character being assisted by Tarkus that night so thought I was in for a difficult fight. I got to the top expecting Tarkus and the host but saw neither, until I glanced across to the building with Tarkus' summon sign and saw them both standing in the doorway. They had not seen me yet so I armed firestorm and waited out of sight until the inevitable: they started crossing the bridge. When the host neared I cast firestorm and caught him as he rounded the corner, probably expecting a quick backstab on the black phantom crouching on the floor just before flames erupted out from the ground.&lt;/p&gt;</summary><category term="dark souls"></category></entry><entry><title>Puppet and vagrant</title><link href="https://mindriot101.github.io/blog/2013/10/30/puppet-and-vagrant/" rel="alternate"></link><updated>2013-10-30T23:13:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-10-30:blog/2013/10/30/puppet-and-vagrant/</id><summary type="html">&lt;p&gt;So I've been playing with &lt;a href="http://puppetlabs.com/"&gt;Puppet&lt;/a&gt; and &lt;a href="http://www.opscode.com/chef/"&gt;Chef&lt;/a&gt; for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With &lt;a href="http://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;, testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for the tests is extremely short.&lt;/p&gt;
+&lt;p&gt;Again on the roof of Sen's, I enter the host's world and go on the hunt. I see the archer is missing so start running to the top. I see the words "Summoning Phantom" on my screen and realising that Tarkus was on his way. I'd earlier failed to kill a character being assisted by Tarkus that night so thought I was in for a difficult fight. I got to the top expecting Tarkus and the host but saw neither, until I glanced across to the building with Tarkus' summon sign and saw them both standing in the doorway. They had not seen me yet so I armed firestorm and waited out of sight until the inevitable: they started crossing the bridge. When the host neared I cast firestorm and caught him as he rounded the corner, probably expecting a quick backstab on the black phantom crouching on the floor just before flames erupted out from the ground.&lt;/p&gt;</summary><category term="dark souls"></category></entry><entry><title>Puppet and vagrant</title><link href="https://mindriot101.github.io/blog/2013/10/30/puppet-and-vagrant/" rel="alternate"></link><updated>2013-10-30T23:13:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-10-30:blog/2013/10/30/puppet-and-vagrant/</id><summary type="html">&lt;p&gt;So I've been playing with &lt;a href="https://puppetlabs.com/"&gt;Puppet&lt;/a&gt; and &lt;a href="https://www.opscode.com/chef/"&gt;Chef&lt;/a&gt; for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;, testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for the tests is extremely short.&lt;/p&gt;
 &lt;p&gt;I have tried for quite a while to run chef on a system, to no avail. I've often found that an unexpected crash puts end to my testing, whereas the first times I tried puppet I achieved success. I also feel the declarative style with which the puppet modules are built really suits the problems that puppet solves.&lt;/p&gt;
 &lt;p&gt;This post is less of a comparison of Chef vs Puppet, perhaps the first in a series comparing the two, but for now we start with Puppet.&lt;/p&gt;
 &lt;h2&gt;Simple configuration&lt;/h2&gt;
@@ -844,7 +844,7 @@ scipy==0.13.3
 &lt;li&gt;puppet&lt;/li&gt;
 &lt;li&gt;librarian-puppet&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;I'm not going to go into details about the installation of the tools, apart from to say that vagrant is installed from the &lt;a href="http://vagrantup.com"&gt;vagrant website&lt;/a&gt; and puppet/librarian-puppet are installed as gems.&lt;/p&gt;
+&lt;p&gt;I'm not going to go into details about the installation of the tools, apart from to say that vagrant is installed from the &lt;a href="https://vagrantup.com"&gt;vagrant website&lt;/a&gt; and puppet/librarian-puppet are installed as gems.&lt;/p&gt;
 &lt;p&gt;A project can be completetly defined (for example for version control) in four files:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Vagrantfile&lt;/li&gt;
@@ -889,8 +889,8 @@ scipy==0.13.3
 
 
 &lt;h3&gt;librarian-puppet&lt;/h3&gt;
-&lt;p&gt;A major part of development is the DRY principle, and applies to package configuration also. &lt;code&gt;librarian-puppet&lt;/code&gt; allows pre-build and tested modules to install common packages. Puppetlabs maintain a repository of modules at &lt;a href="https://forge.puppetlabs.com/"&gt;puppet forge&lt;/a&gt;, or on &lt;a href="http://www.github.com"&gt;github&lt;/a&gt; and these can be configured and managed through librarian-puppet. An example configuration is given below:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;forge&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;http://forge.puppetlabs.com&amp;quot;&lt;/span&gt;
+&lt;p&gt;A major part of development is the DRY principle, and applies to package configuration also. &lt;code&gt;librarian-puppet&lt;/code&gt; allows pre-build and tested modules to install common packages. Puppetlabs maintain a repository of modules at &lt;a href="https://forge.puppetlabs.com/"&gt;puppet forge&lt;/a&gt;, or on &lt;a href="https://www.github.com"&gt;github&lt;/a&gt; and these can be configured and managed through librarian-puppet. An example configuration is given below:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;forge&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://forge.puppetlabs.com&amp;quot;&lt;/span&gt;
 
 &lt;span class="n"&gt;mod&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;puppetlabs/stdlib&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;mod&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;puppetlabs/postgresql&amp;#39;&lt;/span&gt;
@@ -900,7 +900,7 @@ scipy==0.13.3
 
 &lt;p&gt;where the &lt;code&gt;mod&lt;/code&gt; lines define the required modules with the author prefix, and the forge line defines the source. The syntax is remarkably similar to the Gemfile.&lt;/p&gt;
 &lt;h3&gt;manifests/default.pp&lt;/h3&gt;
-&lt;p&gt;This file describes the final configuration. I recommend following the &lt;a href="http://docs.puppetlabs.com/learning/index.html"&gt;official puppet tutorial&lt;/a&gt;, an example file which installs vim can be:&lt;/p&gt;
+&lt;p&gt;This file describes the final configuration. I recommend following the &lt;a href="https://docs.puppetlabs.com/learning/index.html"&gt;official puppet tutorial&lt;/a&gt;, an example file which installs vim can be:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;exec&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;apt-get update&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
   &lt;span class="na"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/usr/bin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
@@ -951,10 +951,10 @@ vagrant up
 
 &lt;p&gt;Simple eh? More documentation for these files can be found:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://www.vagrantup.com"&gt;http://www.vagrantup.com&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://puppetlabs.com/"&gt;http://puppetlabs.com/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://docs.puppetlabs.com/learning/index.html"&gt;The excellent puppet tutorial&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://librarian-puppet.com/"&gt;librarian-puppet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.vagrantup.com"&gt;https://www.vagrantup.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://puppetlabs.com/"&gt;https://puppetlabs.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.puppetlabs.com/learning/index.html"&gt;The excellent puppet tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://librarian-puppet.com/"&gt;librarian-puppet&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</summary><category term="puppet"></category><category term="vagrant"></category><category term="devops"></category></entry><entry><title>git quick</title><link href="https://mindriot101.github.io/blog/2013/09/05/git-quick/" rel="alternate"></link><updated>2013-09-05T23:04:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-09-05:blog/2013/09/05/git-quick/</id><summary type="html">&lt;p&gt;Git quick is a simple shell command I've written for quicker one line messages. It allows committing like&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;g q A simple commit message
 &lt;/pre&gt;&lt;/div&gt;
@@ -1053,7 +1053,7 @@ One way to combat this is to introduce Null Objects, where they look like a stan
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;How can anybody sleep at night?!&lt;/p&gt;</summary><category term="ruby"></category></entry><entry><title>Ruby: first impressions</title><link href="https://mindriot101.github.io/blog/2013/08/26/ruby-first-impressions/" rel="alternate"></link><updated>2013-08-26T22:14:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-26:blog/2013/08/26/ruby-first-impressions/</id><summary type="html">&lt;p&gt;So I've been trying &lt;a href="http://www.ruby-lang.org/en/"&gt;Ruby&lt;/a&gt; recently,
+&lt;p&gt;How can anybody sleep at night?!&lt;/p&gt;</summary><category term="ruby"></category></entry><entry><title>Ruby: first impressions</title><link href="https://mindriot101.github.io/blog/2013/08/26/ruby-first-impressions/" rel="alternate"></link><updated>2013-08-26T22:14:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-08-26:blog/2013/08/26/ruby-first-impressions/</id><summary type="html">&lt;p&gt;So I've been trying &lt;a href="https://www.ruby-lang.org/en/"&gt;Ruby&lt;/a&gt; recently,
 partially trying to add some substance to my CV, and partially out of
 curiosity. I used to be a complete python snob; I didn't understand
 why anyone &lt;em&gt;wouldn't&lt;/em&gt; use python. It is a dynamic language so no more
@@ -1244,11 +1244,11 @@ for more information. I hope to learn more of what Ruby has to offer in the
 future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
 &lt;h2&gt;Resources&lt;/h2&gt;
 &lt;h3&gt;Beginner&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://railsforzombies.org/"&gt;Rails for Zombies&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://railsforzombies.org/"&gt;Rails for Zombies&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Technical&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://railscasts.com/"&gt;Railscasts&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://railscasts.com/"&gt;Railscasts&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Advanced&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://robots.thoughtbot.com/"&gt;Thoughtbot&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://robots.thoughtbot.com/"&gt;Thoughtbot&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;(I'll try and keep these updated)&lt;/p&gt;
 &lt;div class="footnote"&gt;
 &lt;hr /&gt;
@@ -1263,9 +1263,9 @@ future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;This was brought to my attention through the &lt;code&gt;guard-shell&lt;/code&gt; gem &lt;a href="https://github.com/guard/guard-shell#saying-the-name-of-the-file-you-changed-and-displaying-a-notification"&gt;README&lt;/a&gt;.&lt;/p&gt;</summary><category term="OSX"></category></entry><entry><title>Using guard with foreman</title><link href="https://mindriot101.github.io/blog/2013/07/29/using-guard-with-foreman/" rel="alternate"></link><updated>2013-07-29T11:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-29:blog/2013/07/29/using-guard-with-foreman/</id><summary type="html">&lt;p&gt;I've been playing with &lt;a href="http://www.ruby-lang.org/"&gt;Ruby&lt;/a&gt; quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.&lt;/p&gt;
-&lt;p&gt;This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found &lt;a href="http://ddollar.github.io/foreman/"&gt;foreman&lt;/a&gt; which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by &lt;a href="http://heroku.com"&gt;heroku&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;I was using this technique with a simple &lt;code&gt;Procfile&lt;/code&gt; for managing my thesis. I have two tasks running: &lt;a href="http://users.phys.psu.edu/~collins/software/latexmk-jcc/"&gt;latexmk&lt;/a&gt; which manages the latex compiling, and &lt;a href="http://guardgem.org/"&gt;guard&lt;/a&gt; which manages the python plotting.&lt;/p&gt;
+&lt;p&gt;This was brought to my attention through the &lt;code&gt;guard-shell&lt;/code&gt; gem &lt;a href="https://github.com/guard/guard-shell#saying-the-name-of-the-file-you-changed-and-displaying-a-notification"&gt;README&lt;/a&gt;.&lt;/p&gt;</summary><category term="OSX"></category></entry><entry><title>Using guard with foreman</title><link href="https://mindriot101.github.io/blog/2013/07/29/using-guard-with-foreman/" rel="alternate"></link><updated>2013-07-29T11:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-29:blog/2013/07/29/using-guard-with-foreman/</id><summary type="html">&lt;p&gt;I've been playing with &lt;a href="https://www.ruby-lang.org/"&gt;Ruby&lt;/a&gt; quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.&lt;/p&gt;
+&lt;p&gt;This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found &lt;a href="https://ddollar.github.io/foreman/"&gt;foreman&lt;/a&gt; which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by &lt;a href="https://heroku.com"&gt;heroku&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I was using this technique with a simple &lt;code&gt;Procfile&lt;/code&gt; for managing my thesis. I have two tasks running: &lt;a href="https://users.phys.psu.edu/~collins/software/latexmk-jcc/"&gt;latexmk&lt;/a&gt; which manages the latex compiling, and &lt;a href="https://guardgem.org/"&gt;guard&lt;/a&gt; which manages the python plotting.&lt;/p&gt;
 &lt;p&gt;I added these to the &lt;code&gt;Procfile&lt;/code&gt; as such&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ss"&gt;latex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;latexmk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pvc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="no"&gt;Thesis&lt;/span&gt;
 &lt;span class="ss"&gt;plotting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="n"&gt;guard&lt;/span&gt;
@@ -1275,7 +1275,7 @@ future, and possibly to pass on my knowledge to the next generation.&lt;/p&gt;
 &lt;p&gt;This would cause both processes to hang, which I couldn't explain. I then thought that guard is interactive: it has an interface for managing specific tasks or getting info about the processes running. I searched through the guard help to find the &lt;code&gt;--no-interactions&lt;/code&gt; flag and this solved my problem. My new complete Procfile is now&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="ss"&gt;latex&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;latexmk&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;pvc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt; &lt;span class="no"&gt;Thesis&lt;/span&gt;
 &lt;span class="ss"&gt;plotting&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="n"&gt;guard&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;interactions&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="ruby"></category><category term="guard"></category><category term="foreman"></category><category term="latex"></category></entry><entry><title>Function fitting with lmfit</title><link href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="alternate"></link><updated>2013-07-04T18:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-04:blog/2013/07/04/function-fitting-with-lmfit/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.scipy.org/"&gt;Scipy&lt;/a&gt; contains functions for fitting equations with &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt;, in its &lt;code&gt;scipy.optimize&lt;/code&gt; module. The two main ones I've used in the past are &lt;code&gt;leastsq&lt;/code&gt; and &lt;code&gt;curve_fit&lt;/code&gt;, which in itself is a convenience wrapper around &lt;code&gt;leastsq&lt;/code&gt;.&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="ruby"></category><category term="guard"></category><category term="foreman"></category><category term="latex"></category></entry><entry><title>Function fitting with lmfit</title><link href="https://mindriot101.github.io/blog/2013/07/04/function-fitting-with-lmfit/" rel="alternate"></link><updated>2013-07-04T18:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-07-04:blog/2013/07/04/function-fitting-with-lmfit/</id><summary type="html">&lt;p&gt;&lt;a href="https://www.scipy.org/"&gt;Scipy&lt;/a&gt; contains functions for fitting equations with &lt;a href="https://www.python.org"&gt;Python&lt;/a&gt;, in its &lt;code&gt;scipy.optimize&lt;/code&gt; module. The two main ones I've used in the past are &lt;code&gt;leastsq&lt;/code&gt; and &lt;code&gt;curve_fit&lt;/code&gt;, which in itself is a convenience wrapper around &lt;code&gt;leastsq&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;&lt;code&gt;curve_fit&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;For this operation you require three (four) things:&lt;/p&gt;
 &lt;ul&gt;
@@ -1415,7 +1415,7 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;IRD - IR doppler instrument on Subaru&lt;ul&gt;
 &lt;li&gt;could be good for follow up for NGTS, investigate this&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://adsabs.harvard.edu/abs/2012SPIE.8446E..1TT"&gt;paper&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://adsabs.harvard.edu/abs/2012SPIE.8446E..1TT"&gt;paper&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -1760,19 +1760,19 @@ A quite sensible talk was about the formation of hot Jupiters and how the primar
 
 &lt;p&gt;&lt;br /&gt;&lt;small&gt;&lt;a href="https://maps.google.com/maps?f=q&amp;amp;source=embed&amp;amp;hl=en&amp;amp;geocode=&amp;amp;q=48.4328+-123.3347&amp;amp;aq=&amp;amp;sll=48.736267,-123.318787&amp;amp;sspn=1.132137,2.219238&amp;amp;ie=UTF8&amp;amp;ll=48.4328,-123.3347&amp;amp;spn=1.136136,2.219238&amp;amp;t=m&amp;amp;z=9" style="color:#0000FF;text-align:left"&gt;View Larger Map&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
 &lt;p&gt;We're sitting on a coach waiting to depart to Victoria town centre, ready to find our hotel and work out where the conference centre is. &lt;/p&gt;</summary><category term="astronomy"></category><category term="travel"></category></entry><entry><title>Hostel ahoy</title><link href="https://mindriot101.github.io/blog/2013/06/01/hostel-ahoy/" rel="alternate"></link><updated>2013-06-01T17:49:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-06-01:blog/2013/06/01/hostel-ahoy/</id><summary type="html">&lt;p&gt;So we arrived at the hostel, a very nice place too. I'd recommend it if I could be bothered to find out what it is. I'll try and remember to insert a reference here:&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://www.hihostels.ca/westerncanada/170/hi-vancouver_central.hostel"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.hihostels.ca/westerncanada/170/hi-vancouver_central.hostel"&gt;Reference&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;So yeah nice place. Vancouver is not very exciting so far but as was pointed out to me: the area around the airport is never going to be very nice.&lt;/p&gt;
 &lt;p&gt;The public transport on the other hand seems excellent so far. I'll not get much of a chance to test it out, but from what I've seen so far it's excellent. Fantastic public transport to and from the airport, something London sorely needs.&lt;/p&gt;
 &lt;p&gt;The city itself looks pretty good too, some fancy shops with names I've never heard of, and Claire's accessories of course. That infects every city it touches these days, but that's another topic for another day.&lt;/p&gt;
 &lt;p&gt;We're just about to go get some food and some drinks. I've been up since 6am which makes the writing of this post the 20th hour of being awake. It's not really hitting me yet, but I'm sure I'll sleep well tonight!&lt;/p&gt;
 &lt;p&gt;More astronomy to follow, probably.&lt;/p&gt;</summary><category term="astronomy"></category><category term="travel"></category></entry><entry><title>At the airport</title><link href="https://mindriot101.github.io/blog/2013/06/01/at-the-airport/" rel="alternate"></link><updated>2013-06-01T11:34:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-06-01:blog/2013/06/01/at-the-airport/</id><summary type="html">&lt;p&gt;So we're at the airport. Mostly uneventful journey so far, luckily. Airports terrify me; flying doesn't scare me at all, but the chance of being rejected for something as simple as forgetting your passport is so unnerving.&lt;/p&gt;
-&lt;p&gt;I've been up since 6am this morning, which is pretty tough. I've managed to get some free wifi at the airport, ironically from BT Openzone which have announced that they're &lt;a href="http://www.bbc.co.uk/news/technology-22728977"&gt;closing to O2 customers&lt;/a&gt;. This is ironic for two reasons:&lt;/p&gt;
+&lt;p&gt;I've been up since 6am this morning, which is pretty tough. I've managed to get some free wifi at the airport, ironically from BT Openzone which have announced that they're &lt;a href="https://www.bbc.co.uk/news/technology-22728977"&gt;closing to O2 customers&lt;/a&gt;. This is ironic for two reasons:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;As an O2 customer I was not aware of this ability before today (ok this is not technically irony)&lt;/li&gt;
 &lt;li&gt;I'm checking the internet through BT OpenZone as we speak!&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;In other news, much more sad this time, a co-founder of the fantastic Oculus Rift was announced to be the &lt;a href="http://abclocal.go.com/kabc/story?section=news/local/orange_county&amp;amp;id=9122999"&gt;pedestrian who was killed recently in a police chace&lt;/a&gt;. I'm not sure how this will affect the company, or the development of the rift as a whole; I've not been following development but I've heard some good things about it from many sources.&lt;/p&gt;
-&lt;p&gt;About to board the plane soon, then the long flight where my laptop battery will be tested to its limits. Another post soon, providing I can get some time. So much learning to be done.&lt;/p&gt;</summary><category term="astronomy"></category><category term="travel"></category></entry><entry><title>IAUS 299</title><link href="https://mindriot101.github.io/blog/2013/05/31/iaus-299/" rel="alternate"></link><updated>2013-05-31T18:01:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-05-31:blog/2013/05/31/iaus-299/</id><summary type="html">&lt;p&gt;Tomorrow I fly to Victoria, Canada to attend the &lt;a href="http://www.di.utoronto.ca/research/iaus-299/"&gt;International Astronomical Union Symposium 299&lt;/a&gt;, entitled &lt;em&gt;Exploring the formation and evolution of planetary systems&lt;/em&gt;. I'm presenting a poster, which I may put in the space below for all to see, but to cut a long story short: &lt;em&gt;it's blue&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;In other news, much more sad this time, a co-founder of the fantastic Oculus Rift was announced to be the &lt;a href="https://abclocal.go.com/kabc/story?section=news/local/orange_county&amp;amp;id=9122999"&gt;pedestrian who was killed recently in a police chace&lt;/a&gt;. I'm not sure how this will affect the company, or the development of the rift as a whole; I've not been following development but I've heard some good things about it from many sources.&lt;/p&gt;
+&lt;p&gt;About to board the plane soon, then the long flight where my laptop battery will be tested to its limits. Another post soon, providing I can get some time. So much learning to be done.&lt;/p&gt;</summary><category term="astronomy"></category><category term="travel"></category></entry><entry><title>IAUS 299</title><link href="https://mindriot101.github.io/blog/2013/05/31/iaus-299/" rel="alternate"></link><updated>2013-05-31T18:01:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-05-31:blog/2013/05/31/iaus-299/</id><summary type="html">&lt;p&gt;Tomorrow I fly to Victoria, Canada to attend the &lt;a href="https://www.di.utoronto.ca/research/iaus-299/"&gt;International Astronomical Union Symposium 299&lt;/a&gt;, entitled &lt;em&gt;Exploring the formation and evolution of planetary systems&lt;/em&gt;. I'm presenting a poster, which I may put in the space below for all to see, but to cut a long story short: &lt;em&gt;it's blue&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;I get to enjoy a 9.5 hour flight across the Atlantic, mostly by myself and hopefully I'll be blogging about it whilst I'm there, though I may have to go to talks and get quite drunk with my peers. Here's hoping...&lt;/p&gt;</summary><category term="astronomy"></category><category term="travel"></category></entry><entry><title>The :Explore command in vim</title><link href="https://mindriot101.github.io/blog/2013/05/20/the-explore-command-in-vim/" rel="alternate"></link><updated>2013-05-20T00:00:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-05-20:blog/2013/05/20/the-explore-command-in-vim/</id><summary type="html">&lt;p&gt;In &lt;code&gt;vim&lt;/code&gt; a useful command is the &lt;code&gt;:Explore&lt;/code&gt;, which opens the netrw browser at the location of the current file. This is especially handy for editing files over &lt;code&gt;ssh&lt;/code&gt;, but is handy for those who don't like the file tree type plugins.&lt;/p&gt;
 &lt;p&gt;The command can be shortened to &lt;code&gt;:E&lt;/code&gt; which is fantastic, quickly browse the file system inside vim.&lt;/p&gt;
 &lt;!--more--&gt;
@@ -1829,12 +1829,12 @@ someone in dark Anor Londo just waiting for fresh meat, or someone on NG+), the 
 Township, or invading in common PvP zones. For a game with no communication beyond predetermined
 messages and gestures it's surprisingly easy to convey emotion.&lt;/p&gt;
 &lt;p&gt;I genuinely believe that Dark Souls is one of the best games I've played, with amazing amounts of
-depth if you search for it. Check out &lt;a href="http://www.youtube.com/playlist?list=PL4825DBA198EBE9B9"&gt;EpicNameBro's amazing lore series&lt;/a&gt;, or &lt;a href="http://www.youtube.com/playlist?list=PLWLedd0Zw3c5RCXboUsPwHsZJlXB2CzCz"&gt;VaatiVidya's Prepare To Cry series&lt;/a&gt; for lore discussion, &lt;a href="http://www.youtube.com/user/UberGusMage/videos?flow=grid=0"&gt;UberGoose's speedrunning&lt;/a&gt; to see just how much possibility there is for extending the game. &lt;/p&gt;
+depth if you search for it. Check out &lt;a href="https://www.youtube.com/playlist?list=PL4825DBA198EBE9B9"&gt;EpicNameBro's amazing lore series&lt;/a&gt;, or &lt;a href="https://www.youtube.com/playlist?list=PLWLedd0Zw3c5RCXboUsPwHsZJlXB2CzCz"&gt;VaatiVidya's Prepare To Cry series&lt;/a&gt; for lore discussion, &lt;a href="https://www.youtube.com/user/UberGusMage/videos?flow=grid=0"&gt;UberGoose's speedrunning&lt;/a&gt; to see just how much possibility there is for extending the game. &lt;/p&gt;
 &lt;p&gt;The depth to the character build system is immense, the range of techniques that you can employ are
 diverse and always fun. Create a sorcerer only build, using magic only. Or set yourself some
 challenges like (my current build) a no-shield run&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;. This will teach yourself to dodge
-effectively as endorsed by &lt;a href="http://www.youtube.com/user/vageta311"&gt;Vageta311&lt;/a&gt;, check out his amazing
-&lt;a href="http://www.youtube.com/playlist?list=PL5CC8A65E1E0EB80D"&gt;Everything possible before the gargoyles&lt;/a&gt;
+effectively as endorsed by &lt;a href="https://www.youtube.com/user/vageta311"&gt;Vageta311&lt;/a&gt;, check out his amazing
+&lt;a href="https://www.youtube.com/playlist?list=PL5CC8A65E1E0EB80D"&gt;Everything possible before the gargoyles&lt;/a&gt;
 series for a real eye-opener to the game and just how much is possible.&lt;/p&gt;
 &lt;p&gt;Alternatively take a break for a few months. Let your ability die down and regain that magic for
 yourself.&lt;/p&gt;
@@ -1852,16 +1852,16 @@ yourself.&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;This will usually throw an error containing the script &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Origin http://localhost:8000 is not allowed by Access-Control-Allow-Origin
+&lt;div class="highlight"&gt;&lt;pre&gt;Origin https://localhost:8000 is not allowed by Access-Control-Allow-Origin
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This is a security measure input by web browsers to prevent cross domain scripting attacks, and is a good idea, but during development this can be a problem.&lt;/p&gt;
-&lt;p&gt;One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as &lt;a href="http://mcavage.github.com/node-restify/"&gt;restify&lt;/a&gt; is ideal.&lt;/p&gt;
-&lt;p&gt;A nice option as supplied by &lt;a href="http://stackoverflow.com/a/14187628/56711"&gt;this&lt;/a&gt; SO answer is to add middleware to allow certain domains access to the REST server.&lt;/p&gt;
+&lt;p&gt;One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as &lt;a href="https://mcavage.github.com/node-restify/"&gt;restify&lt;/a&gt; is ideal.&lt;/p&gt;
+&lt;p&gt;A nice option as supplied by &lt;a href="https://stackoverflow.com/a/14187628/56711"&gt;this&lt;/a&gt; SO answer is to add middleware to allow certain domains access to the REST server.&lt;/p&gt;
 &lt;p&gt;For development this is a handy workaround, but for production obviously &lt;em&gt;DO NOT USE!&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;For restify this can be inserted before your normal CRUD routes as middleware using &lt;code&gt;server.use(...)&lt;/code&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="webdev"></category></entry><entry><title>Application-like websites with fluid</title><link href="https://mindriot101.github.io/blog/2013/03/01/application-like-websites-with-fluid/" rel="alternate"></link><updated>2013-03-01T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-03-01:blog/2013/03/01/application-like-websites-with-fluid/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.fluidapp.com"&gt;Fluid&lt;/a&gt; is a Mac OSX app which can convert a single website into an application, with its own icon and place in the dock and task switcher. It is a great way to get the desktop like application feel for a web app.&lt;/p&gt;
-&lt;p&gt;This works particularly well for single-page apps like &lt;a href="http://mail.google.com"&gt;gmail&lt;/a&gt;, or &lt;a href="http://trello.com"&gt;Trello&lt;/a&gt;. The app can be set to not close the window on close, just hide which leaves gmail running in the background, and lets trello remember the last board you were looking at.&lt;/p&gt;
+&lt;p&gt;For restify this can be inserted before your normal CRUD routes as middleware using &lt;code&gt;server.use(...)&lt;/code&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="webdev"></category></entry><entry><title>Application-like websites with fluid</title><link href="https://mindriot101.github.io/blog/2013/03/01/application-like-websites-with-fluid/" rel="alternate"></link><updated>2013-03-01T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-03-01:blog/2013/03/01/application-like-websites-with-fluid/</id><summary type="html">&lt;p&gt;&lt;a href="https://www.fluidapp.com"&gt;Fluid&lt;/a&gt; is a Mac OSX app which can convert a single website into an application, with its own icon and place in the dock and task switcher. It is a great way to get the desktop like application feel for a web app.&lt;/p&gt;
+&lt;p&gt;This works particularly well for single-page apps like &lt;a href="https://mail.google.com"&gt;gmail&lt;/a&gt;, or &lt;a href="https://trello.com"&gt;Trello&lt;/a&gt;. The app can be set to not close the window on close, just hide which leaves gmail running in the background, and lets trello remember the last board you were looking at.&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;The amount of customisation is incredible, and user scripts and styles are enabled by default[^1].&lt;/p&gt;
@@ -1876,7 +1876,7 @@ yourself.&lt;/p&gt;
 &lt;li&gt;After&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="correct" src="{{" title="site.url }}/assets/images/correct.png" /&gt;&lt;/p&gt;
-&lt;p&gt;Always something new!&lt;/p&gt;</summary></entry><entry><title>Installing development version of nginx with Homebrew</title><link href="https://mindriot101.github.io/blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/" rel="alternate"></link><updated>2013-02-25T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-25:blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/</id><summary type="html">&lt;p&gt;I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native &lt;a href="http://nginx.com/news/nginx-websockets.html"&gt;websockets support&lt;/a&gt; but I could not find a way to install version 1.3.&lt;/p&gt;
+&lt;p&gt;Always something new!&lt;/p&gt;</summary></entry><entry><title>Installing development version of nginx with Homebrew</title><link href="https://mindriot101.github.io/blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/" rel="alternate"></link><updated>2013-02-25T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-25:blog/2013/02/25/installing-development-version-of-nginx-with-homebrew/</id><summary type="html">&lt;p&gt;I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native &lt;a href="https://nginx.com/news/nginx-websockets.html"&gt;websockets support&lt;/a&gt; but I could not find a way to install version 1.3.&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;I had a look with &lt;code&gt;brew info nginx&lt;/code&gt; and found a clue: a devel flag:&lt;/p&gt;
@@ -1886,7 +1886,7 @@ yourself.&lt;/p&gt;
     &lt;span class="c1"&gt;# Other code&lt;/span&gt;
 
     &lt;span class="n"&gt;devel&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
-    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://nginx.org/download/nginx-1.3.13.tar.gz&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https://nginx.org/download/nginx-1.3.13.tar.gz&amp;#39;&lt;/span&gt;
     &lt;span class="n"&gt;sha1&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b09b1c35b2b741292d41db1caa3b8a4123805a4c&amp;#39;&lt;/span&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
 
@@ -1898,7 +1898,7 @@ yourself.&lt;/p&gt;
 &lt;p&gt;So simple really, but I googled to no avail, so hopefully this post will come up for anyone else who has this problem.&lt;/p&gt;</summary><category term="homebrew"></category><category term="OSX"></category><category term="nginx"></category></entry><entry><title>(node) development on OSX</title><link href="https://mindriot101.github.io/blog/2013/02/24/node-development-on-osx/" rel="alternate"></link><updated>2013-02-24T00:00:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2013-02-24:blog/2013/02/24/node-development-on-osx/</id><summary type="html">&lt;p&gt;I love my Macbook Pro, for development and general computing use. Before I
 purchased it I was a die hard linux user (apart from gaming which is still
 dominated by windows unfortunately.) My work involves linux&lt;sup id="fnref:my-job"&gt;&lt;a class="footnote-ref" href="#fn:my-job" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; and I am a
-committed &lt;a href="http://vim.org"&gt;vim&lt;/a&gt; user. &lt;/p&gt;
+committed &lt;a href="https://vim.org"&gt;vim&lt;/a&gt; user. &lt;/p&gt;
 &lt;p&gt;My work colleagues tend to laugh when I say that I want to use my mouse as
 little as possible, and that I am quite experienced in command line use. It
 pains me every time I see my office mates reach over to the mouse to click the
@@ -1919,11 +1919,11 @@ but usually this is from my laptop.&lt;/p&gt;
 seeing it instantly in my browser, or just reloading it myself. For this and
 other development, I use a few tools:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://mxcl.github.com/homebrew/"&gt;Homebrew&lt;/a&gt; for package installation&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://blog.boastr.net/?page_id=2342"&gt;Better snap tool&lt;/a&gt; for tiling windows
+&lt;li&gt;&lt;a href="https://brew.sh"&gt;Homebrew&lt;/a&gt; for package installation&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.boastr.net/?page_id=2342"&gt;Better snap tool&lt;/a&gt; for tiling windows
   side by side&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://code.google.com/p/macvim/"&gt;Macvim&lt;/a&gt; for editing, &lt;code&gt;brew install macvim&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://www.iterm2.com"&gt;iTerm2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/macvim/"&gt;Macvim&lt;/a&gt; for editing, &lt;code&gt;brew install macvim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.iterm2.com"&gt;iTerm2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/joh/when-changed"&gt;when-changed.py&lt;/a&gt; for
   compiling/running/whatever when files have changed&lt;/li&gt;
 &lt;/ul&gt;
@@ -1932,7 +1932,7 @@ other development, I use a few tools:&lt;/p&gt;
 &lt;p&gt;Linux has it's share of problems, which should be classed as more &lt;em&gt;challenges&lt;/em&gt;
 than problems as it's fun I assure you. On the other hand it's package
 management system is top notch. The Mac OSX equivalent is Homebrew and is
-superbly managed with packages on &lt;a href="http://github.com"&gt;github&lt;/a&gt;. This takes the
+superbly managed with packages on &lt;a href="https://github.com"&gt;github&lt;/a&gt;. This takes the
 difficulty out of installing a lot of packages, but is still missing some nice
 features.&lt;/p&gt;
 &lt;p&gt;The nice thing about Linux's package management is that the packages are
@@ -1968,10 +1968,10 @@ something is different.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Any time I save the post, by build system (&lt;a href="http://fabfile.org"&gt;fabric&lt;/a&gt;)
+&lt;p&gt;Any time I save the post, by build system (&lt;a href="https://fabfile.org"&gt;fabric&lt;/a&gt;)
 recompiles the post so I can just reload the browser to see the changes.&lt;/p&gt;
 &lt;h3&gt;Application to node&lt;/h3&gt;
-&lt;p&gt;&lt;a href="http://nodejs.org"&gt;node&lt;/a&gt; actually comes with a tool similar to
+&lt;p&gt;&lt;a href="https://nodejs.org"&gt;node&lt;/a&gt; actually comes with a tool similar to
 &lt;code&gt;when-changed.py&lt;/code&gt;, it's called &lt;code&gt;supervisor&lt;/code&gt;, and can be installed globally with
 npm: &lt;code&gt;npm install --global supervisor&lt;/code&gt;. It can reload the server file with any
 changes. I can edit it in one pane with macvim, and view the changes in the
@@ -2043,7 +2043,7 @@ The declaration is a little verbose for my liking (especially compared to python
 I have yet to find a memcpy-type function in cython so I am then declaring the variables used (another Cython optimisation) and appending the array one value at a time into the created vector object. Finally I return the created vector ready to be used as an argument to an external c++ function.
 The setup.py file is identical to wrapping any other c++ code and is documented well on the Cython website itself so I wont go into it here. 
 Once I get more comfortable with the syntax I might try and write a templated version of the function, but for now I am content using the double version and writing another piece of code if I need eg. an integer function.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>OS X 10.7 Lion: my thoughts</title><link href="https://mindriot101.github.io/blog/2011/07/28/os-x-107-lion-my-thoughts/" rel="alternate"></link><updated>2011-07-28T11:57:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2011-07-28:blog/2011/07/28/os-x-107-lion-my-thoughts/</id><summary type="html">&lt;p&gt;My first OSX upgrade went well I think. My MacBook Pro is a Mid 2009 model, as the nice new About This Mac (not sure why this is capitalised but never mind) tells me.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="New about this mac window" src="http://media.tumblr.com/tumblr_lp1iaipQ3S1qh2v9o.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="New about this mac window" src="https://media.tumblr.com/tumblr_lp1iaipQ3S1qh2v9o.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Ive never upgraded a Mac before since my pride and joy came with Snow Leopard installed, the as-of-then most up to date operating system so I had no idea what to expect. Ive been using my Mac for nearly two years now but before that I was a pretty heavy Windows user. My other tipple is Linux, so whatever it was like I was going to be tense and anxious. &lt;/p&gt;
 &lt;!--more--&gt;
 
@@ -2056,7 +2056,7 @@ Once I get more comfortable with the syntax I might try and write a templated ve
 &lt;p&gt;I am getting used to the natural scrolling direction, not sure whether Id actually call it natural especially since quite a lot of the time I use the mouse so iOSs scrolling direction doesnt make as much sense, but I heard some reports saying stick with it and it may become second nature, which seem to be true. I do like the fact that you can resize windows from any edge, a feature missing from Snow Leopard.&lt;/p&gt;
 &lt;p&gt;Auto-restore is a feature probably designed with people who use word processors a lot in mind. When you close a document, OSX will re-open the closed windows next time you start the app. This works well for Pages or Word, but for example my LaTeX editor TeXShop would reopen with many many windows of the last document I was working on. This got a bit repetitive since there were (just counting…) 17 files, all of which would open when I start TeXShop. I might disable this feature.&lt;/p&gt;
 &lt;p&gt;Mission control is a genius idea in my humble opinion. Considering I didnt use spaces that much before the upgrade, and I still dont, for me it is just a better Exposé. I instantly (and I mean instantly) removed the dashboard from it (System Preferences - Mission Control - Show Dashboard as a Space) since I never use the dashboard either, and it all works smoothly. The only gripe I can see is that you cannot use the keyboard for navigating apps. My linux background caused me to hate using the mouse as linux can essentially be controlled completely from the keyboard. Therefore ⌘-tab is my friend (or ⌘-~ for switching between app windows) so no keyboard use in Mission Control is a shame. Im pretty sure Exposé had it (though of course I cant check).&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Mission Control" src="http://media.tumblr.com/tumblr_lp1iboOwiM1qh2v9o.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Mission Control" src="https://media.tumblr.com/tumblr_lp1iboOwiM1qh2v9o.png" /&gt;&lt;/p&gt;
 &lt;p&gt;The fullscreen feature is an interesting one, it seems a good idea for a small screen like my MBP, but at the moment Im writing this on a 24 external monitor and the fullscreen apps dont work with a separate screen, and they just seem huge! I generally prefer to have apps on the same screen so I can ⌘-tab between them, for example coding and having the API documentation open in easy reach. I do like the idea of having for example full screen Mail or iCal when im using my MBP as a laptop but with two screens its not such a good idea. &lt;/p&gt;
 &lt;p&gt;Oh and Launchpad is utterly useless as far as I can tell. &lt;/p&gt;
 &lt;h2&gt;Conclusions&lt;/h2&gt;
@@ -2133,7 +2133,7 @@ Utility classes - Irrlicht has such things as vector3class T which call a templa
 I am planning on adding to this post as I find more differences and this is only a brief first impressions post, and I still cannot decide which I prefer!&lt;/p&gt;</summary><category term="gamedev"></category></entry><entry><title>Tumblr</title><link href="https://mindriot101.github.io/blog/2011/03/18/tumblr/" rel="alternate"></link><updated>2011-03-18T14:30:02+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2011-03-18:blog/2011/03/18/tumblr/</id><summary type="html">&lt;p&gt;Just joined tumblr to see what the fuss is about, mostly because of Notchs blog. Am getting bored of Wordpress as its interface is a little clunky (though powerful) so im giving this a go!
 Lets see how this goes!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Edit: Sat 16 Feb 2013 17:53:46 GMT - this is obviously not the case at the moment, now I'm statically using this blog&lt;/em&gt;&lt;/p&gt;</summary><category term="blog"></category></entry><entry><title>Adding module imports to iPython startup</title><link href="https://mindriot101.github.io/blog/2011/01/12/adding-module-imports-to-ipython-startup/" rel="alternate"></link><updated>2011-01-12T10:19:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2011-01-12:blog/2011/01/12/adding-module-imports-to-ipython-startup/</id><summary type="html">&lt;p&gt;I'm constantly opening an iPython interpreter and having to import my
-common modules (for me &lt;a href="http://www.stsci.edu/resources/software_hardware/pyfits"&gt;pyfits&lt;/a&gt; mostly).&lt;/p&gt;
+common modules (for me &lt;a href="https://www.stsci.edu/resources/software_hardware/pyfits"&gt;pyfits&lt;/a&gt; mostly).&lt;/p&gt;
 &lt;p&gt;The easiest way to import modules on iPython startup is to look in your&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;ipython&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ipy_user_conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -2161,7 +2161,7 @@ web browser is a must. This reduces CPU usage on my mac which increases
 battery life and stops it getting too hot. These are nice things to
 have!&lt;/p&gt;
 &lt;p&gt;I understand some people might not want such a feature, but I do so I
-did some quick googling and came up with &lt;a href="http://clicktoflash.com/"&gt;http://clicktoflash.com/&lt;/a&gt;.
+did some quick googling and came up with &lt;a href="https://clicktoflash.com/"&gt;https://clicktoflash.com/&lt;/a&gt;.
 It creates a nice smooth looking flash image (shown below) which you
 click to add the flash item itself.&lt;/p&gt;
 &lt;p&gt;It also includes a whitelist for sites you know to be ok. Check it out
@@ -2171,7 +2171,7 @@ if you run safari on a mac (seeing as windows does not have this problem
 &lt;p&gt;*had&lt;/p&gt;</summary><category term="OSX"></category></entry><entry><title>Restore Xcode startup panel</title><link href="https://mindriot101.github.io/blog/2010/12/22/restore-xcode-startup-panel/" rel="alternate"></link><updated>2010-12-22T16:52:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-12-22:blog/2010/12/22/restore-xcode-startup-panel/</id><summary type="html">&lt;p&gt;Ever selected the "do not show at startup" on the Xcode startup panel
 and wish you could get it back? Simple. Go
 to &lt;code&gt;~/Library/Preferences/com.apple.Xcode.plist&lt;/code&gt; and set the &lt;code&gt;XCShowSplashScreen&lt;/code&gt; to True.&lt;/p&gt;
-&lt;p&gt;credit: &lt;a href="http://forums.macrumors.com/showthread.php?t=686540"&gt;here&lt;/a&gt;&lt;/p&gt;</summary><category term="OSX"></category></entry><entry><title>Synergy</title><link href="https://mindriot101.github.io/blog/2010/12/18/synergy/" rel="alternate"></link><updated>2010-12-18T16:44:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-12-18:blog/2010/12/18/synergy/</id><summary type="html">&lt;p&gt;I have recently been playing with the &lt;a href="http://forums.macrumors.com/showthread.php?t=686540"&gt;Synergy&lt;/a&gt; software, which allows
+&lt;p&gt;credit: &lt;a href="https://forums.macrumors.com/showthread.php?t=686540"&gt;here&lt;/a&gt;&lt;/p&gt;</summary><category term="OSX"></category></entry><entry><title>Synergy</title><link href="https://mindriot101.github.io/blog/2010/12/18/synergy/" rel="alternate"></link><updated>2010-12-18T16:44:00+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-12-18:blog/2010/12/18/synergy/</id><summary type="html">&lt;p&gt;I have recently been playing with the &lt;a href="https://forums.macrumors.com/showthread.php?t=686540"&gt;Synergy&lt;/a&gt; software, which allows
 a single mouse and keyboard to control multiple computers whatever
 operating system they may be using. I am currently using my PC's mouse
 and keyboard to write this on my macbook pro!&lt;/p&gt;
@@ -2181,7 +2181,7 @@ must be named after the hostname of the computer, so for widows it's the
 'Computer name' and for OSX/linux it's the output of the 'hostname'
 command.  The linux and OSX client is command line only which is quite
 annoying but otherwise a very nice piece of software.&lt;/p&gt;
-&lt;p&gt;Oh and it's free!&lt;/p&gt;</summary><category term="synergy"></category><category term="linux"></category></entry><entry><title>Changing the rpath on a linux binary</title><link href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/" rel="alternate"></link><updated>2010-07-27T10:15:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-27:blog/2010/07/27/changing-the-rpath-on-a-linux-binary/</id><summary type="html">&lt;p&gt;&lt;a href="http://nixos.org/patchelf.html"&gt;PatchELF&lt;/a&gt; is a program that allows the patching of the rpath of a
+&lt;p&gt;Oh and it's free!&lt;/p&gt;</summary><category term="synergy"></category><category term="linux"></category></entry><entry><title>Changing the rpath on a linux binary</title><link href="https://mindriot101.github.io/blog/2010/07/27/changing-the-rpath-on-a-linux-binary/" rel="alternate"></link><updated>2010-07-27T10:15:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-27:blog/2010/07/27/changing-the-rpath-on-a-linux-binary/</id><summary type="html">&lt;p&gt;&lt;a href="https://nixos.org/patchelf.html"&gt;PatchELF&lt;/a&gt; is a program that allows the patching of the rpath of a
 linux binary to be whatever you want, even the printing of it.&lt;/p&gt;
 &lt;!--more--&gt;
 
@@ -2214,7 +2214,7 @@ the printing of the &lt;em&gt;rpath&lt;/em&gt; variable or setting it to a compl
 location (eg. for testing against a custom version of the system
 libraries).  It even allows the changing of the system default path
 interpreter.&lt;/p&gt;
-&lt;p&gt;For more information see &lt;a href="http://www.eyrie.org/~eagle/notes/rpath.html"&gt;this very informative post&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="c"></category></entry><entry><title>Linking on linux</title><link href="https://mindriot101.github.io/blog/2010/07/08/linking-on-linux/" rel="alternate"></link><updated>2010-07-08T15:24:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-08:blog/2010/07/08/linking-on-linux/</id><summary type="html">&lt;p&gt;I've just found out what some strange linking options mean with gcc!&lt;/p&gt;
+&lt;p&gt;For more information see &lt;a href="https://www.eyrie.org/~eagle/notes/rpath.html"&gt;this very informative post&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="c"></category></entry><entry><title>Linking on linux</title><link href="https://mindriot101.github.io/blog/2010/07/08/linking-on-linux/" rel="alternate"></link><updated>2010-07-08T15:24:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-07-08:blog/2010/07/08/linking-on-linux/</id><summary type="html">&lt;p&gt;I've just found out what some strange linking options mean with gcc!&lt;/p&gt;
 &lt;p&gt;Quite often i've seen at the linking stage&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;gcc object.o -o executable.out -lsomelibrary -Wl,-rpath,somepath
 &lt;/pre&gt;&lt;/div&gt;
@@ -2239,7 +2239,7 @@ new &lt;em&gt;mkspec&lt;/em&gt;, and create a Makefile with&lt;/p&gt;
 
 &lt;p&gt;See the link at the end of this post for the original credit, and a
 sample &lt;em&gt;mkspec&lt;/em&gt; file.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://www.freehackers.org/thomas/2010/01/10/playing-with-clang-and-qt/"&gt;Credit here&lt;/a&gt;&lt;/p&gt;</summary><category term="c"></category></entry><entry><title>Adam Buxton - alone in the shed</title><link href="https://mindriot101.github.io/blog/2010/06/24/adam-buxton-alone-in-the-shed/" rel="alternate"></link><updated>2010-06-24T20:58:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-24:blog/2010/06/24/adam-buxton-alone-in-the-shed/</id><summary type="html">&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/k0QbyaN7E1E" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href="https://www.freehackers.org/thomas/2010/01/10/playing-with-clang-and-qt/"&gt;Credit here&lt;/a&gt;&lt;/p&gt;</summary><category term="c"></category></entry><entry><title>Adam Buxton - alone in the shed</title><link href="https://mindriot101.github.io/blog/2010/06/24/adam-buxton-alone-in-the-shed/" rel="alternate"></link><updated>2010-06-24T20:58:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-24:blog/2010/06/24/adam-buxton-alone-in-the-shed/</id><summary type="html">&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/k0QbyaN7E1E" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
 
 &lt;p&gt;Nuff said...&lt;/p&gt;</summary></entry><entry><title>Turn of middle click page loading in Firefox</title><link href="https://mindriot101.github.io/blog/2010/06/23/turn-of-middle-click-page-loading-in-firefox/" rel="alternate"></link><updated>2010-06-23T13:09:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-23:blog/2010/06/23/turn-of-middle-click-page-loading-in-firefox/</id><summary type="html">&lt;p&gt;In linux, the middle mouse button by default pastes the contents of the
 clipboard into something. If I had a penny for every time I've miss
@@ -2254,7 +2254,7 @@ middle-clicked a link and tried to open a url like "for \$file in
 &lt;p&gt;This is a pretty awesome tongue twister! Also should be known the voice
 of Brain is none other than the actor Maurice Lamarche, a voice actor
 for Futurama and other programs. He did the voice of the "big brain"! Oh
-the irony...&lt;/p&gt;</summary></entry><entry><title>Cliff on beer</title><link href="https://mindriot101.github.io/blog/2010/06/13/cliff-on-beer/" rel="alternate"></link><updated>2010-06-13T17:48:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-13:blog/2010/06/13/cliff-on-beer/</id><summary type="html">&lt;p&gt;&lt;img alt="Cliff on beer" src="http://i.imgur.com/79Mzg.jpg" /&gt;&lt;/p&gt;
+the irony...&lt;/p&gt;</summary></entry><entry><title>Cliff on beer</title><link href="https://mindriot101.github.io/blog/2010/06/13/cliff-on-beer/" rel="alternate"></link><updated>2010-06-13T17:48:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-13:blog/2010/06/13/cliff-on-beer/</id><summary type="html">&lt;p&gt;&lt;img alt="Cliff on beer" src="https://i.imgur.com/79Mzg.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;So true!&lt;/p&gt;</summary></entry><entry><title>BBQ/World cup</title><link href="https://mindriot101.github.io/blog/2010/06/12/bbqworld-cup/" rel="alternate"></link><updated>2010-06-12T23:10:00+02:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2010-06-12:blog/2010/06/12/bbqworld-cup/</id><summary type="html">&lt;p&gt;Just been to a bbq at a friends house during which we watched the first
 world cup 2010 game that we were involved in (England vs. USA). Twas
 pretty rubbish really, 1-1 end score plus a complete fumble by the
