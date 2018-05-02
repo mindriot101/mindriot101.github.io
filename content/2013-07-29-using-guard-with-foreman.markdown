@@ -5,11 +5,11 @@ comments: true
 tags: ruby, guard, foreman, latex
 Category: tech
 
-I've been playing with [Ruby](http://www.ruby-lang.org/) quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.
+I've been playing with [Ruby](https://www.ruby-lang.org/) quite a bit recently and I like the way a custom-looking DSL can be created from the same source language.
 
-This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found [foreman](http://ddollar.github.io/foreman/) which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by [heroku](http://heroku.com).
+This means I've converted a lot of my tools (e.g. Makefiles) into Rakefiles and I've just found [foreman](https://ddollar.github.io/foreman/) which can manage multiple subprocesses and combine their output into a nice looking coloured console result. This is typically used to manage web processes (server, task runner, development database etc.) and is required by [heroku](https://heroku.com).
 
-I was using this technique with a simple `Procfile` for managing my thesis. I have two tasks running: [latexmk](http://users.phys.psu.edu/~collins/software/latexmk-jcc/) which manages the latex compiling, and [guard](http://guardgem.org/) which manages the python plotting.
+I was using this technique with a simple `Procfile` for managing my thesis. I have two tasks running: [latexmk](https://users.phys.psu.edu/~collins/software/latexmk-jcc/) which manages the latex compiling, and [guard](https://guardgem.org/) which manages the python plotting.
 
 I added these to the `Procfile` as such
 

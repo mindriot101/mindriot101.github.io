@@ -5,7 +5,7 @@ comments: true
 Category: tech
 tags: science, python
 
-[Scipy](http://www.scipy.org/) contains functions for fitting equations with [Python](http://www.python.org), in its `scipy.optimize` module. The two main ones I've used in the past are `leastsq` and `curve_fit`, which in itself is a convenience wrapper around `leastsq`.
+[Scipy](https://www.scipy.org/) contains functions for fitting equations with [Python](https://www.python.org), in its `scipy.optimize` module. The two main ones I've used in the past are `leastsq` and `curve_fit`, which in itself is a convenience wrapper around `leastsq`.
 
 ## `curve_fit`
 

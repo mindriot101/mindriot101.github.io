@@ -10,7 +10,7 @@ comments: true
 I love my Macbook Pro, for development and general computing use. Before I
 purchased it I was a die hard linux user (apart from gaming which is still
 dominated by windows unfortunately.) My work involves linux[^my-job] and I am a
-committed [vim](http://vim.org) user. 
+committed [vim](https://vim.org) user. 
 
 My work colleagues tend to laugh when I say that I want to use my mouse as
 little as possible, and that I am quite experienced in command line use. It
@@ -36,11 +36,11 @@ During (node) development I much prefer editing code in my editor and either
 seeing it instantly in my browser, or just reloading it myself. For this and
 other development, I use a few tools:
 
-* [Homebrew](http://mxcl.github.com/homebrew/) for package installation
-* [Better snap tool](http://blog.boastr.net/?page_id=2342) for tiling windows
+* [Homebrew](https://brew.sh) for package installation
+* [Better snap tool](https://blog.boastr.net/?page_id=2342) for tiling windows
   side by side
-* [Macvim](http://code.google.com/p/macvim/) for editing, `brew install macvim`
-* [iTerm2](http://www.iterm2.com)
+* [Macvim](https://code.google.com/p/macvim/) for editing, `brew install macvim`
+* [iTerm2](https://www.iterm2.com)
 * [when-changed.py](https://github.com/joh/when-changed) for
   compiling/running/whatever when files have changed
 
@@ -51,7 +51,7 @@ I'll discuss these tools in turn.
 Linux has it's share of problems, which should be classed as more *challenges*
 than problems as it's fun I assure you. On the other hand it's package
 management system is top notch. The Mac OSX equivalent is Homebrew and is
-superbly managed with packages on [github](http://github.com). This takes the
+superbly managed with packages on [github](https://github.com). This takes the
 difficulty out of installing a lot of packages, but is still missing some nice
 features.
 
@@ -104,12 +104,12 @@ The command used for writing this blog post is as follows:
 when-changed.py $(find content -name '*.md') -c 'fab build'
 ```
 
-Any time I save the post, by build system ([fabric](http://fabfile.org))
+Any time I save the post, by build system ([fabric](https://fabfile.org))
 recompiles the post so I can just reload the browser to see the changes.
 
 ### Application to node
 
-[node](http://nodejs.org) actually comes with a tool similar to
+[node](https://nodejs.org) actually comes with a tool similar to
 `when-changed.py`, it's called `supervisor`, and can be installed globally with
 npm: `npm install --global supervisor`. It can reload the server file with any
 changes. I can edit it in one pane with macvim, and view the changes in the

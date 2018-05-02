@@ -6,7 +6,7 @@ tags: astronomy, travel
 
 So we arrived at the hostel, a very nice place too. I'd recommend it if I could be bothered to find out what it is. I'll try and remember to insert a reference here:
 
-[Reference](http://www.hihostels.ca/westerncanada/170/hi-vancouver_central.hostel)
+[Reference](https://www.hihostels.ca/westerncanada/170/hi-vancouver_central.hostel)
 
 
 So yeah nice place. Vancouver is not very exciting so far but as was pointed out to me: the area around the airport is never going to be very nice.

@@ -13,13 +13,13 @@ Often when developing complex client side apps, a simple `python -m SimpleHTTPSe
 
 This will usually throw an error containing the script 
 
-    Origin http://localhost:8000 is not allowed by Access-Control-Allow-Origin
+    Origin https://localhost:8000 is not allowed by Access-Control-Allow-Origin
 
 This is a security measure input by web browsers to prevent cross domain scripting attacks, and is a good idea, but during development this can be a problem.
 
-One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as [restify](http://mcavage.github.com/node-restify/) is ideal.
+One option is to use a fully featured web server e.g. express but for rich client side applications this is generally overkill, a simpler library such as [restify](https://mcavage.github.com/node-restify/) is ideal.
 
-A nice option as supplied by [this](http://stackoverflow.com/a/14187628/56711) SO answer is to add middleware to allow certain domains access to the REST server.
+A nice option as supplied by [this](https://stackoverflow.com/a/14187628/56711) SO answer is to add middleware to allow certain domains access to the REST server.
 
 
 

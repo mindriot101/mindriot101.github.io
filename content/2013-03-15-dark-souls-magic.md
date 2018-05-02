@@ -66,13 +66,13 @@ Township, or invading in common PvP zones. For a game with no communication beyo
 messages and gestures it's surprisingly easy to convey emotion.
 
 I genuinely believe that Dark Souls is one of the best games I've played, with amazing amounts of
-depth if you search for it. Check out [EpicNameBro's amazing lore series](http://www.youtube.com/playlist?list=PL4825DBA198EBE9B9), or [VaatiVidya's Prepare To Cry series](http://www.youtube.com/playlist?list=PLWLedd0Zw3c5RCXboUsPwHsZJlXB2CzCz) for lore discussion, [UberGoose's speedrunning](http://www.youtube.com/user/UberGusMage/videos?flow=grid=0) to see just how much possibility there is for extending the game. 
+depth if you search for it. Check out [EpicNameBro's amazing lore series](https://www.youtube.com/playlist?list=PL4825DBA198EBE9B9), or [VaatiVidya's Prepare To Cry series](https://www.youtube.com/playlist?list=PLWLedd0Zw3c5RCXboUsPwHsZJlXB2CzCz) for lore discussion, [UberGoose's speedrunning](https://www.youtube.com/user/UberGusMage/videos?flow=grid=0) to see just how much possibility there is for extending the game. 
 
 The depth to the character build system is immense, the range of techniques that you can employ are
 diverse and always fun. Create a sorcerer only build, using magic only. Or set yourself some
 challenges like (my current build) a no-shield run[^2]. This will teach yourself to dodge
-effectively as endorsed by [Vageta311](http://www.youtube.com/user/vageta311), check out his amazing
-[Everything possible before the gargoyles](http://www.youtube.com/playlist?list=PL5CC8A65E1E0EB80D)
+effectively as endorsed by [Vageta311](https://www.youtube.com/user/vageta311), check out his amazing
+[Everything possible before the gargoyles](https://www.youtube.com/playlist?list=PL5CC8A65E1E0EB80D)
 series for a real eye-opener to the game and just how much is possible.
 
 Alternatively take a break for a few months. Let your ability die down and regain that magic for

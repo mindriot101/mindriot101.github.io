@@ -9,7 +9,7 @@ comments: true
 
 My first OSX upgrade went well I think. My MacBook Pro is a Mid 2009 model, as the nice new About This Mac (not sure why this is capitalised but never mind) tells me.
 
-![New about this mac window](http://media.tumblr.com/tumblr_lp1iaipQ3S1qh2v9o.png)
+![New about this mac window](https://media.tumblr.com/tumblr_lp1iaipQ3S1qh2v9o.png)
 
 Ive never upgraded a Mac before since my pride and joy came with Snow Leopard installed, the as-of-then most up to date operating system so I had no idea what to expect. Ive been using my Mac for nearly two years now but before that I was a pretty heavy Windows user. My other tipple is Linux, so whatever it was like I was going to be tense and anxious. 
 
@@ -35,7 +35,7 @@ Mission control is a genius idea in my humble opinion. Considering I didnt use s
 
 
 
-![Mission Control](http://media.tumblr.com/tumblr_lp1iboOwiM1qh2v9o.png)
+![Mission Control](https://media.tumblr.com/tumblr_lp1iboOwiM1qh2v9o.png)
 
 
 

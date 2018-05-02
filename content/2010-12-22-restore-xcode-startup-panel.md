@@ -11,4 +11,4 @@ Ever selected the "do not show at startup" on the Xcode startup panel
 and wish you could get it back? Simple. Go
 to `~/Library/Preferences/com.apple.Xcode.plist` and set the `XCShowSplashScreen` to True.
 
-credit: [here]( http://forums.macrumors.com/showthread.php?t=686540 )
+credit: [here](https://forums.macrumors.com/showthread.php?t=686540 )

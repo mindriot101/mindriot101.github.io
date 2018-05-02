@@ -7,7 +7,7 @@ comments: true
 
 
 
-I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native [websockets support](http://nginx.com/news/nginx-websockets.html) but I could not find a way to install version 1.3.
+I have been trying to install nginx v1.3.x on my Macbook Pro for a while now to test the native [websockets support](https://nginx.com/news/nginx-websockets.html) but I could not find a way to install version 1.3.
 
 <!--more-->
 
@@ -21,7 +21,7 @@ class Nginx < Formula
     # Other code
 
     devel do
-    url 'http://nginx.org/download/nginx-1.3.13.tar.gz'
+    url 'https://nginx.org/download/nginx-1.3.13.tar.gz'
     sha1 'b09b1c35b2b741292d41db1caa3b8a4123805a4c'
     end
 

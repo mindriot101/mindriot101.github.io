@@ -67,7 +67,7 @@ This is not a blog post as such, it's the notes that I took during the conferenc
     * gaps, non-uniform shapes
 * IRD - IR doppler instrument on Subaru
     * could be good for follow up for NGTS, investigate this
-    * [paper](http://adsabs.harvard.edu/abs/2012SPIE.8446E..1TT)
+    * [paper](https://adsabs.harvard.edu/abs/2012SPIE.8446E..1TT)
 
 ### Hershell dust evolution in discs
 

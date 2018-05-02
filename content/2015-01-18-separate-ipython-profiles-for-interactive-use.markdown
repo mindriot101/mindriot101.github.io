@@ -43,7 +43,7 @@ This setting has three options: `0` to disable the feature, `1` to enable it in 
 
 ## Starting up with `seaborn`
 
-I am a fan of the [seaborn](http://stanford.edu/~mwaskom/software/seaborn/) visualisation package, for the styles and extra features. In the `pylab` profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found [in this file](https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py). I'll explain it here.
+I am a fan of the [seaborn](https://stanford.edu/~mwaskom/software/seaborn/) visualisation package, for the styles and extra features. In the `pylab` profile I set this up to automatically import seaborn and silently fail if it's not found. This code can be found [in this file](https://github.com/mindriot101/dotfiles/blob/master/ipython/ipython/profile_pylab/startup/00-with-seaborn.py). I'll explain it here.
 
 The code:
 

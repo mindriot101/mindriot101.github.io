@@ -7,7 +7,7 @@ Category: tech
 
 I was trying to play with PyMC3 and as per usual with code under heavy development the tutorials were out of date, and the code wouldn't run. When I say "out of date" in fact the code ran but no valid numbers were produced. The API seemed to be consistent though.
 
-I managed to get the [tutorial](http://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb) to run by installing the following:
+I managed to get the [tutorial](https://nbviewer.ipython.org/github/pymc-devs/pymc/blob/master/pymc/examples/tutorial.ipynb) to run by installing the following:
 
     Theano==0.6.0
     pymc==3.0

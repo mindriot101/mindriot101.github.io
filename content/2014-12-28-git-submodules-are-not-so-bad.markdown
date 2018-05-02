@@ -5,7 +5,7 @@ comments: true
 category: tech
 tags: git
 
-I see a lot of complaints about git submodules, [people suggesting alternatives](http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/), [complaints about merging](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/) or other bits and pieces.
+I see a lot of complaints about git submodules, [people suggesting alternatives](https://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/), [complaints about merging](https://codingkilledthecat.wordpress.com/2012/04/28/why-your-company-shouldnt-use-git-submodules/) or other bits and pieces.
 
 Git submodules *have their place*. Yes they are not ideal for all situations but they are ideal for the typical use case I'm about to outline.
 
@@ -56,14 +56,14 @@ and therefore shouts at me for forgetting rule 1. above. It can be disabled via:
 
 ## Git subtree
 
-A common suggested alternative is [git subtree](http://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging) which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell `git subtree` creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.
+A common suggested alternative is [git subtree](https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging) which I have tried, though briefly. Perhaps learning submodules from an early stage has ingrained their process in my brain too hard for other alternatives to really show their benefits. As far as I could tell `git subtree` creates a huge merge commit in the master repository as a single static blob. I didn't look into coding in the subtrees but I feel the separation of projects afforded by submodules fits my needs better. Perhaps I just have to read the linked article above a bit more.
 
 ## Hints and tips
 
 Some hints and tips I always have to google myself:
 
 ### Remove a submodule
-[source](http://stackoverflow.com/a/16162000/56711)
+[source](https://stackoverflow.com/a/16162000/56711)
 
 ```
 git submodule deinit asubmodule

@@ -5,7 +5,7 @@ comments: true
 Tags: ruby
 Category: tech
 
-So I've been trying [Ruby](http://www.ruby-lang.org/en/) recently,
+So I've been trying [Ruby](https://www.ruby-lang.org/en/) recently,
 partially trying to add some substance to my CV, and partially out of
 curiosity. I used to be a complete python snob; I didn't understand
 why anyone *wouldn't* use python. It is a dynamic language so no more
@@ -221,13 +221,13 @@ future, and possibly to pass on my knowledge to the next generation.
 ## Resources
 
 ### Beginner
-[Rails for Zombies](http://railsforzombies.org/)
+[Rails for Zombies](https://railsforzombies.org/)
 
 ### Technical
-[Railscasts](http://railscasts.com/)
+[Railscasts](https://railscasts.com/)
 
 ### Advanced
-[Thoughtbot](http://robots.thoughtbot.com/)
+[Thoughtbot](https://robots.thoughtbot.com/)
 
 (I'll try and keep these updated)
 

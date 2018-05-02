@@ -8,7 +8,7 @@ comments: true
 
 
 I'm constantly opening an iPython interpreter and having to import my
-common modules (for me [pyfits]( http://www.stsci.edu/resources/software_hardware/pyfits ) mostly).
+common modules (for me [pyfits](https://www.stsci.edu/resources/software_hardware/pyfits ) mostly).
 
 The easiest way to import modules on iPython startup is to look in your
 

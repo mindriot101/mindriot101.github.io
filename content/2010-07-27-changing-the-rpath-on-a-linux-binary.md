@@ -7,7 +7,7 @@ comments: true
 
 
 
-[PatchELF]( http://nixos.org/patchelf.html ) is a program that allows the patching of the rpath of a
+[PatchELF](https://nixos.org/patchelf.html ) is a program that allows the patching of the rpath of a
 linux binary to be whatever you want, even the printing of it.
 
 <!--more-->
@@ -47,4 +47,4 @@ location (eg. for testing against a custom version of the system
 libraries).  It even allows the changing of the system default path
 interpreter.
 
-For more information see [this very informative post]( http://www.eyrie.org/~eagle/notes/rpath.html ).
+For more information see [this very informative post](https://www.eyrie.org/~eagle/notes/rpath.html ).

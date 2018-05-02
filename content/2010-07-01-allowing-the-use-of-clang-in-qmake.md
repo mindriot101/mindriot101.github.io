@@ -23,4 +23,4 @@ qmake -spec linux-clang
 See the link at the end of this post for the original credit, and a
 sample *mkspec* file.
 
-[Credit here](http://www.freehackers.org/thomas/2010/01/10/playing-with-clang-and-qt/)
+[Credit here](https://www.freehackers.org/thomas/2010/01/10/playing-with-clang-and-qt/)

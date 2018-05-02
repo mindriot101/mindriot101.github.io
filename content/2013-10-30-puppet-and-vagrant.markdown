@@ -5,7 +5,7 @@ comments: true
 Tags: puppet, vagrant, devops
 Category: tech
 
-So I've been playing with [Puppet](http://puppetlabs.com/) and [Chef](http://www.opscode.com/chef/) for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With [Vagrant](http://www.vagrantup.com/), testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for the tests is extremely short.
+So I've been playing with [Puppet](https://puppetlabs.com/) and [Chef](https://www.opscode.com/chef/) for server provisioning. The two technologies attempt to fill the same, or at least similar tasks: managing system configuration. With [Vagrant](https://www.vagrantup.com/), testing these two systems has become extremely easy. Vagrant supports both methods for server provisioning and the turnaround time for the tests is extremely short.
 
 I have tried for quite a while to run chef on a system, to no avail. I've often found that an unexpected crash puts end to my testing, whereas the first times I tried puppet I achieved success. I also feel the declarative style with which the puppet modules are built really suits the problems that puppet solves.
 
@@ -19,7 +19,7 @@ Tools used:
 * puppet
 * librarian-puppet
 
-I'm not going to go into details about the installation of the tools, apart from to say that vagrant is installed from the [vagrant website](http://vagrantup.com) and puppet/librarian-puppet are installed as gems.
+I'm not going to go into details about the installation of the tools, apart from to say that vagrant is installed from the [vagrant website](https://vagrantup.com) and puppet/librarian-puppet are installed as gems.
 
 A project can be completetly defined (for example for version control) in four files:
 
@@ -75,10 +75,10 @@ end
 
 ### librarian-puppet
 
-A major part of development is the DRY principle, and applies to package configuration also. `librarian-puppet` allows pre-build and tested modules to install common packages. Puppetlabs maintain a repository of modules at [puppet forge](https://forge.puppetlabs.com/), or on [github](http://www.github.com) and these can be configured and managed through librarian-puppet. An example configuration is given below:
+A major part of development is the DRY principle, and applies to package configuration also. `librarian-puppet` allows pre-build and tested modules to install common packages. Puppetlabs maintain a repository of modules at [puppet forge](https://forge.puppetlabs.com/), or on [github](https://www.github.com) and these can be configured and managed through librarian-puppet. An example configuration is given below:
 
 ``` ruby
-forge "http://forge.puppetlabs.com"
+forge "https://forge.puppetlabs.com"
 
 mod 'puppetlabs/stdlib'
 mod 'puppetlabs/postgresql'
@@ -89,7 +89,7 @@ where the `mod` lines define the required modules with the author prefix, and th
 
 ### manifests/default.pp
 
-This file describes the final configuration. I recommend following the [official puppet tutorial](http://docs.puppetlabs.com/learning/index.html), an example file which installs vim can be:
+This file describes the final configuration. I recommend following the [official puppet tutorial](https://docs.puppetlabs.com/learning/index.html), an example file which installs vim can be:
 
 ``` puppet
 exec { "apt-get update":
@@ -146,7 +146,7 @@ vagrant up
 
 Simple eh? More documentation for these files can be found:
 
-* [http://www.vagrantup.com](http://www.vagrantup.com)
-* [http://puppetlabs.com/](http://puppetlabs.com/)
-* [The excellent puppet tutorial](http://docs.puppetlabs.com/learning/index.html)
-* [librarian-puppet](http://librarian-puppet.com/)
+* [https://www.vagrantup.com](https://www.vagrantup.com)
+* [https://puppetlabs.com/](https://puppetlabs.com/)
+* [The excellent puppet tutorial](https://docs.puppetlabs.com/learning/index.html)
+* [librarian-puppet](https://librarian-puppet.com/)

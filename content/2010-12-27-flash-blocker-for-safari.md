@@ -19,7 +19,7 @@ battery life and stops it getting too hot. These are nice things to
 have!
 
 I understand some people might not want such a feature, but I do so I
-did some quick googling and came up with [http://clicktoflash.com/](http://clicktoflash.com/).
+did some quick googling and came up with [https://clicktoflash.com/](https://clicktoflash.com/).
 It creates a nice smooth looking flash image (shown below) which you
 click to add the flash item itself.
 

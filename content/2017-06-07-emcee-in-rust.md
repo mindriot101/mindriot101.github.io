@@ -128,8 +128,8 @@ On that note, the latest release has been tagged `1.0.0-alpha.1` indicating that
 So if you're interested, please check out the library at [`https://crates.io/crates/emcee`](https://crates.io/crates/emcee) and read the [documentation](https://docs.rs/emcee/1.0.0-alpha.1/emcee/). I appreciate any feedback.
 
 
-[emcee]: http://dan.iel.fm/emcee/current/
+[emcee]: https://dan.iel.fm/emcee/current/
 [bayes]: https://en.wikipedia.org/wiki/Bayes%27_theorem
-[jakevdp]: http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/
+[jakevdp]: https://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/
 [function-wrapper]: https://github.com/dfm/emcee/blob/7984142541bd907fc1ef74fb2c49b663bb9086f3/emcee/ensemble.py#L507
 [assert-approx-eq]: https://crates.io/crates/assert_approx_eq

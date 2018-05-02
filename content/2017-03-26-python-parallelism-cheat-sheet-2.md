@@ -147,5 +147,5 @@ I do not know for sure about this one, but as `functools.partial` objects copy t
 
 Alternatively Python may be more clever than this, and the information may be accessed more efficiently 🤷
 
-[1]: http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/
+[1]: https://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/marsh/
 [2]: https://docs.python.org/3/library/functools.html#functools.partial

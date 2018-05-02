@@ -6,7 +6,7 @@ comments: true
 
 
 
-![Cliff on beer](http://i.imgur.com/79Mzg.jpg)
+![Cliff on beer](https://i.imgur.com/79Mzg.jpg)
 
 So true!
 

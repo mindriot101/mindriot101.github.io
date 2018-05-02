@@ -6,9 +6,9 @@ comments: true
 
 
 
-[Fluid]( http://www.fluidapp.com ) is a Mac OSX app which can convert a single website into an application, with its own icon and place in the dock and task switcher. It is a great way to get the desktop like application feel for a web app.
+[Fluid]( https://www.fluidapp.com ) is a Mac OSX app which can convert a single website into an application, with its own icon and place in the dock and task switcher. It is a great way to get the desktop like application feel for a web app.
 
-This works particularly well for single-page apps like [gmail](http://mail.google.com), or [Trello]( http://trello.com ). The app can be set to not close the window on close, just hide which leaves gmail running in the background, and lets trello remember the last board you were looking at.
+This works particularly well for single-page apps like [gmail](https://mail.google.com), or [Trello]( https://trello.com ). The app can be set to not close the window on close, just hide which leaves gmail running in the background, and lets trello remember the last board you were looking at.
 
 <!--more-->
 

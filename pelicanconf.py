@@ -35,8 +35,8 @@ PYGMENTS_STYLE = 'monokai'
 BOOTSTRAP_FLUID = True
 
 # Blogroll
-LINKS = (('CV', 'http://mindriot101.github.io/cv/'),
-        ('Work', 'http://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/')
+LINKS = (('CV', 'https://mindriot101.github.io/cv/'),
+        ('Work', 'https://www2.warwick.ac.uk/fac/sci/physics/research/astro/people/walker/')
          )
 
 # Social widget

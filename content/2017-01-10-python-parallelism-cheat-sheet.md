@@ -202,7 +202,7 @@ _Many thanks to [James McCormac][5] for helpful suggestions._
 
 
 [1]: https://docs.python.org/3/library/functions.html#zip
-[2]: http://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
+[2]: https://nbviewer.jupyter.org/gist/mindriot101/a91e3e3f2e8d151b17e931850c2664ef
 [3]: https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool
 [4]: https://docs.python.org/3/library/functools.html#functools.partial
 [5]: https://github.com/jmccormac01

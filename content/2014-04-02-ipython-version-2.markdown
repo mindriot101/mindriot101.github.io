@@ -5,7 +5,7 @@ comments: true
 Tags: python
 Category: tech
 
-So IPython has updated to version 2.0. The full changelog [can be found here](http://ipython.org/ipython-doc/dev/whatsnew/version2.0.html) and to summarise the key points:
+So IPython has updated to version 2.0. The full changelog [can be found here](https://ipython.org/ipython-doc/dev/whatsnew/version2.0.html) and to summarise the key points:
 
 * interactive widgets for the notebook
 * directory navigation in the notebook dashboard
@@ -21,7 +21,7 @@ This feature enables navigation to seemingly an arbitrary location relative to t
 
 The following screenshot gives the example on the IPython homepage, and shows the navigable locations.
 
-<img src='http://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'>
+<img src='https://ipython.org/ipython-doc/dev/_images/treeview.png' style='width: 80%; height: 80%;'>
 </img>
 
 With this a single server can manage all of the notebooks on a single machine. I was hoping for this functionality rather than either 
@@ -38,7 +38,7 @@ As a vim user I did not enjoy having to use emacs-ey keyboard shortcuts (`c-m s`
 ## The final caveats
 
 <!-- vim keybindings -->
-Of course I've yet to find a vim emulator that I'm happy with. [Neovim](http://neovim.org/) promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.
+Of course I've yet to find a vim emulator that I'm happy with. [Neovim](https://neovim.org/) promises to add an embeddable vim engine, but quite frankly I'm not really convinced that anything will allow me to get the vim feeling in another program.
 
 This is of course not a failing in IPython notebook specifically, but of anything that isn't vim really...
 
