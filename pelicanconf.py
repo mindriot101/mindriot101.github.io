@@ -49,7 +49,7 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 
 # Copy CNAME file to output
-STATIC_PATHS = ['extra/CNAME', 'extra/keybase.txt']
+STATIC_PATHS = ['extra/CNAME', 'extra/keybase.txt', 'images']
 EXTRA_PATH_METADATA = {
     'extra/CNAME': {'path': 'CNAME'},
     'extra/keybase.txt': {'path': 'keybase.txt'},
