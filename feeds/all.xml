@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2018-07-03T20:22:23+01:00</updated><entry><title>Making windows feel more like Linux</title><link href="https://mindriot101.github.io/blog/2018/07/03/making-windows-feel-more-like-linux/" rel="alternate"></link><updated>2018-07-03T20:22:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2018-07-03:blog/2018/07/03/making-windows-feel-more-like-linux/</id><summary type="html">&lt;p&gt;&lt;em&gt;I haven't posted for a while, and this is not going to be a very useful
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2018-12-06T19:00:20+00:00</updated><entry><title>Jupyter client library</title><link href="https://mindriot101.github.io/blog/2018/12/06/jupyter-client-library/" rel="alternate"></link><updated>2018-12-06T19:00:20+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2018-12-06:blog/2018/12/06/jupyter-client-library/</id><summary type="html">&lt;p&gt;&lt;strong&gt;TL;DR I have been thinking about alternative frontends to the Jupyter notebook. The first step is to abstract communications with Jupyter kernels. I have started writing one of these.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client"&gt;Project repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.rs/jupyter-client/0.1.0/jupyter_client/"&gt;docs.rs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://crates.io/crates/jupyter-client"&gt;crates.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I am a huge fan of the Jupyter notebook environment. It is a fantastic way to explore a new data analysis approach, and keep results together with the implementation and explanation.&lt;/p&gt;
+&lt;p&gt;I wanted to understand how the Jupyter notebook/lab frontend interacts with the Kernel backends, and as such have started writing a &lt;em&gt;client&lt;/em&gt; library.&lt;/p&gt;
+&lt;h2&gt;Architecture&lt;/h2&gt;
+&lt;p&gt;The Jupyter suite consists of two parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Frontend&lt;/li&gt;
+&lt;li&gt;Kernel&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Within the frontend is typically a kernel communication abstraction component, what I call the "client":&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Jupyter schematic" src="https://mindriot101.github.io/images/jupyter_schematic.svg" /&gt;&lt;/p&gt;
+&lt;p&gt;The frontend handles nicely presenting the execution results and collecting input from the user (i.e. the &lt;em&gt;notebook&lt;/em&gt;). The &lt;em&gt;kernel&lt;/em&gt; is the execution engine that can be written in many languages. The &lt;em&gt;client&lt;/em&gt; handles communicating with a kernel. It communicates over 4&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; ZeroMQ sockets:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;shell&lt;/code&gt;: for client -&amp;gt; kernel requests (and responses)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iopub&lt;/code&gt;: for kernel -&amp;gt; client messages&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;heartbeat&lt;/code&gt;: for health checks&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stdin&lt;/code&gt;: for kernel -&amp;gt; client requests (and responses from the frontend)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This abstraction is what allows the frontend to communicate with different kernels.&lt;/p&gt;
+&lt;h2&gt;Writing a client library&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://jupyter-client.readthedocs.io/en/stable/messaging.html#the-wire-protocol"&gt;documentation on the Jupyter wire protocol&lt;/a&gt; is pretty good at describing how messages are sent to and from the kernel over the "wire" (the various ZeroMQ sockets). This documentation was used to build a &lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/wire.rs#L17"&gt;&lt;code&gt;WireMessage&lt;/code&gt;&lt;/a&gt; abstraction, which:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;is created from a &lt;a href="https://docs.rs/jupyter-client/0.1.0/jupyter_client/commands/enum.Command.html"&gt;&lt;code&gt;Command&lt;/code&gt;&lt;/a&gt; enum variant (&lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/commands.rs#L135"&gt;conversion method&lt;/a&gt;),&lt;/li&gt;
+&lt;li&gt;gets passed to a &lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/socket.rs#L15"&gt;&lt;code&gt;Socket&lt;/code&gt;&lt;/a&gt;; an abstraction around a ZeroMQ socket,&lt;/li&gt;
+&lt;li&gt;gets sent over the wire to the kernel,&lt;/li&gt;
+&lt;li&gt;a response is sent back and &lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/socket.rs#L58"&gt;converted to a &lt;code&gt;WireMessage&lt;/code&gt;&lt;/a&gt; (&lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/wire.rs#L26"&gt;conversion performed here&lt;/a&gt;),&lt;/li&gt;
+&lt;li&gt;which is then &lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client/blob/b8c27ea2ca8b5a546fb59ed06c1d9a4e50575552/src/wire.rs#L59"&gt;turned back into a &lt;code&gt;Response&lt;/code&gt; object&lt;/a&gt; and generally passed back to the user.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I hope that this library will form the beginning of a new Rust-based Jupyter frontend. I have some ideas but that's for another time.&lt;/p&gt;
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client"&gt;Project repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.rs/jupyter-client/0.1.0/jupyter_client/"&gt;docs.rs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://crates.io/crates/jupyter-client"&gt;crates.io&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://jupyter-client.readthedocs.io/en/stable/messaging.html#the-wire-protocol"&gt;Description of the Jupyter wire protocol&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://andrew.gibiansky.com/blog/ipython/ipython-kernels/"&gt;Creating language kernels for IPython&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;Technically 5: a "control" socket is a duplicate of the "shell" socket but for high-priority messages.&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="rust"></category></entry><entry><title>Making windows feel more like Linux</title><link href="https://mindriot101.github.io/blog/2018/07/03/making-windows-feel-more-like-linux/" rel="alternate"></link><updated>2018-07-03T20:22:23+01:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2018-07-03:blog/2018/07/03/making-windows-feel-more-like-linux/</id><summary type="html">&lt;p&gt;&lt;em&gt;I haven't posted for a while, and this is not going to be a very useful
 post, you have been warned...&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;At work we use Windows. I vowed when I left my last job that I'd never
 go to work somewhere that uses Windows.&lt;/p&gt;
