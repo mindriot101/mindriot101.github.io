@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Linux debugging tips</title>
+
+            <link href="https://mindriot101.github.io/feeds/all.xml" type="application/atom+xml" rel="alternate" title="circularspace Full Atom Feed" />
+            <link href="https://mindriot101.github.io/feeds/tech.xml" type="application/atom+xml" rel="alternate" title="circularspace Categories Atom Feed" />
+        <!-- Bootstrap Core CSS -->
+        <link href="https://mindriot101.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="https://mindriot101.github.io/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="https://mindriot101.github.io/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+
+        <meta name="author" content="Simon Walker">
+
+        <meta name="tags" content="linux">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="circularspace">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="https://mindriot101.github.io/author/simon-walker.html">
+	<meta property="og:url" content="https://mindriot101.github.io/drafts/linux-debugging-tips.html">
+	<meta property="og:title" content="Linux debugging tips">
+	<meta property="article:published_time" content="2020-03-21 19:04:41+00:00">
+            <meta property="og:description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+
+            <meta property="og:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@srwalker101">
+        <meta name="twitter:title" content="Linux debugging tips">
+
+            <meta name="twitter:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
+
+            <meta name="twitter:description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://mindriot101.github.io/">circularspace</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/archives.html">all</a></li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-color: #444">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Linux debugging tips</h1>
+                        <span class="meta">Posted by
+                                <a href="https://mindriot101.github.io/author/simon-walker.html">Simon Walker</a>
+                             on Sat 21 March 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <p><strong>These tips are designed to help new Linux users work out what is going on.</strong></p>
+<h2>Finding out what process is listening on a port</h2>
+<p>This is most common for web servers. When a web server listens on a specific
+port (e.g. 5000 for Flask's default port), it is often useful to know more
+information about this process. In particular, only one process can listen on a
+port at once. If your program doesn't start because another process is
+listening, then this will be useful for you.</p>
+<p>In the example below I have started a Flask web server on port 5000. I try to
+start another server and get the following error:</p>
+<div class="highlight"><pre>OSError: [Errno 48] Address already in use
+</pre></div>
+
+
+<p>This is because another process is listening on that port. In order to find out
+what that process is, I run <code>lsof</code>.</p>
+<p><code>lsof</code> <strong>l</strong>i<strong>s</strong>ts <strong>o</strong>pen <strong>f</strong>iles. On Linux, <em>everything</em> is a file, so
+this includes ports. In order to check for ports, use the <code>-i</code> flag and define
+the port as <code>:&lt;port&gt;</code>:</p>
+<div class="highlight"><pre><span class="nv">$ </span>lsof -i :5000
+
+COMMAND    PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+flask   <span class="m">142550</span> simon    3u  IPv4 <span class="m">978282</span>      0t0  TCP localhost:commplex-main <span class="o">(</span>LISTEN<span class="o">)</span>
+</pre></div>
+
+
+<p>This shows that process <code>142550</code> (<code>PID</code> column) is responsible for listening on
+this port.</p>
+<h2>Getting information about a process</h2>
+<p>In the example above, we found out that process 142550 is listening on port 5000.
+What if we want to find more information about this process?</p>
+<h3>The <code>/proc</code> filesystem</h3>
+<p><em>Note: the program <code>ps</code> can do quite a lot of this</em></p>
+<p>Linux stores information about all of the running processes on the system under
+<code>/proc</code>. At the top level is one directory per process, so we find the path
+<code>/proc/142550</code> exists:</p>
+<div class="highlight"><pre><span class="nv">$ </span>ls /proc <span class="p">|</span> grep 142550
+
+142550
+</pre></div>
+
+
+<p>Inside this filesystem is a host of useful information:</p>
+<div class="highlight"><pre><span class="nv">$ </span>ls /proc/142550
+
+total 0
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 arch_status
+dr-xr-xr-x  <span class="m">2</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 attr
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 autogroup
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 auxv
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 cgroup
+--w-------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 clear_refs
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:18 cmdline
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 comm
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 coredump_filter
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 cpuset
+lrwxrwxrwx  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 cwd -&gt; /tmp/flasktesting
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 environ
+lrwxrwxrwx  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:18 exe -&gt; /usr/bin/python3.8
+dr-x------  <span class="m">2</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:18 fd
+dr-x------  <span class="m">2</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:18 fdinfo
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 gid_map
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 io
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 latency
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 limits
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 loginuid
+dr-x------  <span class="m">2</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 map_files
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 maps
+-rw-------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 mem
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 mountinfo
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 mounts
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 mountstats
+dr-xr-xr-x <span class="m">62</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 net
+dr-x--x--x  <span class="m">2</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 ns
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 numa_maps
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 oom_adj
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 oom_score
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 oom_score_adj
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 pagemap
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 personality
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 projid_map
+lrwxrwxrwx  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 root -&gt; /
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 sched
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 schedstat
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 sessionid
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 setgroups
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 smaps
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 smaps_rollup
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 stack
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:18 stat
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 statm
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:19 status
+-r--------  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 syscall
+dr-xr-xr-x  <span class="m">3</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 task
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 timers
+-rw-rw-rw-  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 timerslack_ns
+-rw-r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 uid_map
+-r--r--r--  <span class="m">1</span> simon simon <span class="m">0</span> Mar <span class="m">21</span> 20:22 wchan
+</pre></div>
+
+
+<p>Some interesting entries:</p>
+<ul>
+<li><code>cwd</code>: a symlink to the directory the process was started from</li>
+<li><code>cmdline</code>: a file listing the full command running (strings separated by the
+  <code>null</code> byte <code>\0</code> rather than newlines)</li>
+<li><code>environ</code>: a file listing the process environment variables when the program
+  was run (strings separated by the <code>null</code> byte <code>\0</code> rather than newlines)</li>
+<li><code>fd</code>: a directory containing one entry for each file the process has open</li>
+<li><code>exe</code>: a symlink to the process running (note for Python apps this will link to
+  the python interpreter)</li>
+<li><code>mountinfo</code>: list the mount points that the process can see (interesting for
+  docker containers)</li>
+</ul>
+<p>A process can investigate its <em>own</em> information by looking at the symlink
+<code>/proc/self</code> which points to its own <code>/proc</code> directory.</p>
+<p>An alternative way of getting the process arguments is to run</p>
+<div class="highlight"><pre><span class="nv">$ </span>ps -p &lt;pid&gt; -o args
+
+COMMAND
+/usr/bin/python /usr/bin/flask run
+</pre></div>
+
+
+<p><a href="http://man7.org/linux/man-pages/man5/proc.5.html">More information about the <code>/proc</code>
+filesystem</a></p>
+<h2>Find out what system calls a process is running currently</h2>
+<p>Linux operates at two levels: <em>userspace</em> and <em>kernel</em>. Normal programs are not
+allowed to talk to files or memory directly, they must ask the kernel through
+<em>system calls</em>. <code>strace</code> is a program that lets a normal user spy on what a
+<em>userspace</em> program is asking the kernel to do. This may be useful for example
+if a program is stuck. You can try to see if it is stuck talking to the network,
+or talking to the file system, or stuck in a wait loop.</p>
+<p>For more information, check out <a href="https://jvns.ca/categories/strace/">Julia Evans' blog
+posts</a> on <code>strace</code> and its power.</p>
+    </article>
+
+        <div class="tags">
+            <p>tags: <a href="https://mindriot101.github.io/tag/linux.html">linux</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://twitter.com/srwalker101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/mindriot101">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog powered by <a href="https://getpelican.com">Pelican</a>,
+    which takes great advantage of <a href="https://python.org">Python</a>. <br />        &copy;  Simon Walker
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://mindriot101.github.io/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://mindriot101.github.io/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="https://mindriot101.github.io/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
