@@ -149,4 +149,12 @@ filesystem](http://man7.org/linux/man-pages/man5/proc.5.html)
 
 ## Find out what system calls a process is running currently
 
-Linux operates at two levels: _userspace_ and _kernel_.
+Linux operates at two levels: _userspace_ and _kernel_. Normal programs are not
+allowed to talk to files or memory directly, they must ask the kernel through
+_system calls_. `strace` is a program that lets a normal user spy on what a
+_userspace_ program is asking the kernel to do. This may be useful for example
+if a program is stuck. You can try to see if it is stuck talking to the network,
+or talking to the file system, or stuck in a wait loop.
+
+For more information, check out [Julia Evans' blog
+posts](https://jvns.ca/categories/strace/) on `strace` and its power.
