@@ -3,9 +3,8 @@ Authors: Simon Walker
 date: Sat 21 Mar 2020 19:04:41 GMT
 category: tech
 tags: linux
-status: draft
 
-**These tips are designed to help new Linux users work out what is going on.**
+_**📘  💻 ℹ️ These tips are designed to help new Linux users work out what is going on.**_
 
 
 ## Finding out what process is listening on a port
@@ -16,6 +15,8 @@ information about this process. In particular, only one process can listen on a
 port at once. If your program doesn't start because another process is
 listening, then this will be useful for you.
 
+### Problem example
+
 In the example below I have started a Flask web server on port 5000. I try to
 start another server and get the following error:
 
@@ -25,6 +26,8 @@ OSError: [Errno 48] Address already in use
 
 This is because another process is listening on that port. In order to find out
 what that process is, I run `lsof`.
+
+### Solution
 
 `lsof` **l**i**s**ts **o**pen **f**iles. On Linux, _everything_ is a file, so
 this includes ports. In order to check for ports, use the `-i` flag and define
@@ -43,7 +46,8 @@ this port.
 ## Getting information about a process
 
 In the example above, we found out that process 142550 is listening on port 5000.
-What if we want to find more information about this process?
+What if we want to find more information about this process? For example, where
+the program was started from, what command is being run?
 
 ### The `/proc` filesystem
 
