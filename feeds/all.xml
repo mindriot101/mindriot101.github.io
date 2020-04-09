@@ -1,5 +1,323 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2018-12-06T19:00:20+00:00</updated><entry><title>Jupyter client library</title><link href="https://mindriot101.github.io/blog/2018/12/06/jupyter-client-library/" rel="alternate"></link><updated>2018-12-06T19:00:20+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2018-12-06:blog/2018/12/06/jupyter-client-library/</id><summary type="html">&lt;p&gt;&lt;strong&gt;TL;DR I have been thinking about alternative frontends to the Jupyter notebook. The first step is to abstract communications with Jupyter kernels. I have started writing one of these.&lt;/strong&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>circularspace</title><link href="https://mindriot101.github.io/" rel="alternate"></link><link href="https://mindriot101.github.io/feeds/all.xml" rel="self"></link><id>https://mindriot101.github.io/</id><updated>2020-03-21T19:04:41+00:00</updated><entry><title>Linux debugging tips</title><link href="https://mindriot101.github.io/blog/2020/03/21/linux-debugging-tips/" rel="alternate"></link><updated>2020-03-21T19:04:41+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2020-03-21:blog/2020/03/21/linux-debugging-tips/</id><summary type="html">&lt;p&gt;&lt;em&gt;&lt;strong&gt;📘  💻 ℹ️ These tips are designed to help new Linux users work out what is going on.&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Finding out what process is listening on a port&lt;/h2&gt;
+&lt;p&gt;This is most common for web servers. When a web server listens on a specific
+port (e.g. 5000 for Flask's default port), it is often useful to know more
+information about this process. In particular, only one process can listen on a
+port at once. If your program doesn't start because another process is
+listening, then this will be useful for you.&lt;/p&gt;
+&lt;h3&gt;Problem example&lt;/h3&gt;
+&lt;p&gt;In the example below I have started a Flask web server on port 5000. I try to
+start another server and get the following error:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;OSError: [Errno 48] Address already in use
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is because another process is listening on that port. In order to find out
+what that process is, I run &lt;code&gt;lsof&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Solution&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;lsof&lt;/code&gt; &lt;strong&gt;l&lt;/strong&gt;i&lt;strong&gt;s&lt;/strong&gt;ts &lt;strong&gt;o&lt;/strong&gt;pen &lt;strong&gt;f&lt;/strong&gt;iles. On Linux, &lt;em&gt;everything&lt;/em&gt; is a file, so
+this includes ports. In order to check for ports, use the &lt;code&gt;-i&lt;/code&gt; flag and define
+the port as &lt;code&gt;:&amp;lt;port&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;lsof -i :5000
+
+COMMAND    PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+flask   &lt;span class="m"&gt;142550&lt;/span&gt; simon    3u  IPv4 &lt;span class="m"&gt;978282&lt;/span&gt;      0t0  TCP localhost:commplex-main &lt;span class="o"&gt;(&lt;/span&gt;LISTEN&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This shows that process &lt;code&gt;142550&lt;/code&gt; (&lt;code&gt;PID&lt;/code&gt; column) is responsible for listening on
+this port.&lt;/p&gt;
+&lt;h2&gt;Getting information about a process&lt;/h2&gt;
+&lt;p&gt;In the example above, we found out that process 142550 is listening on port 5000.
+What if we want to find more information about this process? For example, where
+the program was started from, what command is being run?&lt;/p&gt;
+&lt;h3&gt;The &lt;code&gt;/proc&lt;/code&gt; filesystem&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Note: the program &lt;code&gt;ps&lt;/code&gt; can do quite a lot of this&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Linux stores information about all of the running processes on the system under
+&lt;code&gt;/proc&lt;/code&gt;. At the top level is one directory per process, so we find the path
+&lt;code&gt;/proc/142550&lt;/code&gt; exists:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ls /proc &lt;span class="p"&gt;|&lt;/span&gt; grep 142550
+
+142550
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Inside this filesystem is a host of useful information:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ls /proc/142550
+
+total 0
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 arch_status
+dr-xr-xr-x  &lt;span class="m"&gt;2&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 attr
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 autogroup
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 auxv
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 cgroup
+--w-------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 clear_refs
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:18 cmdline
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 comm
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 coredump_filter
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 cpuset
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 cwd -&amp;gt; /tmp/flasktesting
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 environ
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:18 exe -&amp;gt; /usr/bin/python3.8
+dr-x------  &lt;span class="m"&gt;2&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:18 fd
+dr-x------  &lt;span class="m"&gt;2&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:18 fdinfo
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 gid_map
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 io
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 latency
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 limits
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 loginuid
+dr-x------  &lt;span class="m"&gt;2&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 map_files
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 maps
+-rw-------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 mem
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 mountinfo
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 mounts
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 mountstats
+dr-xr-xr-x &lt;span class="m"&gt;62&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 net
+dr-x--x--x  &lt;span class="m"&gt;2&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 ns
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 numa_maps
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 oom_adj
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 oom_score
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 oom_score_adj
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 pagemap
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 personality
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 projid_map
+lrwxrwxrwx  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 root -&amp;gt; /
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 sched
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 schedstat
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 sessionid
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 setgroups
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 smaps
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 smaps_rollup
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 stack
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:18 stat
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 statm
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:19 status
+-r--------  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 syscall
+dr-xr-xr-x  &lt;span class="m"&gt;3&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 task
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 timers
+-rw-rw-rw-  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 timerslack_ns
+-rw-r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 uid_map
+-r--r--r--  &lt;span class="m"&gt;1&lt;/span&gt; simon simon &lt;span class="m"&gt;0&lt;/span&gt; Mar &lt;span class="m"&gt;21&lt;/span&gt; 20:22 wchan
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Some interesting entries:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cwd&lt;/code&gt;: a symlink to the directory the process was started from&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cmdline&lt;/code&gt;: a file listing the full command running (strings separated by the
+  &lt;code&gt;null&lt;/code&gt; byte &lt;code&gt;\0&lt;/code&gt; rather than newlines)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;environ&lt;/code&gt;: a file listing the process environment variables when the program
+  was run (strings separated by the &lt;code&gt;null&lt;/code&gt; byte &lt;code&gt;\0&lt;/code&gt; rather than newlines)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fd&lt;/code&gt;: a directory containing one entry for each file the process has open&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;exe&lt;/code&gt;: a symlink to the process running (note for Python apps this will link to
+  the python interpreter)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mountinfo&lt;/code&gt;: list the mount points that the process can see (interesting for
+  docker containers)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A process can investigate its &lt;em&gt;own&lt;/em&gt; information by looking at the symlink
+&lt;code&gt;/proc/self&lt;/code&gt; which points to its own &lt;code&gt;/proc&lt;/code&gt; directory.&lt;/p&gt;
+&lt;p&gt;An alternative way of getting the process arguments is to run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;ps -p &amp;lt;pid&amp;gt; -o args
+
+COMMAND
+/usr/bin/python /usr/bin/flask run
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http://man7.org/linux/man-pages/man5/proc.5.html"&gt;More information about the &lt;code&gt;/proc&lt;/code&gt;
+filesystem&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Find out what system calls a process is running currently&lt;/h2&gt;
+&lt;p&gt;Linux operates at two levels: &lt;em&gt;userspace&lt;/em&gt; and &lt;em&gt;kernel&lt;/em&gt;. Normal programs are not
+allowed to talk to files or memory directly, they must ask the kernel through
+&lt;em&gt;system calls&lt;/em&gt;. &lt;code&gt;strace&lt;/code&gt; is a program that lets a normal user spy on what a
+&lt;em&gt;userspace&lt;/em&gt; program is asking the kernel to do. This may be useful for example
+if a program is stuck. You can try to see if it is stuck talking to the network,
+or talking to the file system, or stuck in a wait loop.&lt;/p&gt;
+&lt;p&gt;For more information, check out &lt;a href="https://jvns.ca/categories/strace/"&gt;Julia Evans' blog
+posts&lt;/a&gt; on &lt;code&gt;strace&lt;/code&gt; and its power.&lt;/p&gt;</summary><category term="linux"></category></entry><entry><title>Rust in 2020</title><link href="https://mindriot101.github.io/blog/2019/11/28/rust-in-2020/" rel="alternate"></link><updated>2019-11-28T21:39:37+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2019-11-28:blog/2019/11/28/rust-in-2020/</id><summary type="html">&lt;p&gt;Wow what a year for Rust. 2019 has flown by (in real life as well), with so many
+developments since the beginning of 2019. The 2018 edition has brought so many
+quality of life improvements to day to day Rust development, particularly the
+more intuitive module system, NLL, and proc-macros.&lt;/p&gt;
+&lt;p&gt;Rust 2020 has a lot to live up to!&lt;/p&gt;
+&lt;p&gt;Well...&lt;/p&gt;
+&lt;p&gt;My thoughts for Rust 2020 are perhaps a little less aimed at new features I want
+to see than some other roadmaps, but more towards continuing the quality of life
+improvements, and expanding the ecosystem. My thoughts can be grouped into:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Simplicity&lt;/li&gt;
+&lt;li&gt;A Greater Ecosystem&lt;/li&gt;
+&lt;li&gt;Compile Time&lt;/li&gt;
+&lt;li&gt;Misc&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Simplicity&lt;/h2&gt;
+&lt;p&gt;Rust has never been a &lt;em&gt;very&lt;/em&gt; simple language. Not like go or C. Certainly not as
+bad as C++. I enjoyed being a beginner in Rust, being helped&lt;sup id="fnref:1"&gt;&lt;a class="footnote-ref" href="#fn:1" rel="footnote"&gt;1&lt;/a&gt;&lt;/sup&gt; by the compiler
+at every step. The language for a beginner was relatively simple: functions,
+&lt;code&gt;struct&lt;/code&gt;s, &lt;code&gt;trait&lt;/code&gt;s and &lt;code&gt;enum&lt;/code&gt;s. This made for a very powerful language
+(particularly the &lt;code&gt;enum&lt;/code&gt;s which are my favourite), yet a small surface area.&lt;/p&gt;
+&lt;p&gt;As I moved on I started looking more at generics (coming from C++ this was not
+too complex for me) and traits in greater detail, but it was still not
+unsurmountable.&lt;/p&gt;
+&lt;p&gt;When I look at Rust code today, I see quite a lot of intimidating complexity.
+For example this function definition from &lt;a href="https://diesel.rs/"&gt;diesel&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;impl&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Op&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Ret&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;QueryFragment&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;InsertStatement&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Op&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Ret&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Backend&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Table&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;FromClause&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;QueryFragment&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;QueryFragment&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CanInsertInSingleQuery&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;Op&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;QueryFragment&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;Ret&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;QueryFragment&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DB&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;// ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or this seemingly magic incantation for command line parsing from
+&lt;a href="https://github.com/killercup/cargo-edit/blob/77be59f1f03672211bbce4ab5ccbe264eb6b7a3d/src/bin/upgrade/main.rs#L69"&gt;cargo-edit&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#[derive(Debug, StructOpt)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Args&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Crates to be upgraded.&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Vec&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Path to the manifest to upgrade&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;manifest-path&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;, value_name = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;path&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;manifest_path&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PathBuf&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Upgrade all packages in the workspace.&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;all&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;all&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Include prerelease versions when fetching from crates.io (e.g. 0.6.0-alpha&amp;#39;).&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;allow-prerelease&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;allow_prerelease&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Print changes to be made without making them.&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dry-run&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;dry_run&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Run without accessing the network&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;offline&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;pub&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;offline&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c-Doc"&gt;/// Upgrade all packages to the version in the lockfile.&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;#[structopt(long = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;to-lockfile&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;, conflicts_with = &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dependency&amp;quot;&lt;/span&gt;&lt;span class="cp"&gt;)]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;pub&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;to_lockfile&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;bool&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I'm not singling these crates out by any stretch. I also understand that the
+trait bounds in the &lt;a href="https://diesel.rs/"&gt;diesel&lt;/a&gt; case enable a great amount of
+power, and I admire the amount of clever code that is going on behind the scenes
+of a crate like &lt;a href="https://crates.io/crates/structopt"&gt;structopt&lt;/a&gt;, but it is a lot
+of additional boilerplate or magic.&lt;/p&gt;
+&lt;p&gt;I think Rust inhabits a nice space in that it's not too simplistic to fail to
+describe common problem domains in the type system in a satisfying and
+reassuring way&lt;sup id="fnref:2"&gt;&lt;a class="footnote-ref" href="#fn:2" rel="footnote"&gt;2&lt;/a&gt;&lt;/sup&gt;, and it's not so complicated that is painful to read a page
+of Rust code. I think for 2020 I'd like to ensure that this last point doesn't
+happen. I'd like to see Rust be cautious in adding new sigils. The process from
+explicit error handling -&amp;gt; &lt;code&gt;try!&lt;/code&gt; -&amp;gt; &lt;code&gt;?&lt;/code&gt; was excellent in my opinion&lt;sup id="fnref:3"&gt;&lt;a class="footnote-ref" href="#fn:3" rel="footnote"&gt;3&lt;/a&gt;&lt;/sup&gt;. It was
+quite slow, and a &lt;em&gt;lot&lt;/em&gt; of input was gathered from the community&lt;sup id="fnref:4"&gt;&lt;a class="footnote-ref" href="#fn:4" rel="footnote"&gt;4&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;My worry is that Rust will start including magic items and follow the path of
+Haskell, where every library invents new operators (e.g. Parsec has &lt;code&gt;&amp;lt;|&amp;gt;&lt;/code&gt; and
+&lt;code&gt;&amp;lt;?&amp;gt;&lt;/code&gt;, lens has &lt;code&gt;%%~&lt;/code&gt;, &lt;code&gt;^.&lt;/code&gt;) etc. This hides a lot of information from new
+users.&lt;/p&gt;
+&lt;p&gt;One area Rust shines in is documentation. A lot of this "magic" can be overcome
+with good documentation and extensive examples.&lt;/p&gt;
+&lt;h2&gt;A Greater Ecosystem&lt;/h2&gt;
+&lt;p&gt;I come from a Python background. Due to it's long life has had a great ecosystem
+developed around it, with stable mature packages. My background is in scientific
+computing so it's great to have the pydata ecosystem to play with.&lt;/p&gt;
+&lt;p&gt;I recognise that these packages have taken a long time to formalise. I started
+working seriously with numerical Python around the time of &lt;code&gt;numpy&lt;/code&gt;'s unification
+of the numerical Python libraries.&lt;/p&gt;
+&lt;p&gt;I would love Rust to gain the stable and mature crates that it needs to be a
+world-beating language. I love the way that Rust interfaces with C and has
+really gained a lot of momentum wrapping existing code quickly.&lt;/p&gt;
+&lt;p&gt;Part of this maturity and stability must come from consensus from the community.
+I hate to see the fragmentation between different implementations of the same
+thing (e.g. &lt;code&gt;async-std&lt;/code&gt;/&lt;code&gt;tokio&lt;/code&gt;, or
+&lt;a href="https://github.com/tikv/grpc-rs"&gt;&lt;code&gt;grpcio&lt;/code&gt;&lt;/a&gt;/&lt;a href="https://crates.io/crates/grpc"&gt;&lt;code&gt;grpc&lt;/code&gt;&lt;/a&gt;).
+From what I've seen, the usual progression is at least:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;sync crate&lt;/li&gt;
+&lt;li&gt;async crate with &lt;code&gt;futures&lt;/code&gt; 0.1&lt;/li&gt;
+&lt;li&gt;async crate with &lt;code&gt;async/await&lt;/code&gt;&lt;sup id="fnref:5"&gt;&lt;a class="footnote-ref" href="#fn:5" rel="footnote"&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Again this must occur early as people experiment with different implementations
+(and as mentioned during the latest &lt;a href="https://rustacean-station.org/episode/006-rust-1.39.0/"&gt;Rustacean Station
+episode&lt;/a&gt;, Rust as a
+low-level systems language often cannot force an implementation on people as
+users have different constraints), but I'm looking forward to the time when I'm
+looking for a crate and there is an obvious well-tested option that interfaces
+with the rest of the crates well. I suppose this means my wish for Rust 2020 is
+for it to skip 10 years. Should I just wait?&lt;/p&gt;
+&lt;h2&gt;Compile Time&lt;/h2&gt;
+&lt;p&gt;I am a huge fan of pushing "things" (functionality or error detection) to
+compile time. Yes this adds to the compile time of Rust crates (which is a sore
+point for many people, myself included) but the extra confidence gained from
+knowing that if my code compiles it &lt;em&gt;probably&lt;/em&gt; works is a huge relief. I would
+prefer to have a long compilation process in exchange for the constant threat of
+runtime errors.&lt;/p&gt;
+&lt;p&gt;I am a great fan of the compile time checks Rust already performs, and the type
+systems which make modelling complex scenarios a breeze. I am very happy that
+more and more is able to be &lt;code&gt;const&lt;/code&gt;, so calculated at compile time. I've been
+watching &lt;a href="https://www.youtube.com/user/jblow888/feed"&gt;Jonathan Blow's screencasts on his new
+language&lt;/a&gt; with great interest. He is
+aiming for different trade-offs to Rust. His language is&lt;sup id="fnref:6"&gt;&lt;a class="footnote-ref" href="#fn:6" rel="footnote"&gt;6&lt;/a&gt;&lt;/sup&gt; &lt;em&gt;completely&lt;/em&gt;
+interpretable so extremely capable at compile time code generation. The ability
+to push computation to compile time and save valuable runtime resources is a
+great benefit. I can see that benefiting systems built in Rust as well.&lt;/p&gt;
+&lt;p&gt;I think, and will always think that the more effort that is put into compiler
+warnings, lints and errors the happier I will feel. I'm really happy that this
+is considered so highly within the Rust community (as is documentation
+generally).&lt;/p&gt;
+&lt;h2&gt;Misc&lt;/h2&gt;
+&lt;p&gt;Here we have a grab-bag of items that are not worth separate headings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I'd love command-line documentation of items, ideally the same interface for
+  stdlib and crates (as per &lt;code&gt;pydoc&lt;/code&gt;/&lt;code&gt;godoc&lt;/code&gt;). I'd love to work on this feature
+  myself as it's so close to my heart.&lt;/li&gt;
+&lt;li&gt;As mentioned before, compile times are always a problem.&lt;/li&gt;
+&lt;li&gt;I would love to see some of the new error handling libraries make it into the
+  standard library. I can see progress with e.g. &lt;code&gt;anyhow&lt;/code&gt;/&lt;code&gt;thiserror&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Wrap up&lt;/h1&gt;
+&lt;p&gt;I know this post has been very contradictory. I want to have faster compile
+times, yet push more complexity to the compiler and code analysis. I want to
+have a stable ecosystem, but with a wide variety of functionality. I want to
+have a simple yet extremely expressive and powerful language.&lt;/p&gt;
+&lt;p&gt;I think this completely summarises engineering. Engineering is about choosing
+the best trade-off between multiple solutions. Finding a middle ground.&lt;/p&gt;
+&lt;p&gt;If any community can do this, the Rust community can.&lt;/p&gt;
+&lt;p&gt;- Simon&lt;/p&gt;
+&lt;div class="footnote"&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id="fn:1"&gt;
+&lt;p&gt;helped is one way of putting it&amp;#160;&lt;a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:2"&gt;
+&lt;p&gt;https://golang.org/&amp;#160;&lt;a class="footnote-backref" href="#fnref:2" rev="footnote" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:3"&gt;
+&lt;p&gt;https://thefeedbackloop.xyz/stroustrups-rule-and-layering-over-time/&amp;#160;&lt;a class="footnote-backref" href="#fnref:3" rev="footnote" title="Jump back to footnote 3 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:4"&gt;
+&lt;p&gt;another thing Rust is excellent with: getting community input on big&amp;#160;&lt;a class="footnote-backref" href="#fnref:4" rev="footnote" title="Jump back to footnote 4 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:5"&gt;
+&lt;p&gt;ok so this may be because of the excitement around async/await, hopefully
+  we will be able to skip step 2 in the not-too-distant future.&amp;#160;&lt;a class="footnote-backref" href="#fnref:5" rev="footnote" title="Jump back to footnote 5 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn:6"&gt;
+&lt;p&gt;afaik
+  decisions.&amp;#160;&lt;a class="footnote-backref" href="#fnref:6" rev="footnote" title="Jump back to footnote 6 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</summary><category term="rust"></category><category term="rust2020"></category></entry><entry><title>Jupyter client library</title><link href="https://mindriot101.github.io/blog/2018/12/06/jupyter-client-library/" rel="alternate"></link><updated>2018-12-06T19:00:20+00:00</updated><author><name>Simon Walker</name></author><id>tag:mindriot101.github.io,2018-12-06:blog/2018/12/06/jupyter-client-library/</id><summary type="html">&lt;p&gt;&lt;strong&gt;TL;DR I have been thinking about alternative frontends to the Jupyter notebook. The first step is to abstract communications with Jupyter kernels. I have started writing one of these.&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://gitlab.com/srwalker101/rust-jupyter-client"&gt;Project repository&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://docs.rs/jupyter-client/0.1.0/jupyter_client/"&gt;docs.rs&lt;/a&gt;&lt;/li&gt;

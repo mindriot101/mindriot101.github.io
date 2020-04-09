@@ -35,7 +35,7 @@
 
 
 
-        <meta name="description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+        <meta name="description" content="📘 💻 ℹ️ These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is ...">
 
         <meta name="author" content="Simon Walker">
 
@@ -46,10 +46,10 @@
 
 	<meta property="og:type" content="article">
             <meta property="article:author" content="https://mindriot101.github.io/author/simon-walker.html">
-	<meta property="og:url" content="https://mindriot101.github.io/drafts/linux-debugging-tips.html">
+	<meta property="og:url" content="https://mindriot101.github.io/blog/2020/03/21/linux-debugging-tips/">
 	<meta property="og:title" content="Linux debugging tips">
 	<meta property="article:published_time" content="2020-03-21 19:04:41+00:00">
-            <meta property="og:description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+            <meta property="og:description" content="📘 💻 ℹ️ These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is ...">
 
             <meta property="og:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
         <meta name="twitter:card" content="summary_large_image">
@@ -58,7 +58,7 @@
 
             <meta name="twitter:image" content="https://mindriot101.github.io/theme/images/post-bg.jpg">
 
-            <meta name="twitter:description" content="These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is most ...">
+            <meta name="twitter:description" content="📘 💻 ℹ️ These tips are designed to help new Linux users work out what is going on. Finding out what process is listening on a port This is ...">
 </head>
 
 <body>
@@ -113,13 +113,14 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p><strong>These tips are designed to help new Linux users work out what is going on.</strong></p>
+        <p><em><strong>📘  💻 ℹ️ These tips are designed to help new Linux users work out what is going on.</strong></em></p>
 <h2>Finding out what process is listening on a port</h2>
 <p>This is most common for web servers. When a web server listens on a specific
 port (e.g. 5000 for Flask's default port), it is often useful to know more
 information about this process. In particular, only one process can listen on a
 port at once. If your program doesn't start because another process is
 listening, then this will be useful for you.</p>
+<h3>Problem example</h3>
 <p>In the example below I have started a Flask web server on port 5000. I try to
 start another server and get the following error:</p>
 <div class="highlight"><pre>OSError: [Errno 48] Address already in use
@@ -128,6 +129,7 @@ start another server and get the following error:</p>
 
 <p>This is because another process is listening on that port. In order to find out
 what that process is, I run <code>lsof</code>.</p>
+<h3>Solution</h3>
 <p><code>lsof</code> <strong>l</strong>i<strong>s</strong>ts <strong>o</strong>pen <strong>f</strong>iles. On Linux, <em>everything</em> is a file, so
 this includes ports. In order to check for ports, use the <code>-i</code> flag and define
 the port as <code>:&lt;port&gt;</code>:</p>
@@ -142,7 +144,8 @@ flask   <span class="m">142550</span> simon    3u  IPv4 <span class="m">978282</
 this port.</p>
 <h2>Getting information about a process</h2>
 <p>In the example above, we found out that process 142550 is listening on port 5000.
-What if we want to find more information about this process?</p>
+What if we want to find more information about this process? For example, where
+the program was started from, what command is being run?</p>
 <h3>The <code>/proc</code> filesystem</h3>
 <p><em>Note: the program <code>ps</code> can do quite a lot of this</em></p>
 <p>Linux stores information about all of the running processes on the system under
