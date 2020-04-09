@@ -3,6 +3,7 @@ Authors: Simon Walker
 date: Sat 21 Mar 2020 19:04:41 GMT
 category: tech
 tags: linux
+summary: 📘  💻 ℹ️ Tips designed to help new Linux users work out what is going on
 
 _**📘  💻 ℹ️ These tips are designed to help new Linux users work out what is going on.**_
 
